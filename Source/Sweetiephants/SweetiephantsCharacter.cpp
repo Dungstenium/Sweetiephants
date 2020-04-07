@@ -118,9 +118,6 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 void ASweetiephantsCharacter::Fly()
 {
 	GetCharacterMovement()->Velocity.Z = 1000.0f;
-	//GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-
-	UE_LOG(LogTemp, Warning, TEXT("gothere"));
 }
 
 void ASweetiephantsCharacter::MoveRight(float Value)
@@ -133,8 +130,7 @@ void ASweetiephantsCharacter::MoveRight(float Value)
 
 void ASweetiephantsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	// Jump on any touch
-	Jump();
+	Fly();
 }
 
 void ASweetiephantsCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location)
