@@ -107,12 +107,20 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Note: the 'Jump' action and the 'MoveRight' axis are bound to actual keys/buttons/sticks in DefaultInput.ini (editable from Project Settings..Input)
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASweetiephantsCharacter::Fly);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASweetiephantsCharacter::MoveRight);
 
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &ASweetiephantsCharacter::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &ASweetiephantsCharacter::TouchStopped);
+}
+
+void ASweetiephantsCharacter::Fly()
+{
+	GetCharacterMovement()->Velocity.Z = 1000.0f;
+	//GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+
+	UE_LOG(LogTemp, Warning, TEXT("gothere"));
 }
 
 void ASweetiephantsCharacter::MoveRight(float Value)
