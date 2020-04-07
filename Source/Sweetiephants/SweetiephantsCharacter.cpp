@@ -96,7 +96,8 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	
-	UpdateCharacter();	
+	UpdateCharacter();
+	AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
 }
 
 
