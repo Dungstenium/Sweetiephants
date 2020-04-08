@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "EatableObjects.h"
 #include "Camera/CameraComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(SideScrollerCharacter, Log, All);
@@ -76,8 +77,25 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	bReplicates = true;
 }
 
+void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (OtherActor->IsA<AEatableObjects>())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("YO, START WORKING NIGGUH"));
+		ActualHungryPoints += 20.0f;
+		ActualHungryPoints = FMath::Clamp(ActualHungryPoints, 0.0f, 100.0f);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Animation
+
+void ASweetiephantsCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
+}
 
 void ASweetiephantsCharacter::UpdateAnimation()
 {
@@ -97,6 +115,10 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	
 	UpdateCharacter();
+
+	ActualHungryPoints -= 2.0f * DeltaSeconds;
+
+	UE_LOG(LogTemp, Warning, TEXT("%f"), ActualHungryPoints)
 
 	if (bShouldStartFlying)
 	{

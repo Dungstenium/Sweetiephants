@@ -40,6 +40,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* IdleAnimation;
 
+	virtual void BeginPlay() override;
+
 	/** Called to choose the correct animation to play based on the character's movement state */
 	void UpdateAnimation();
 
@@ -61,6 +63,10 @@ protected:
 	// End of APawn interface
 
 	bool bShouldStartFlying = false;
+
+	float MaxHungryPoints{ 100 };
+	float ActualHungryPoints{ 100 };
+
 public:
 	ASweetiephantsCharacter();
 
@@ -68,4 +74,7 @@ public:
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	UFUNCTION()
+		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 };
