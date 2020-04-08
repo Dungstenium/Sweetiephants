@@ -26,10 +26,21 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UBoxComponent* Trigger;
 
+	UPROPERTY(EditAnywhere, Category = Atributes)
+		float FloatingGap{ 120.0f };
+
+	UPROPERTY(EditAnywhere, Category = Atributes)
+		float FloatingSpeed{ 5.0f };
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
+
+private:
+
+	float ExecutionTime { 0.0f };
+	float DeltaHight { 0.0f };
+	FVector NewLocation { 0.0f, 0.0f, 0.0f };
 };

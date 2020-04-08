@@ -56,9 +56,11 @@ protected:
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	
 	void Fly();
 	// End of APawn interface
 
+	bool bShouldStartFlying = false;
 public:
 	ASweetiephantsCharacter();
 

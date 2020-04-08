@@ -97,7 +97,11 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	
 	UpdateCharacter();
-	AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
+
+	if (bShouldStartFlying)
+	{
+		AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
+	}
 }
 
 
@@ -118,6 +122,11 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 void ASweetiephantsCharacter::Fly()
 {
 	GetCharacterMovement()->Velocity.Z = 1000.0f;
+	
+	if (!bShouldStartFlying)
+	{
+		bShouldStartFlying = true;
+	}
 }
 
 void ASweetiephantsCharacter::MoveRight(float Value)
