@@ -64,8 +64,23 @@ protected:
 
 	bool bShouldStartFlying = false;
 
+	UPROPERTY(EditAnywhere)
 	float MaxHungryPoints{ 100 };
+
+	UPROPERTY(VisibleAnywhere)
 	float ActualHungryPoints{ 100 };
+
+	UPROPERTY(BlueprintReadOnly)
+	float PercentHungryPoints{ 100 };
+
+	UPROPERTY(EditAnywhere)
+	float PointsDepletionSpeed{ 2.0f };
+
+	UPROPERTY(EditAnywhere)
+	float JumpHight{ 1000.0f };
+
+	UPROPERTY(EditAnywhere)
+	float PointsPerSweetie{ 20.0f };
 
 public:
 	ASweetiephantsCharacter();

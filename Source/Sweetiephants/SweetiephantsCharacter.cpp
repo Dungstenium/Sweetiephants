@@ -81,8 +81,7 @@ void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* Ot
 {
 	if (OtherActor->IsA<AEatableObjects>())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("YO, START WORKING NIGGUH"));
-		ActualHungryPoints += 20.0f;
+		ActualHungryPoints += PointsPerSweetie;
 		ActualHungryPoints = FMath::Clamp(ActualHungryPoints, 0.0f, 100.0f);
 	}
 }
@@ -116,16 +115,14 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	
 	UpdateCharacter();
 
-	ActualHungryPoints -= 2.0f * DeltaSeconds;
-
-	UE_LOG(LogTemp, Warning, TEXT("%f"), ActualHungryPoints)
-
 	if (bShouldStartFlying)
 	{
 		AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
+		
+		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
+		PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
 	}
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -143,7 +140,7 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void ASweetiephantsCharacter::Fly()
 {
-	GetCharacterMovement()->Velocity.Z = 1000.0f;
+	GetCharacterMovement()->Velocity.Z = JumpHight;
 	
 	if (!bShouldStartFlying)
 	{
