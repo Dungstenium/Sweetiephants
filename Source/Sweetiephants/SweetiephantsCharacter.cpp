@@ -36,7 +36,6 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	CameraBoom->bDoCollisionTest = false;
 	CameraBoom->RelativeRotation = FRotator(0.0f, -90.0f, 0.0f);
 	
-
 	// Create an orthographic camera (no perspective) and attach it to the boom
 	SideViewCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("SideViewCamera"));
 	SideViewCameraComponent->ProjectionMode = ECameraProjectionMode::Orthographic;
@@ -118,7 +117,8 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	if (bShouldStartFlying)
 	{
 		AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
-		
+		//SideViewCameraComponent->AddLocalOffset(FVector(1.0f, 0.0f, 0.0f));
+
 		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 		PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
 	}
