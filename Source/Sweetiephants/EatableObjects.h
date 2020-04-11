@@ -31,6 +31,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Atributes)
 		float FloatingSpeed{ 5.0f };
+
+	UPROPERTY(EditAnywhere)
+		bool bIsToxic{ false };
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -38,6 +41,8 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 
+	UFUNCTION()
+		bool GetIsToxic() const;
 private:
 
 	float ExecutionTime { 0.0f };

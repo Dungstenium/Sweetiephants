@@ -44,4 +44,9 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 	}
 }
 
+bool AEatableObjects::GetIsToxic() const
+{
+	return bIsToxic;
+}
+
 

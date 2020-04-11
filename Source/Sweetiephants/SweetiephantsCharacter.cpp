@@ -78,9 +78,21 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 
 void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
+		UE_LOG(LogTemp, Warning, TEXT("colided"));
 	if (OtherActor->IsA<AEatableObjects>())
 	{
-		ActualHungryPoints += PointsPerSweetie;
+		AEatableObjects* EatableObject = Cast<AEatableObjects>(OtherActor);
+
+
+		if (EatableObject->GetIsToxic())
+		{
+			ActualHungryPoints -= PointsPerSweetie;
+		}
+		else
+		{
+			ActualHungryPoints += PointsPerSweetie;
+		}
+
 		ActualHungryPoints = FMath::Clamp(ActualHungryPoints, 0.0f, 100.0f);
 	}
 }
