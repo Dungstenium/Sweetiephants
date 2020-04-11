@@ -38,6 +38,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void FloatObject(float DeltaTime);
+
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 

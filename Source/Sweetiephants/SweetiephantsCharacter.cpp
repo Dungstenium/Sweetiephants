@@ -78,11 +78,9 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 
 void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
-		UE_LOG(LogTemp, Warning, TEXT("colided"));
 	if (OtherActor->IsA<AEatableObjects>())
 	{
 		AEatableObjects* EatableObject = Cast<AEatableObjects>(OtherActor);
-
 
 		if (EatableObject->GetIsToxic())
 		{
@@ -129,7 +127,6 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	if (bShouldStartFlying)
 	{
 		AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
-		//SideViewCameraComponent->AddLocalOffset(FVector(1.0f, 0.0f, 0.0f));
 
 		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 		PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;

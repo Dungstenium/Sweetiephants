@@ -27,12 +27,16 @@ void AEatableObjects::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FloatObject(DeltaTime);
+}
+
+void AEatableObjects::FloatObject(float DeltaTime)
+{
 	NewLocation = this->GetActorLocation();
 	DeltaHight = (FMath::Sin((ExecutionTime + DeltaTime) * FloatingSpeed) - FMath::Sin(ExecutionTime * FloatingSpeed));
 	NewLocation.Z += DeltaHight * FloatingGap;
 	ExecutionTime += DeltaTime;
 
-	//Trigger->SetRelativeLocation(NewLocation);
 	this->SetActorLocation(NewLocation);
 }
 
