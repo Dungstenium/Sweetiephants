@@ -24,7 +24,4 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 
 	UPROPERTY(EditAnywhere)
 	FVector Offset;
-
-	//UPROPERTY()
-	//APlayerController* Player;
 };
