@@ -7,19 +7,29 @@
 
 AMainCamera::AMainCamera()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	//Player = GetWorld()->GetFirstPlayerController();
 }
 
 void AMainCamera::BeginPlay()
 {
+	Super::BeginPlay();
+
 	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetTargetLocation() + Offset);
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetWorld()->GetFirstPlayerController()->GetTargetLocation().ToString());
 }
 
 void AMainCamera::Tick(float DeltaSeconds)
 {
-	//SetActorLocation(FVector 
-		//(FMath::InterpEaseInOut(GetActorLocation().X, GetWorld()->GetFirstPlayerController()->GetTargetLocation().X, .5f, 1.0f),
-		//10.0f,
-		//GetActorLocation().Z));
+	Super::Tick(DeltaSeconds);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetWorld()->GetFirstPlayerController()->GetPawn()->GetTargetLocation().ToString());
+
+	SetActorLocation(FVector(GetWorld()->GetFirstPlayerController()->GetPawn()->GetTargetLocation().X,
+		2000.0f,
+		GetActorLocation().Z));
+
+
+		//FVector(FMath::InterpEaseInOut(GetActorLocation().X, GetWorld()->GetFirstPlayerController()->GetTargetLocation().X, .5f, 1.0f)
 }
