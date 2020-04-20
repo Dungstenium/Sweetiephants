@@ -72,8 +72,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float ActualHungryPoints{ 100 };
 
-	UPROPERTY(BlueprintReadOnly)
-	float PercentHungryPoints{ 100 };
+
 
 	UPROPERTY(EditAnywhere)
 	float PointsDepletionSpeed{ 2.0f };
@@ -91,6 +90,9 @@ public:
 	//FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	//FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	
+	UPROPERTY(BlueprintReadOnly)
+	float PercentHungryPoints{ 100 };
 
 	UFUNCTION()
 		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
