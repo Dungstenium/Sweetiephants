@@ -24,4 +24,17 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 
 	UPROPERTY(EditAnywhere)
 	FVector Offset;
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UBoxComponent* LowerTriggerBox;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bIsDead{ false };
+
+protected:
+
+	UFUNCTION()
+		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 };
