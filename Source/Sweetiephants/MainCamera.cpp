@@ -47,7 +47,7 @@ void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
-		ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
+		//ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
 
 		bIsDead = true;
 
