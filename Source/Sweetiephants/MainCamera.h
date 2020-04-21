@@ -37,4 +37,9 @@ protected:
 
 	UFUNCTION()
 		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
+
+	FTimerHandle Timer;
+
+	UFUNCTION()
+		void StopGameMovement();
 };

@@ -2,10 +2,12 @@
 
 
 #include "MainCamera.h"
-#include "Engine/World.h" 
 #include "Components/BoxComponent.h" 
-#include "SweetiephantsCharacter.h"
+#include "Engine/World.h" 
 #include "GameFramework/PlayerController.h" 
+#include "Kismet/GameplayStatics.h"
+#include "SweetiephantsCharacter.h"
+#include "TimerManager.h"
 
 AMainCamera::AMainCamera()
 {
@@ -23,15 +25,6 @@ void AMainCamera::BeginPlay()
 	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetTargetLocation() + Offset);
 }
 
-void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if (OtherActor->IsA<ASweetiephantsCharacter>())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("dead"));
-		bIsDead = true;
-	}
-}
-
 void AMainCamera::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -39,4 +32,24 @@ void AMainCamera::Tick(float DeltaSeconds)
 	SetActorLocation(FVector(GetWorld()->GetFirstPlayerController()->GetPawn()->GetTargetLocation().X + Offset.X,
 		2000.0f,
 		GetActorLocation().Z));
+
+}
+
+void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (OtherActor->IsA<ASweetiephantsCharacter>())
+	{
+		ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
+
+		bIsDead = true;
+
+		GetWorldTimerManager().SetTimer(Timer, this, &AMainCamera::StopGameMovement, 1.2f, false);
+	}
+}
+
+void AMainCamera::StopGameMovement()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+
+	GetWorldTimerManager().ClearTimer(Timer);
 }
