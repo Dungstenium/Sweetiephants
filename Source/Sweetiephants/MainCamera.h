@@ -30,8 +30,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UBoxComponent* LowerTriggerBox;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 		bool bIsDead{ false };
+
+	UPROPERTY(BlueprintReadWrite)
+		bool bIsDeadDelayed{ false };
+
+	UPROPERTY(BlueprintReadWrite)
+		float ScaleX{ 0.0f };
+
+	UPROPERTY(BlueprintReadWrite)
+		float ScaleY{ 0.0f };
 
 protected:
 
@@ -42,4 +51,10 @@ protected:
 
 	UFUNCTION()
 		void StopGameMovement();
+
+	UPROPERTY(EditAnywhere)
+		float Alpha{ 0.0f };
+
+	UPROPERTY(EditAnywhere)
+		float Exponent{ 0.0f };
 };

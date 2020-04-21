@@ -33,6 +33,14 @@ void AMainCamera::Tick(float DeltaSeconds)
 		2000.0f,
 		GetActorLocation().Z));
 
+	if (bIsDeadDelayed)
+	{
+		if (ScaleX <= 1.0f)
+		{
+			ScaleX = FMath::InterpEaseInOut(ScaleX, 0.85f, Alpha, Exponent);
+			ScaleY = FMath::InterpEaseInOut(ScaleY, 0.85f, Alpha, Exponent);
+		}
+	}
 }
 
 void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
@@ -50,6 +58,8 @@ void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 void AMainCamera::StopGameMovement()
 {
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+
+	bIsDeadDelayed = true;
 
 	GetWorldTimerManager().ClearTimer(Timer);
 }
