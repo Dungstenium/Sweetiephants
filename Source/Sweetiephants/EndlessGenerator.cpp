@@ -41,7 +41,11 @@ void UEndlessGenerator::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 	{
 		Cloud = Cast<ABackgroundClouds>(OtherActor);
 
-		Cloud->SetActorLocation(GetOwner()->GetActorLocation() + Offset);
+		Cloud->SetActorLocation(Cloud->GetActorLocation() + Offset);
+
+		float RandVariable = FMath::RandRange(1.0f, 3.0f);
+		Cloud->SetMovingSpeed(RandVariable);
+		Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
 	}
 }
 

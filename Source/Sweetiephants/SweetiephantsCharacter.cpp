@@ -127,7 +127,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 	if (bShouldStartFlying)
 	{
-		AddMovementInput(FVector(1.0f, 0.0f, 0.0f));
+		AddMovementInput(FVector(0.5f, 0.0f, 0.0f));
 
 		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 		PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;

@@ -24,7 +24,18 @@ void ABackgroundClouds::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	ActorActualLocation = GetActorLocation();
 	ActorActualLocation.X -= MovingSpeed;
 	this->SetActorLocation(ActorActualLocation);
+}
+
+float ABackgroundClouds::GetMovingSpeed()
+{
+	return MovingSpeed;
+}
+
+void ABackgroundClouds::SetMovingSpeed(float Value)
+{
+	MovingSpeed = Value;
 }
 
