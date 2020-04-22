@@ -24,13 +24,15 @@ void AMainCamera::BeginPlay()
 
 	OnActorBeginOverlap.AddDynamic(this, &AMainCamera::OnOverlapBegin);
 	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetTargetLocation() + Offset);
+
+	Camera = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void AMainCamera::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	SetActorLocation(FVector(GetWorld()->GetFirstPlayerController()->GetPawn()->GetTargetLocation().X + Offset.X,
+	SetActorLocation(FVector(Camera->GetActorLocation().X + Offset.X,
 		2000.0f,
 		GetActorLocation().Z));
 

@@ -25,6 +25,8 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 	UPROPERTY(EditAnywhere)
 	FVector Offset;
 
+	UPROPERTY()
+		APawn* Camera;
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

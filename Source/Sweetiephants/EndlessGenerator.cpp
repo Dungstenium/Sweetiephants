@@ -11,11 +11,10 @@ UEndlessGenerator::UEndlessGenerator()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 }
-
 
 // Called when the game starts
 void UEndlessGenerator::BeginPlay()
@@ -28,7 +27,6 @@ void UEndlessGenerator::BeginPlay()
 		Trigger->OnComponentBeginOverlap.AddDynamic(this, &UEndlessGenerator::OnOverlapBegin);
 	}
 }
-
 
 void UEndlessGenerator::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 										AActor* OtherActor,
@@ -56,13 +54,5 @@ void UEndlessGenerator::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 		Cloud->SetMovingSpeed(RandVariable);
 		Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
 	}
-}
-
-// Called every frame
-void UEndlessGenerator::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 

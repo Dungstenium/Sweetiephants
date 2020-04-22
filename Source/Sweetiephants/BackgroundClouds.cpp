@@ -16,7 +16,7 @@ void ABackgroundClouds::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ActorActualLocation = GetActorLocation();
+	ActorNewLocation = GetActorLocation();
 }
 
 // Called every frame
@@ -24,9 +24,9 @@ void ABackgroundClouds::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	ActorActualLocation = GetActorLocation();
-	ActorActualLocation.X -= MovingSpeed;
-	this->SetActorLocation(ActorActualLocation);
+	ActorNewLocation = GetActorLocation();
+	ActorNewLocation.X -= MovingSpeed;
+	SetActorLocation(ActorNewLocation);
 }
 
 float ABackgroundClouds::GetMovingSpeed()
