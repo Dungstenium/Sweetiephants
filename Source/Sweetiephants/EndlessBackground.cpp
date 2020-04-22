@@ -41,7 +41,8 @@ void AEndlessBackground::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherAc
 		{
 			UE_LOG(LogTemp, Warning, TEXT("zo"));
 			FActorSpawnParameters SpawnParams;
-			AEndlessBackground* Next = GetWorld()->SpawnActor<AEndlessBackground>(NextBackground, GetTargetLocation() + Offset, Arrow->GetComponentRotation(), SpawnParams);
+			//AEndlessBackground* Next = 
+				GetWorld()->SpawnActor<AEndlessBackground>(NextBackground, GetTargetLocation() + Offset, Arrow->GetComponentRotation(), SpawnParams);
 		}
 	}
 }

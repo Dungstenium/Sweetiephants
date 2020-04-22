@@ -72,8 +72,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float ActualHungryPoints{ 100 };
 
-
-
 	UPROPERTY(EditAnywhere)
 	float PointsDepletionSpeed{ 2.0f };
 

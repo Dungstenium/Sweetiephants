@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h" 
 #include "Engine/World.h" 
 #include "GameFramework/PlayerController.h" 
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SweetiephantsCharacter.h"
 #include "TimerManager.h"
@@ -47,7 +48,8 @@ void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
-		//ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
+		ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
+		Player->GetCharacterMovement()->DisableMovement();
 
 		bIsDead = true;
 
@@ -58,6 +60,7 @@ void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 void AMainCamera::StopGameMovement()
 {
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+
 
 	bIsDeadDelayed = true;
 

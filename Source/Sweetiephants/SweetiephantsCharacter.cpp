@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "MainCamera.h"
 #include "EatableObjects.h"
 #include "Camera/CameraComponent.h"
 
