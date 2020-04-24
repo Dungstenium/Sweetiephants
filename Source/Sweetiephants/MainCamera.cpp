@@ -4,6 +4,7 @@
 #include "MainCamera.h"
 #include "Components/BoxComponent.h" 
 #include "Engine/World.h" 
+#include "BackgroundClouds.h"
 #include "GameFramework/PlayerController.h" 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -16,13 +17,21 @@ AMainCamera::AMainCamera()
 
 	LowerTriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Lower Trigger"));
 	LowerTriggerBox->SetupAttachment(RootComponent);
+
+	GeneratorTriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Generator Trigger"));
+	GeneratorTriggerBox->SetupAttachment(RootComponent);
 }
 
 void AMainCamera::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnActorBeginOverlap.AddDynamic(this, &AMainCamera::OnOverlapBegin);
+	if (GeneratorTriggerBox && LowerTriggerBox)
+	{
+		LowerTriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AMainCamera::OnOverlapBegin);
+		GeneratorTriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AMainCamera::OnGeneratorOverlapBegin);
+	}
+
 	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetTargetLocation() + Offset);
 
 	Camera = GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -46,7 +55,12 @@ void AMainCamera::Tick(float DeltaSeconds)
 	}
 }
 
-void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
+void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
+								AActor* OtherActor,
+								UPrimitiveComponent* OtherComp,
+								int32 OtherBodyIndex,
+								bool bFromSweep, const
+								FHitResult& SweepResult)
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
@@ -56,6 +70,30 @@ void AMainCamera::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 		bIsDead = true;
 
 		GetWorldTimerManager().SetTimer(Timer, this, &AMainCamera::StopGameMovement, 1.2f, false);
+	}
+}
+
+void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->IsA<ABackgroundClouds>())
+	{
+		Cloud = Cast<ABackgroundClouds>(OtherActor);
+
+		UE_LOG(LogTemp, Warning, TEXT("aaaa"))
+		if (Cloud)
+		{
+			FVector SpawnPosition;
+			SpawnPosition = FVector(
+				Cloud->GetActorLocation().X + CloudOffset,
+				Cloud->GetActorLocation().Y,
+				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
+			
+			Cloud->SetActorLocation(SpawnPosition);
+
+			float RandVariable = FMath::RandRange(1.0f, 3.0f);
+			Cloud->SetMovingSpeed(RandVariable);
+			Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
+		}
 	}
 }
 

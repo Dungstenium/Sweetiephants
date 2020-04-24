@@ -2,6 +2,7 @@
 
 
 #include "EndlessGenerator.h"
+#include "MainCamera.h"
 #include "BackgroundClouds.h"
 #include "Components/BoxComponent.h" 
 
@@ -44,10 +45,7 @@ void UEndlessGenerator::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 			Cloud->GetActorLocation().X + Offset.X,
 			Cloud->GetActorLocation().Y,
 			GetOwner()->GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
-		//SpawnPosition.Z = GetOwner()->GetActorLocation().Z;
-		//SpawnPosition.Z += FMath::RandRange(-300.0f, 500.0f);
-		//SpawnPosition.X = Cloud->GetActorLocation().X + Offset.X;
-		//SpawnPosition.Y = Cloud->GetActorLocation().Y;
+
 		Cloud->SetActorLocation(SpawnPosition);
 
 		float RandVariable = FMath::RandRange(1.0f, 3.0f);

@@ -25,12 +25,18 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 	UPROPERTY(EditAnywhere)
 	FVector Offset;
 
+	UPROPERTY(EditAnywhere)
+		float CloudOffset;
+
 	UPROPERTY()
 		APawn* Camera;
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UBoxComponent* LowerTriggerBox;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UBoxComponent* GeneratorTriggerBox;
 
 	UPROPERTY(BlueprintReadWrite)
 		bool bIsDead{ false };
@@ -47,7 +53,23 @@ public:
 protected:
 
 	UFUNCTION()
-		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
+							AActor* OtherActor,
+							UPrimitiveComponent* OtherComp,
+							int32 OtherBodyIndex,
+							bool bFromSweep, const
+							FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent,
+									AActor* OtherActor,
+									UPrimitiveComponent* OtherComp,
+									int32 OtherBodyIndex,
+									bool bFromSweep, const
+									FHitResult& SweepResult);
+
+	UPROPERTY()
+		class ABackgroundClouds* Cloud;
 
 	FTimerHandle Timer;
 
