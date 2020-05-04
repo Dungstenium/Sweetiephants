@@ -33,6 +33,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	float Timer = 0.0f;
+
 protected:
 	// The animation to play while running around
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)

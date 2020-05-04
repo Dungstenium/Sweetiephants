@@ -2,6 +2,7 @@
 
 #include "SweetiephantsCharacter.h"
 #include "PaperFlipbookComponent.h"
+#include "PaperFlipbook.h"
 #include "Components/TextRenderComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -111,7 +112,13 @@ void ASweetiephantsCharacter::UpdateAnimation()
 	// Are we moving or standing still?
 	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? RunningAnimation : IdleAnimation;
 
-	if (bPlayerTapped)
+
+	if (bPlayerTapped && Timer >= GetSprite()->GetFlipbookLength())
+	{
+		bPlayerTapped = false;
+		Timer = 0;
+	}
+	else if (bPlayerTapped)
 	{
 		DesiredAnimation = TapAnimation;
 	}
@@ -134,6 +141,11 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 		PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
+
+		if (bPlayerTapped)
+		{
+			Timer += DeltaSeconds;
+		}
 	}
 }
 
@@ -175,7 +187,7 @@ void ASweetiephantsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, 
 
 void ASweetiephantsCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	bPlayerTapped = false;
+	//bPlayerTapped = false;
 }
 
 void ASweetiephantsCharacter::UpdateCharacter()
