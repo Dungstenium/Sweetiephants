@@ -10,7 +10,7 @@ UCLASS()
 class SWEETIEPHANTS_API ABackgroundClouds : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
 	ABackgroundClouds();
