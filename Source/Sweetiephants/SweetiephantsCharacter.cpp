@@ -96,9 +96,6 @@ void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* Ot
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Animation
-
 void ASweetiephantsCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -113,6 +110,12 @@ void ASweetiephantsCharacter::UpdateAnimation()
 
 	// Are we moving or standing still?
 	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? RunningAnimation : IdleAnimation;
+
+	if (bPlayerTapped)
+	{
+		DesiredAnimation = TapAnimation;
+	}
+
 	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
 	{
 		GetSprite()->SetFlipbook(DesiredAnimation);
@@ -134,9 +137,6 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Input
-
 void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Note: the 'Jump' action and the 'MoveRight' axis are bound to actual keys/buttons/sticks in DefaultInput.ini (editable from Project Settings..Input)
@@ -151,11 +151,13 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 void ASweetiephantsCharacter::Fly()
 {
 	GetCharacterMovement()->Velocity.Z = JumpHight;
-	
+
 	if (!bShouldStartFlying)
 	{
 		bShouldStartFlying = true;
 	}
+
+	bPlayerTapped = true;
 }
 
 void ASweetiephantsCharacter::MoveRight(float Value)
@@ -173,8 +175,7 @@ void ASweetiephantsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, 
 
 void ASweetiephantsCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	// Cease jumping once touch stopped
-	StopJumping();
+	bPlayerTapped = false;
 }
 
 void ASweetiephantsCharacter::UpdateCharacter()

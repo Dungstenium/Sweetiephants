@@ -36,11 +36,14 @@ class ASweetiephantsCharacter : public APaperCharacter
 protected:
 	// The animation to play while running around
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
-	class UPaperFlipbook* RunningAnimation;
+		class UPaperFlipbook* RunningAnimation;
 
 	// The animation to play while idle (standing still)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* IdleAnimation;
+		class UPaperFlipbook* TapAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* IdleAnimation;
 
 	virtual void BeginPlay() override;
 
@@ -66,6 +69,8 @@ protected:
 
 	bool bShouldStartFlying = false;
 
+	bool bPlayerTapped = false;
+
 	UPROPERTY(EditAnywhere)
 	float MaxHungryPoints{ 100 };
 
@@ -89,7 +94,7 @@ public:
 	/** Returns CameraBoom subobject **/
 	//FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float PercentHungryPoints{ 100 };
 
 	UFUNCTION()
