@@ -2,6 +2,7 @@
 
 
 #include "BackgroundClouds.h"
+#include "PaperSpriteComponent.h"
 
 // Sets default values
 ABackgroundClouds::ABackgroundClouds()
@@ -17,6 +18,13 @@ void ABackgroundClouds::BeginPlay()
 	Super::BeginPlay();
 
 	ActorNewLocation = GetActorLocation();
+
+	ShownSprite = Cast<UPaperSpriteComponent>(GetComponentByClass(UPaperSpriteComponent::StaticClass()));
+
+	if (ShownSprite)
+	{
+		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 5)]);
+	}
 }
 
 // Called every frame

@@ -4,7 +4,6 @@
 #include "EatableObjects.h"
 #include "Components/BoxComponent.h"
 #include "SweetiephantsCharacter.h"
-//#include "PaperSprite.h"
 #include "PaperSpriteComponent.h"
 
 // Sets default values
@@ -23,6 +22,14 @@ void AEatableObjects::BeginPlay()
 	Super::BeginPlay();
 	
 	OnActorBeginOverlap.AddDynamic(this, &AEatableObjects::OnOverlapBegin);
+
+
+	ShownSprite = Cast<UPaperSpriteComponent>(GetComponentByClass(UPaperSpriteComponent::StaticClass()));
+	
+	if (ShownSprite)
+	{
+		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 2)]);
+	}
 }
 
 // Called every frame

@@ -22,7 +22,13 @@ protected:
 	FVector ActorNewLocation;
 
 	UPROPERTY(EditAnywhere, Category = Atributes)
-	float MovingSpeed;
+		float MovingSpeed;
+
+	UPROPERTY(EditAnywhere, Category = Sprites)
+		class UPaperSprite* Sprite[6];
+
+	UPROPERTY()
+		class UPaperSpriteComponent* ShownSprite;
 
 public:	
 	// Called every frame
