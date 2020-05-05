@@ -2,8 +2,11 @@
 
 
 #include "EatableObjects.h"
+#include "Components/BoxComponent.h"
 #include "SweetiephantsCharacter.h"
-#include "Components/BoxComponent.h" 
+//#include "PaperSprite.h"
+#include "PaperSpriteComponent.h"
+
 // Sets default values
 AEatableObjects::AEatableObjects()
 {

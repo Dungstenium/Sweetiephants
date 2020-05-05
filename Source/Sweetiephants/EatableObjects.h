@@ -12,19 +12,19 @@ class SWEETIEPHANTS_API AEatableObjects : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AEatableObjects();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// The animation to play while idle (standing still)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* IdleAnimation;
+	UPROPERTY(EditAnywhere, Category = Sprites)
+		class UPaperSprite* Sprite[3];
+
+	UPROPERTY()
+		class UPaperSpriteComponent* ShownSprite;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UBoxComponent* Trigger;
+		class UBoxComponent* Trigger;
 
 	UPROPERTY(EditAnywhere, Category = Atributes)
 		float FloatingGap{ 120.0f };
@@ -35,7 +35,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 		bool bIsToxic{ false };
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void FloatObject(float DeltaTime);
