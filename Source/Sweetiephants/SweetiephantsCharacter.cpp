@@ -140,7 +140,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		AddMovementInput(FVector(0.5f, 0.0f, 0.0f));
 
 		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
-		PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
+		PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
 
 		if (bPlayerTapped)
 		{

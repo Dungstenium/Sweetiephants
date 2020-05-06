@@ -6,17 +6,14 @@
 #include "SweetiephantsCharacter.h"
 #include "PaperSpriteComponent.h"
 
-// Sets default values
 AEatableObjects::AEatableObjects()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	RootComponent = Trigger;
 }
 
-// Called when the game starts or when spawned
 void AEatableObjects::BeginPlay()
 {
 	Super::BeginPlay();
@@ -32,7 +29,6 @@ void AEatableObjects::BeginPlay()
 	}
 }
 
-// Called every frame
 void AEatableObjects::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -62,5 +58,4 @@ bool AEatableObjects::GetIsToxic() const
 {
 	return bIsToxic;
 }
-
 
