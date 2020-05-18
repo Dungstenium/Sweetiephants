@@ -83,17 +83,7 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 
 		if (Cloud)
 		{
-			FVector SpawnPosition;
-			SpawnPosition = FVector(
-				Cloud->GetActorLocation().X + CloudOffset,
-				Cloud->GetActorLocation().Y,
-				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
-			
-			Cloud->SetActorLocation(SpawnPosition);
-
-			float RandVariable = FMath::RandRange(1.0f, 3.0f);
-			Cloud->SetMovingSpeed(RandVariable);
-			Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
+			SetNewCloudSpawn();
 		}
 	}
 	else if (OtherActor->IsA<AEatableObjects>())
@@ -102,28 +92,7 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 
 		if (Eatable)
 		{
-			FVector EatableSpawnPosition;
-			EatableSpawnPosition = FVector(
-				Eatable->GetActorLocation().X + CloudOffset,
-				Eatable->GetActorLocation().Y,
-				GetActorLocation().Z + FMath::RandRange(-300.0f, 300.0f));
-
-			UE_LOG(LogTemp, Warning, TEXT("%.2f and %.2f"), EatableSpawnPosition.X, LastSpawnPosition.X);
-			if (FMath::Abs(EatableSpawnPosition.X - LastSpawnPosition.X) <= 300 || EatableSpawnPosition.X <= LastSpawnPosition.X)
-			{
-				if (EatableSpawnPosition.X >= LastSpawnPosition.X)
-				{
-					EatableSpawnPosition.X += 300;
-				}
-				else
-				{
-					EatableSpawnPosition.X = LastSpawnPosition.X + 300;
-				}
-			}
-
-			LastSpawnPosition = EatableSpawnPosition;
-
-			Eatable->SetActorLocation(EatableSpawnPosition);
+			SetNewEatableSpawn();
 		}
 	}
 	else if (OtherActor->IsA<ABaseEnemy>())
@@ -132,15 +101,74 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 
 		if (Enemy)
 		{
-			FVector EnemySpawnPosition;
-			EnemySpawnPosition = FVector(
-				Enemy->GetActorLocation().X + CloudOffset,
-				Enemy->GetActorLocation().Y,
-				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
-
-			Enemy->SetActorLocation(EnemySpawnPosition);
+			SetNewEnemySpawn();
 		}
 	}
+}
+
+void AMainCamera::SetNewEnemySpawn()
+{
+	FVector EnemySpawnPosition;
+	EnemySpawnPosition = FVector(
+		Enemy->GetActorLocation().X + CloudOffset,
+		Enemy->GetActorLocation().Y,
+		GetActorLocation().Z + FMath::RandRange(-300.0f, 450.0f));
+
+	if (FMath::Abs(EnemySpawnPosition.X - LastSpawnPosition.X) <= 300 || EnemySpawnPosition.X <= LastSpawnPosition.X)
+	{
+		if (EnemySpawnPosition.X >= LastSpawnPosition.X)
+		{
+			EnemySpawnPosition.X += 300;
+		}
+		else
+		{
+			EnemySpawnPosition.X = LastSpawnPosition.X + 300;
+		}
+	}
+
+	LastSpawnPosition = EnemySpawnPosition;
+
+	Enemy->SetActorLocation(EnemySpawnPosition);
+}
+
+void AMainCamera::SetNewEatableSpawn()
+{
+	FVector EatableSpawnPosition;
+	EatableSpawnPosition = FVector(
+		Eatable->GetActorLocation().X + CloudOffset,
+		Eatable->GetActorLocation().Y,
+		GetActorLocation().Z + FMath::RandRange(-300.0f, 450.0f));
+
+	if (FMath::Abs(EatableSpawnPosition.X - LastSpawnPosition.X) <= 300 || EatableSpawnPosition.X <= LastSpawnPosition.X)
+	{
+		if (EatableSpawnPosition.X >= LastSpawnPosition.X)
+		{
+			EatableSpawnPosition.X += 300;
+		}
+		else
+		{
+			EatableSpawnPosition.X = LastSpawnPosition.X + 300;
+		}
+	}
+
+	LastSpawnPosition = EatableSpawnPosition;
+
+	Eatable->SetActorLocation(EatableSpawnPosition);
+}
+
+void AMainCamera::SetNewCloudSpawn()
+{
+	FVector SpawnPosition;
+	SpawnPosition = FVector(
+		Cloud->GetActorLocation().X + CloudOffset,
+		Cloud->GetActorLocation().Y,
+		GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
+
+	Cloud->SetActorLocation(SpawnPosition);
+
+	float RandVariable = FMath::RandRange(1.0f, 3.0f);
+	Cloud->SetMovingSpeed(RandVariable);
+	Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
 }
 
 void AMainCamera::StopGameMovement()

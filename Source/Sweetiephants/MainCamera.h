@@ -68,6 +68,12 @@ protected:
 									bool bFromSweep, const
 									FHitResult& SweepResult);
 
+	void SetNewEnemySpawn();
+
+	void SetNewEatableSpawn();
+
+	void SetNewCloudSpawn();
+
 	UPROPERTY()
 		class ABackgroundClouds* Cloud;
 
