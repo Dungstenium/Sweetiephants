@@ -8,7 +8,7 @@
 
 AEatableObjects::AEatableObjects()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	RootComponent = Trigger;
@@ -27,23 +27,6 @@ void AEatableObjects::BeginPlay()
 	{
 		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 2)]);
 	}
-}
-
-void AEatableObjects::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	FloatObject(DeltaTime);
-}
-
-void AEatableObjects::FloatObject(float DeltaTime)
-{
-	NewLocation = this->GetActorLocation();
-	DeltaHight = (FMath::Sin((ExecutionTime + DeltaTime) * FloatingSpeed) - FMath::Sin(ExecutionTime * FloatingSpeed));
-	NewLocation.Z += DeltaHight * FloatingGap;
-	ExecutionTime += DeltaTime;
-
-	this->SetActorLocation(NewLocation);
 }
 
 void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor)

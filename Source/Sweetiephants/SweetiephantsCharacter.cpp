@@ -101,6 +101,8 @@ void ASweetiephantsCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AfterDeathTimer = 0.0f;
+
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 }
 
@@ -135,7 +137,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	
 	UpdateCharacter();
 
-	if (bShouldStartFlying)
+	if (bShouldStartFlying && !bPlayerDied)
 	{
 		AddMovementInput(FVector(0.5f, 0.0f, 0.0f));
 
@@ -147,6 +149,24 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			Timer += DeltaSeconds;
 		}
 	}
+	else if (bPlayerDied)
+	{
+		if (AfterDeathTimer == 0.0f)
+			Die();
+
+		AfterDeathTimer += DeltaSeconds;
+
+		if (AfterDeathTimer >= 1 && AfterDeathTimer <= 2)
+		{
+			GetCharacterMovement()->GravityScale = 1.0f;
+		}
+	}
+}
+
+void ASweetiephantsCharacter::Die()
+{
+	GetMovementComponent()->StopMovementImmediately();
+	GetCharacterMovement()->GravityScale = 0.0f;
 }
 
 void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -162,22 +182,26 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void ASweetiephantsCharacter::Fly()
 {
-	GetCharacterMovement()->Velocity.Z = JumpHight;
-
-	if (!bShouldStartFlying)
+	if (!bPlayerDied)
 	{
-		bShouldStartFlying = true;
-	}
+		GetCharacterMovement()->Velocity.Z = JumpHight;
 
-	bPlayerTapped = true;
+		if (!bShouldStartFlying)
+		{
+			bShouldStartFlying = true;
+		}
+
+		bPlayerTapped = true;
+	}
 }
 
 void ASweetiephantsCharacter::MoveRight(float Value)
 {
 	/*UpdateChar();*/
-
-	// Apply the input to the character motion
-	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
+	if (!bPlayerDied)
+	{
+		AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
+	}
 }
 
 void ASweetiephantsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
@@ -211,3 +235,14 @@ void ASweetiephantsCharacter::UpdateCharacter()
 		}
 	}
 }
+
+void ASweetiephantsCharacter::SetPlayerDied(bool Value)
+{
+	bPlayerDied = Value;
+}
+
+bool ASweetiephantsCharacter::GetPlayerDied() const
+{
+	return bPlayerDied;
+}
+

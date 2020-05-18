@@ -34,6 +34,11 @@ class ASweetiephantsCharacter : public APaperCharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	float Timer = 0.0f;
+	float AfterDeathTimer = 0.0f;
+
+	bool bPlayerDied = false;
+
+	void Die();
 
 protected:
 	// The animation to play while running around
@@ -101,4 +106,7 @@ public:
 
 	UFUNCTION()
 		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
+
+	void SetPlayerDied(bool Value);
+	bool GetPlayerDied() const;
 };

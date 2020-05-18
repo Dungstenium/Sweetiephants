@@ -26,27 +26,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UBoxComponent* Trigger;
 
-	UPROPERTY(EditAnywhere, Category = Atributes)
-		float FloatingGap{ 120.0f };
-
-	UPROPERTY(EditAnywhere, Category = Atributes)
-		float FloatingSpeed{ 5.0f };
-
 	UPROPERTY(EditAnywhere)
 		bool bIsToxic{ false };
 public:	
-	virtual void Tick(float DeltaTime) override;
-
-	void FloatObject(float DeltaTime);
 
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 
 	UFUNCTION()
 		bool GetIsToxic() const;
-private:
-
-	float ExecutionTime { 0.0f };
-	float DeltaHight { 0.0f };
-	FVector NewLocation { 0.0f, 0.0f, 0.0f };
 };
