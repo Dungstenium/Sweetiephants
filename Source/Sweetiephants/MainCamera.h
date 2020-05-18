@@ -77,6 +77,8 @@ protected:
 	UPROPERTY()
 		class ABaseEnemy* Enemy;
 
+	FVector LastSpawnPosition;
+
 	FTimerHandle Timer;
 
 	UFUNCTION()

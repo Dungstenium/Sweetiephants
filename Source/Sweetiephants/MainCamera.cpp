@@ -98,18 +98,32 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 	}
 	else if (OtherActor->IsA<AEatableObjects>())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("aaaa"))
 		Eatable = Cast<AEatableObjects>(OtherActor);
 
 		if (Eatable)
 		{
-			FVector SpawnPosition;
-			SpawnPosition = FVector(
+			FVector EatableSpawnPosition;
+			EatableSpawnPosition = FVector(
 				Eatable->GetActorLocation().X + CloudOffset,
 				Eatable->GetActorLocation().Y,
-				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
+				GetActorLocation().Z + FMath::RandRange(-300.0f, 300.0f));
 
-			Eatable->SetActorLocation(SpawnPosition);
+			UE_LOG(LogTemp, Warning, TEXT("%.2f and %.2f"), EatableSpawnPosition.X, LastSpawnPosition.X);
+			if (FMath::Abs(EatableSpawnPosition.X - LastSpawnPosition.X) <= 300 || EatableSpawnPosition.X <= LastSpawnPosition.X)
+			{
+				if (EatableSpawnPosition.X >= LastSpawnPosition.X)
+				{
+					EatableSpawnPosition.X += 300;
+				}
+				else
+				{
+					EatableSpawnPosition.X = LastSpawnPosition.X + 300;
+				}
+			}
+
+			LastSpawnPosition = EatableSpawnPosition;
+
+			Eatable->SetActorLocation(EatableSpawnPosition);
 		}
 	}
 	else if (OtherActor->IsA<ABaseEnemy>())
@@ -118,13 +132,13 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 
 		if (Enemy)
 		{
-			FVector SpawnPosition;
-			SpawnPosition = FVector(
+			FVector EnemySpawnPosition;
+			EnemySpawnPosition = FVector(
 				Enemy->GetActorLocation().X + CloudOffset,
 				Enemy->GetActorLocation().Y,
 				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
 
-			Enemy->SetActorLocation(SpawnPosition);
+			Enemy->SetActorLocation(EnemySpawnPosition);
 		}
 	}
 }
