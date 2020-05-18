@@ -3,8 +3,10 @@
 
 #include "MainCamera.h"
 #include "Components/BoxComponent.h" 
-#include "Engine/World.h" 
 #include "BackgroundClouds.h"
+#include "BaseEnemy.h"
+#include "EatableObjects.h"
+#include "Engine/World.h" 
 #include "GameFramework/PlayerController.h" 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -79,7 +81,6 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 	{
 		Cloud = Cast<ABackgroundClouds>(OtherActor);
 
-		UE_LOG(LogTemp, Warning, TEXT("aaaa"))
 		if (Cloud)
 		{
 			FVector SpawnPosition;
@@ -93,6 +94,37 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 			float RandVariable = FMath::RandRange(1.0f, 3.0f);
 			Cloud->SetMovingSpeed(RandVariable);
 			Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
+		}
+	}
+	else if (OtherActor->IsA<AEatableObjects>())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("aaaa"))
+		Eatable = Cast<AEatableObjects>(OtherActor);
+
+		if (Eatable)
+		{
+			FVector SpawnPosition;
+			SpawnPosition = FVector(
+				Eatable->GetActorLocation().X + CloudOffset,
+				Eatable->GetActorLocation().Y,
+				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
+
+			Eatable->SetActorLocation(SpawnPosition);
+		}
+	}
+	else if (OtherActor->IsA<ABaseEnemy>())
+	{
+		Enemy = Cast<ABaseEnemy>(OtherActor);
+
+		if (Enemy)
+		{
+			FVector SpawnPosition;
+			SpawnPosition = FVector(
+				Enemy->GetActorLocation().X + CloudOffset,
+				Enemy->GetActorLocation().Y,
+				GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
+
+			Enemy->SetActorLocation(SpawnPosition);
 		}
 	}
 }

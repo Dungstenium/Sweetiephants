@@ -1,28 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "EndlessGenerator.h"
 #include "MainCamera.h"
 #include "BackgroundClouds.h"
+#include "BaseEnemy.h"
 #include "Components/BoxComponent.h" 
+#include "EatableObjects.h"
 
 
-// Sets default values for this component's properties
 UEndlessGenerator::UEndlessGenerator()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
 	Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 }
 
-// Called when the game starts
 void UEndlessGenerator::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	if (Trigger)
 	{
 		Trigger->OnComponentBeginOverlap.AddDynamic(this, &UEndlessGenerator::OnOverlapBegin);

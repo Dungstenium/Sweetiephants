@@ -71,6 +71,12 @@ protected:
 	UPROPERTY()
 		class ABackgroundClouds* Cloud;
 
+	UPROPERTY()
+		class AEatableObjects* Eatable;
+
+	UPROPERTY()
+		class ABaseEnemy* Enemy;
+
 	FTimerHandle Timer;
 
 	UFUNCTION()
