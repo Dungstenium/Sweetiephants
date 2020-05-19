@@ -6,6 +6,15 @@
 #include "PaperCharacter.h"
 #include "SweetiephantsCharacter.generated.h"
 
+
+UENUM()
+enum UElephantWeight
+{
+	Fat,
+	Normal,
+	Slim
+};
+
 class UTextRenderComponent;
 
 /**
@@ -31,6 +40,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 	bool bPlayerDied = false;
 
 	void Die();
+
+	UElephantWeight ElephantWeight;
 
 protected:
 	// The animation to play while running around
@@ -68,22 +79,22 @@ protected:
 	float MaxHungryPoints{ 100 };
 
 	UPROPERTY(VisibleAnywhere)
-	float ActualHungryPoints{ 100 };
+	float ActualHungryPoints{ 60 };
 
 	UPROPERTY(EditAnywhere)
 	float PointsDepletionSpeed{ 2.0f };
 
 	UPROPERTY(EditAnywhere)
-	float JumpHight{ 1000.0f };
+	float JumpHeight{ 1000.0f };
 
 	UPROPERTY(EditAnywhere)
-	float PointsPerSweetie{ 20.0f };
+	float PointsPerSweetie{ 5.0f };
 
 public:
 	ASweetiephantsCharacter();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float PercentHungryPoints{ 100 };
+	float PercentHungryPoints{ 60.0f };
 
 	UFUNCTION()
 		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);

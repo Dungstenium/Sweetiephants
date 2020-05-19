@@ -50,6 +50,8 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	// Enable replication on the Sprite component so animations show up when networked
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
+
+	ElephantWeight = UElephantWeight::Normal;
 }
 
 void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
@@ -77,6 +79,8 @@ void ASweetiephantsCharacter::BeginPlay()
 
 	AfterDeathTimer = 0.0f;
 	bGameStarted = false;
+
+	PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
 
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 }
@@ -119,6 +123,22 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 		PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
 
+		if (PercentHungryPoints >= 0.95f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("fat"));
+			ElephantWeight = UElephantWeight::Fat;
+		}
+		else if (PercentHungryPoints <= 0.05f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("slim"));
+			ElephantWeight = UElephantWeight::Slim;
+		}
+		else 
+		{
+			UE_LOG(LogTemp, Warning, TEXT("normal"));
+			ElephantWeight = UElephantWeight::Normal;
+		}
+
 		if (bPlayerTapped)
 		{
 			Timer += DeltaSeconds;
@@ -159,7 +179,7 @@ void ASweetiephantsCharacter::Fly()
 {
 	if (!bPlayerDied && bGameStarted)
 	{
-		GetCharacterMovement()->Velocity.Z = JumpHight;
+		GetCharacterMovement()->Velocity.Z = JumpHeight;
 
 		if (!bShouldStartFlying)
 		{
