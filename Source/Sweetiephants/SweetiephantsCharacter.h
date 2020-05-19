@@ -11,8 +11,16 @@ UENUM()
 enum UElephantWeight
 {
 	Fat,
-	Normal,
+	Fit,
 	Slim
+};
+
+UENUM()
+enum UElephantState
+{
+	Morphing,
+	Normal,
+	Dead
 };
 
 class UTextRenderComponent;
@@ -34,14 +42,19 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	void MorphToFat(float DeltaSeconds);
+
 	float Timer = 0.0f;
 	float AfterDeathTimer = 0.0f;
+	float TurnFatTimer = 0.0f;
+	float TurnSlimTimer = 0.0f;
 
 	bool bPlayerDied = false;
 
-	void Die();
+	void Immobilize();
 
 	UElephantWeight ElephantWeight;
+	UElephantState ElephantState;
 
 protected:
 	// The animation to play while running around

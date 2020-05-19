@@ -51,7 +51,8 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
 
-	ElephantWeight = UElephantWeight::Normal;
+	ElephantWeight = UElephantWeight::Fit;
+	ElephantState = UElephantState::Normal;
 }
 
 void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
@@ -118,26 +119,33 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 	if (bShouldStartFlying && !bPlayerDied)
 	{
-		AddMovementInput(FVector(0.5f, 0.0f, 0.0f));
 
-		ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
-		PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
-
-		if (PercentHungryPoints >= 0.95f)
+		if (ElephantState != UElephantState::Morphing)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("fat"));
-			ElephantWeight = UElephantWeight::Fat;
+			AddMovementInput(FVector(0.5f, 0.0f, 0.0f));
+			ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
+			PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
 		}
-		else if (PercentHungryPoints <= 0.05f)
+
+		if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Fat)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("slim"));
+			MorphToFat(DeltaSeconds);
+		}
+
+		if (PercentHungryPoints >= 0.95f && ElephantWeight != UElephantWeight::Fat)
+		{
+			ElephantWeight = UElephantWeight::Fat;
+			ElephantState = UElephantState::Morphing;
+		}	
+		else if(PercentHungryPoints <= 0.5f && ElephantWeight == UElephantWeight::Fat)
+		{
+			ElephantWeight = UElephantWeight::Fit;
+		}
+		else if (PercentHungryPoints <= 0.05f && ElephantWeight != UElephantWeight::Slim)			
+		{
 			ElephantWeight = UElephantWeight::Slim;
 		}
-		else 
-		{
-			UE_LOG(LogTemp, Warning, TEXT("normal"));
-			ElephantWeight = UElephantWeight::Normal;
-		}
+	
 
 		if (bPlayerTapped)
 		{
@@ -147,7 +155,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	else if (bPlayerDied)
 	{
 		if (AfterDeathTimer == 0.0f)
-			Die();
+			Immobilize();
 
 		AfterDeathTimer += DeltaSeconds;
 
@@ -158,7 +166,25 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	}
 }
 
-void ASweetiephantsCharacter::Die()
+void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
+{
+	if (TurnFatTimer == 0.0f)
+	{
+		Immobilize();
+	}
+
+	TurnFatTimer += DeltaSeconds;
+
+	if (TurnFatTimer >= 1.0f)
+	{
+		ElephantState = UElephantState::Normal;
+		GetCharacterMovement()->GravityScale = 1.0f;
+		TurnFatTimer = 0.0f;
+		bPlayerTapped = false;
+	}
+}
+
+void ASweetiephantsCharacter::Immobilize()
 {
 	GetMovementComponent()->StopMovementImmediately();
 	GetCharacterMovement()->GravityScale = 0.0f;
@@ -177,7 +203,7 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void ASweetiephantsCharacter::Fly()
 {
-	if (!bPlayerDied && bGameStarted)
+	if (!bPlayerDied && bGameStarted && ElephantState == UElephantState::Normal)
 	{
 		GetCharacterMovement()->Velocity.Z = JumpHeight;
 
