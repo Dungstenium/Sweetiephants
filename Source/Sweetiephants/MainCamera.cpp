@@ -77,6 +77,8 @@ void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 
 void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	int32 SpawnDistanceMultiplier = FMath::RandRange(1, 3);
+
 	if (OtherActor->IsA<ABackgroundClouds>())
 	{
 		Cloud = Cast<ABackgroundClouds>(OtherActor);
@@ -92,7 +94,7 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 
 		if (Eatable)
 		{
-			SetNewEatableSpawn();
+			SetNewEatableSpawn(SpawnDistanceMultiplier);
 		}
 	}
 	else if (OtherActor->IsA<ABaseEnemy>())
@@ -101,12 +103,12 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 
 		if (Enemy)
 		{
-			SetNewEnemySpawn();
+			SetNewEnemySpawn(SpawnDistanceMultiplier);
 		}
 	}
 }
 
-void AMainCamera::SetNewEnemySpawn()
+void AMainCamera::SetNewEnemySpawn(int32 Multiplier)
 {
 	FVector EnemySpawnPosition;
 	EnemySpawnPosition = FVector(
@@ -118,11 +120,11 @@ void AMainCamera::SetNewEnemySpawn()
 	{
 		if (EnemySpawnPosition.X >= LastSpawnPosition.X)
 		{
-			EnemySpawnPosition.X += 300;
+			EnemySpawnPosition.X += 300 * Multiplier;
 		}
 		else
 		{
-			EnemySpawnPosition.X = LastSpawnPosition.X + 300;
+			EnemySpawnPosition.X = LastSpawnPosition.X + 300 * Multiplier;
 		}
 	}
 
@@ -131,7 +133,7 @@ void AMainCamera::SetNewEnemySpawn()
 	Enemy->SetActorLocation(EnemySpawnPosition);
 }
 
-void AMainCamera::SetNewEatableSpawn()
+void AMainCamera::SetNewEatableSpawn(int32 Multiplier)
 {
 	FVector EatableSpawnPosition;
 	EatableSpawnPosition = FVector(
@@ -139,15 +141,16 @@ void AMainCamera::SetNewEatableSpawn()
 		Eatable->GetActorLocation().Y,
 		GetActorLocation().Z + FMath::RandRange(-300.0f, 450.0f));
 
+
 	if (FMath::Abs(EatableSpawnPosition.X - LastSpawnPosition.X) <= 300 || EatableSpawnPosition.X <= LastSpawnPosition.X)
 	{
 		if (EatableSpawnPosition.X >= LastSpawnPosition.X)
 		{
-			EatableSpawnPosition.X += 300;
+			EatableSpawnPosition.X += 300 * Multiplier;
 		}
 		else
 		{
-			EatableSpawnPosition.X = LastSpawnPosition.X + 300;
+			EatableSpawnPosition.X = LastSpawnPosition.X + 300 * Multiplier;
 		}
 	}
 

@@ -68,9 +68,9 @@ protected:
 									bool bFromSweep, const
 									FHitResult& SweepResult);
 
-	void SetNewEnemySpawn();
+	void SetNewEnemySpawn(int32 Multiplier);
 
-	void SetNewEatableSpawn();
+	void SetNewEatableSpawn(int32 Multiplier);
 
 	void SetNewCloudSpawn();
 
