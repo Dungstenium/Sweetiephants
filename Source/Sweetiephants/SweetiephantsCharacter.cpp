@@ -76,6 +76,7 @@ void ASweetiephantsCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	AfterDeathTimer = 0.0f;
+	bGameStarted = false;
 
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 }
@@ -156,7 +157,7 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void ASweetiephantsCharacter::Fly()
 {
-	if (!bPlayerDied)
+	if (!bPlayerDied && bGameStarted)
 	{
 		GetCharacterMovement()->Velocity.Z = JumpHight;
 
