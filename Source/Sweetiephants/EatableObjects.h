@@ -28,6 +28,10 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 		bool bIsToxic{ false };
+
+	UPROPERTY(EditAnywhere)
+		float EatenOffset{ 700.0f };
+
 public:	
 
 	UFUNCTION()

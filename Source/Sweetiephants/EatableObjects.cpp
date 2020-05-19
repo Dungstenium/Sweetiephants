@@ -33,7 +33,7 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
-		Destroy();
+		SetActorLocation(FVector(GetActorLocation().X - EatenOffset, GetActorLocation().Y, GetActorLocation().Z));
 	}
 }
 
