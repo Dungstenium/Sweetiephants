@@ -42,14 +42,18 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	void ManageElephantSize();
+
+	void MorphElephant(float DeltaSeconds);
+
 	void MorphToFat(float DeltaSeconds);
+	void MorphToSlim(float DeltaSeconds);
+	void MorphToFit(float DeltaSeconds);
 
 	float Timer = 0.0f;
 	float AfterDeathTimer = 0.0f;
-	float TurnFatTimer = 0.0f;
-	float TurnSlimTimer = 0.0f;
-
-	bool bPlayerDied = false;
+	float MorphTimer = 0.0f;
+	float MorphingDuration = 1.0f;
 
 	void Immobilize();
 
