@@ -186,7 +186,7 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 		GetCharacterMovement()->GravityScale = 1.3f;
 		MorphTimer = 0.0f;
 		bPlayerTapped = false;
-		JumpHeight = 400.0f;
+		JumpHeight = JumpHeightFat;
 	}
 }
 
@@ -205,7 +205,7 @@ void ASweetiephantsCharacter::MorphToSlim(float DeltaSeconds)
 		GetCharacterMovement()->GravityScale = 0.8f;
 		MorphTimer = 0.0f;
 		bPlayerTapped = false;
-		JumpHeight = 800.0f;
+		JumpHeight = JumpHeightSlim;
 	}
 }
 
@@ -224,7 +224,7 @@ void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 		GetCharacterMovement()->GravityScale = 1.0f;
 		MorphTimer = 0.0f;
 		bPlayerTapped = false;
-		JumpHeight = 650.0f;
+		JumpHeight = JumpHeightFit;
 	}
 }
 

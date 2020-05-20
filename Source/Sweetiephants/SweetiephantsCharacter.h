@@ -103,8 +103,17 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float PointsDepletionSpeed{ 2.0f };
 
-	UPROPERTY(EditAnywhere)
-	float JumpHeight{ 1000.0f };
+	UPROPERTY(EditAnywhere, Category = Jump)
+	float JumpHeight{ 650.0f };
+
+	UPROPERTY(EditAnywhere, Category = Jump)
+	float JumpHeightFit{ 650.0f };
+
+	UPROPERTY(EditAnywhere, Category = Jump)
+	float JumpHeightFat{ 400.0f };	
+	
+	UPROPERTY(EditAnywhere, Category = Jump)
+	float JumpHeightSlim{ 800.0f };
 
 	UPROPERTY(EditAnywhere)
 	float PointsPerSweetie{ 5.0f };
