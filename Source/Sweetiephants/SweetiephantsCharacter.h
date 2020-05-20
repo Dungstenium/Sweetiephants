@@ -55,6 +55,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float MorphTimer = 0.0f;
 	float MorphingDuration = 1.0f;
 
+	int32 Score = 0;
+
 	void Immobilize();
 
 	UElephantWeight ElephantWeight;
@@ -114,11 +116,14 @@ public:
 	float PercentHungryPoints{ 60.0f };
 
 	UFUNCTION()
-		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
+	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 
 	void SetPlayerDied(bool Value);
 	bool GetPlayerDied() const;
 
+	void AddScore(int32 Value);
+	int32 GetScore();
+	
 	UPROPERTY(BlueprintReadWrite)
 	bool bGameStarted{ false };
 };

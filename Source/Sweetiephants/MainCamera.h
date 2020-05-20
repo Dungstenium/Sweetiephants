@@ -26,10 +26,10 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 	FVector Offset;
 
 	UPROPERTY(EditAnywhere)
-		float CloudOffset;
+	float CloudOffset;
 
 	UPROPERTY()
-		APawn* Camera;
+	APawn* Camera;
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -53,20 +53,20 @@ public:
 protected:
 
 	UFUNCTION()
-		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
-							AActor* OtherActor,
-							UPrimitiveComponent* OtherComp,
-							int32 OtherBodyIndex,
-							bool bFromSweep, const
-							FHitResult& SweepResult);
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
+						AActor* OtherActor,
+						UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex,
+						bool bFromSweep, const
+						FHitResult& SweepResult);
 
 	UFUNCTION()
-		void OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent,
-									AActor* OtherActor,
-									UPrimitiveComponent* OtherComp,
-									int32 OtherBodyIndex,
-									bool bFromSweep, const
-									FHitResult& SweepResult);
+	void OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent,
+								AActor* OtherActor,
+								UPrimitiveComponent* OtherComp,
+								int32 OtherBodyIndex,
+								bool bFromSweep, const
+								FHitResult& SweepResult);
 
 	void SetNewEnemySpawn(int32 Multiplier);
 
@@ -75,24 +75,24 @@ protected:
 	void SetNewCloudSpawn();
 
 	UPROPERTY()
-		class ABackgroundClouds* Cloud;
+	class ABackgroundClouds* Cloud;
 
 	UPROPERTY()
-		class AEatableObjects* Eatable;
+	class AEatableObjects* Eatable;
 
 	UPROPERTY()
-		class ABaseEnemy* Enemy;
+	class ABaseEnemy* Enemy;
 
 	FVector LastSpawnPosition;
 
 	FTimerHandle Timer;
 
 	UFUNCTION()
-		void StopGameMovement();
+	void StopGameMovement();
 
 	UPROPERTY(EditAnywhere)
-		float Alpha{ 0.0f };
+	float Alpha{ 0.0f };
 
 	UPROPERTY(EditAnywhere)
-		float Exponent{ 0.0f };
+	float Exponent{ 0.0f };
 };

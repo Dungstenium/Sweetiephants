@@ -64,10 +64,12 @@ void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* Ot
 		if (EatableObject->GetIsToxic())
 		{
 			ActualHungryPoints -= PointsPerSweetie;
+			AddScore(-5);
 		}
 		else
 		{
 			ActualHungryPoints += PointsPerSweetie;
+			AddScore(10);
 		}
 
 		ActualHungryPoints = FMath::Clamp(ActualHungryPoints, 0.0f, 100.0f);
@@ -181,9 +183,10 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	if (MorphTimer >= 1.0f)
 	{
 		ElephantState = UElephantState::Normal;
-		GetCharacterMovement()->GravityScale = 1.0f;
+		GetCharacterMovement()->GravityScale = 1.3f;
 		MorphTimer = 0.0f;
 		bPlayerTapped = false;
+		JumpHeight = 400.0f;
 	}
 }
 
@@ -199,9 +202,10 @@ void ASweetiephantsCharacter::MorphToSlim(float DeltaSeconds)
 	if (MorphTimer >= 1.0f)
 	{
 		ElephantState = UElephantState::Normal;
-		GetCharacterMovement()->GravityScale = 1.0f;
+		GetCharacterMovement()->GravityScale = 0.8f;
 		MorphTimer = 0.0f;
 		bPlayerTapped = false;
+		JumpHeight = 800.0f;
 	}
 }
 
@@ -220,6 +224,7 @@ void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 		GetCharacterMovement()->GravityScale = 1.0f;
 		MorphTimer = 0.0f;
 		bPlayerTapped = false;
+		JumpHeight = 650.0f;
 	}
 }
 
@@ -332,5 +337,15 @@ bool ASweetiephantsCharacter::GetPlayerDied() const
 	{
 		return false;
 	}
+}
+
+void ASweetiephantsCharacter::AddScore(int32 Value)
+{
+	Score += Value;
+}
+
+int32 ASweetiephantsCharacter::GetScore()
+{
+	return Score;
 }
 
