@@ -10,7 +10,7 @@
 UENUM()
 enum UElephantWeight
 {
-	Fat,
+	Chubby,
 	Fit,
 	Slim
 };
@@ -63,16 +63,29 @@ class ASweetiephantsCharacter : public APaperCharacter
 	UElephantState ElephantState;
 
 protected:
-	// The animation to play while running around
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
-		class UPaperFlipbook* RunningAnimation;
-
-	// The animation to play while idle (standing still)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* TapAnimation;
+		class UPaperFlipbook* FitFlying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* IdleAnimation;
+		class UPaperFlipbook* FitTap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* FitIdle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* ChubbyIdle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* ChubbyFlying;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* ChubbyTap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* MorphingToChubby;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* MorphingChubbyToFit;
 
 	virtual void BeginPlay() override;
 
@@ -131,6 +144,8 @@ public:
 	bool GetPlayerDied() const;
 
 	void AddScore(int32 Value);
+
+	UFUNCTION(BlueprintCallable)
 	int32 GetScore();
 	
 	UPROPERTY(BlueprintReadWrite)

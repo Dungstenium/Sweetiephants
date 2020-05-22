@@ -93,8 +93,17 @@ void ASweetiephantsCharacter::UpdateAnimation()
 	const FVector PlayerVelocity = GetVelocity();
 	const float PlayerSpeedSqr = PlayerVelocity.SizeSquared();
 
+	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? FitFlying : FitIdle;
+
 	// Are we moving or standing still?
-	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? RunningAnimation : IdleAnimation;
+	if (ElephantWeight == UElephantWeight::Fit && ElephantState == UElephantState::Normal)
+	{
+		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? FitFlying : FitIdle;
+	}
+	else if(ElephantWeight == UElephantWeight::Chubby && ElephantState == UElephantState::Normal)
+	{
+		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? ChubbyFlying : ChubbyIdle;
+	}
 
 
 	if (bPlayerTapped && Timer >= GetSprite()->GetFlipbookLength())
@@ -104,7 +113,26 @@ void ASweetiephantsCharacter::UpdateAnimation()
 	}
 	else if (bPlayerTapped)
 	{
-		DesiredAnimation = TapAnimation;
+		if (ElephantWeight == UElephantWeight::Fit && ElephantState == UElephantState::Normal)
+		{
+			DesiredAnimation = FitTap;
+		}
+		else if(ElephantWeight == UElephantWeight::Chubby && ElephantState == UElephantState::Normal)
+		{
+			DesiredAnimation = ChubbyTap;
+		}
+	}
+
+	if (ElephantState == UElephantState::Morphing)
+	{
+		if (ElephantWeight == UElephantWeight::Fit)
+		{
+			DesiredAnimation = MorphingChubbyToFit;
+		}
+		else if (ElephantWeight == UElephantWeight::Chubby)
+		{
+			DesiredAnimation = MorphingToChubby;
+		}
 	}
 
 	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
@@ -157,7 +185,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 void ASweetiephantsCharacter::MorphElephant(float DeltaSeconds)
 {
-	if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Fat)
+	if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Chubby)
 	{
 		MorphToFat(DeltaSeconds);
 	}
@@ -230,9 +258,9 @@ void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 
 void ASweetiephantsCharacter::ManageElephantSize()
 {
-	if (PercentHungryPoints >= 0.95f && ElephantWeight != UElephantWeight::Fat)
+	if (PercentHungryPoints >= 0.95f && ElephantWeight != UElephantWeight::Chubby)
 	{
-		ElephantWeight = UElephantWeight::Fat;
+		ElephantWeight = UElephantWeight::Chubby;
 		ElephantState = UElephantState::Morphing;
 	}
 	else if (PercentHungryPoints <= 0.05f && ElephantWeight != UElephantWeight::Slim)
@@ -240,7 +268,7 @@ void ASweetiephantsCharacter::ManageElephantSize()
 		ElephantWeight = UElephantWeight::Slim;
 		ElephantState = UElephantState::Morphing;
 	}
-	else if ((PercentHungryPoints >= 0.5f && ElephantWeight == UElephantWeight::Slim) || (PercentHungryPoints <= 0.5f && ElephantWeight == UElephantWeight::Fat))
+	else if ((PercentHungryPoints >= 0.5f && ElephantWeight == UElephantWeight::Slim) || (PercentHungryPoints <= 0.5f && ElephantWeight == UElephantWeight::Chubby))
 	{
 		ElephantWeight = UElephantWeight::Fit;
 		ElephantState = UElephantState::Morphing;
