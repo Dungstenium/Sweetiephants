@@ -3,8 +3,11 @@
 
 #include "EatableObjects.h"
 #include "Components/BoxComponent.h"
-#include "SweetiephantsCharacter.h"
+#include "Components/TextRenderComponent.h" 
+#include "Engine/TextRenderActor.h" 
 #include "PaperSpriteComponent.h"
+#include "SweetiephantsCharacter.h"
+
 
 AEatableObjects::AEatableObjects()
 {
@@ -12,6 +15,9 @@ AEatableObjects::AEatableObjects()
 
 	Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	RootComponent = Trigger;
+
+	//ScorePointPopUp = CreateDefaultSubobject<UTextRenderComponent>(TEXT("ScorePoints"));
+	//ScorePointPopUp->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 50.0f), FRotator(0.0f, 0.0f, 90.0f));
 }
 
 void AEatableObjects::BeginPlay()
@@ -33,6 +39,13 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
+		ATextRenderActor* ScorePoints = GetWorld()->SpawnActor<ATextRenderActor>(
+			GetActorLocation() + FVector(0.0f, 0.0f, 50.0f),
+			GetActorRotation() + FRotator(0.0f, 90.0f, 0.0f));
+
+		ScorePoints->GetTextRender()->SetText(TEXT("10"));
+		ScorePoints->GetTextRender()->SetRelativeScale3D(FVector(3.0f, 3.0f, 3.0f));
+
 		SetActorLocation(FVector(GetActorLocation().X - EatenOffset, GetActorLocation().Y, GetActorLocation().Z));
 	}
 }

@@ -77,7 +77,7 @@ void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 
 void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	int32 SpawnDistanceMultiplier = FMath::RandRange(1, 3);
+	int32 SpawnDistanceMultiplier = FMath::RandRange(1, 2);
 
 	if (OtherActor->IsA<ABackgroundClouds>())
 	{

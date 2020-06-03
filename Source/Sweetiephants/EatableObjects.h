@@ -10,9 +10,10 @@ UCLASS()
 class SWEETIEPHANTS_API AEatableObjects : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	AEatableObjects();
+
+
+	//UPROPERTY(EditAnywhere)
+	//	class UTextRenderComponent* ScorePointPopUp;
 
 protected:
 	virtual void BeginPlay() override;
@@ -33,6 +34,7 @@ protected:
 		float EatenOffset{ 700.0f };
 
 public:	
+	AEatableObjects();
 
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
