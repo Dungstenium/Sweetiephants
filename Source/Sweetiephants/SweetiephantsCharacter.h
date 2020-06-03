@@ -42,6 +42,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	void Die(float DeltaSeconds);
+
 	void ManageElephantSize();
 
 	void MorphElephant(float DeltaSeconds);
@@ -86,6 +88,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* MorphingChubbyToFit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+		class UPaperFlipbookComponent* PlayerVFX;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+		class UPaperFlipbook* DeathVFX;
 
 	virtual void BeginPlay() override;
 

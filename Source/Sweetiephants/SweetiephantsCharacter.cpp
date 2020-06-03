@@ -51,6 +51,10 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
 
+	PlayerVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("VFX"));
+	PlayerVFX->SetVisibility(false);
+	PlayerVFX->SetupAttachment(RootComponent);
+
 	ElephantWeight = UElephantWeight::Fit;
 	ElephantState = UElephantState::Normal;
 }
@@ -171,16 +175,29 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	}
 	else if (ElephantState == UElephantState::Dead)
 	{
-		if (AfterDeathTimer == 0.0f)
-			Immobilize();
-
-		AfterDeathTimer += DeltaSeconds;
-
-		if (AfterDeathTimer >= 1 && AfterDeathTimer <= 2)
-		{
-			GetCharacterMovement()->GravityScale = 1.0f;
-		}
+		Die(DeltaSeconds);
 	}
+}
+
+void ASweetiephantsCharacter::Die(float DeltaSeconds)
+{
+	if (AfterDeathTimer == 0.0f)
+	{
+		Immobilize();
+		
+		//PlayerVFX->SetFlipbook(DeathVFX);
+		PlayerVFX->SetVisibility(true);
+	}
+	else if(AfterDeathTimer >= PlayerVFX->GetFlipbookLength() && PlayerVFX->IsVisible())
+	{
+		PlayerVFX->SetVisibility(false);
+	}
+	else if (AfterDeathTimer >= 1 && GetCharacterMovement()->GravityScale != 1.0f)
+	{
+		GetCharacterMovement()->GravityScale = 1.0f;
+	}
+
+	AfterDeathTimer += DeltaSeconds;
 }
 
 void ASweetiephantsCharacter::MorphElephant(float DeltaSeconds)
