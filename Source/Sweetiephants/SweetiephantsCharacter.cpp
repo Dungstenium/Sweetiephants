@@ -206,10 +206,10 @@ void ASweetiephantsCharacter::MorphElephant(float DeltaSeconds)
 	{
 		MorphToFat(DeltaSeconds);
 	}
-	else if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Slim)
-	{
-		MorphToSlim(DeltaSeconds);
-	}
+	//else if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Slim)
+	//{
+	//	MorphToSlim(DeltaSeconds);
+	//}
 	else if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Fit)
 	{
 		MorphToFit(DeltaSeconds);
@@ -235,24 +235,24 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	}
 }
 
-void ASweetiephantsCharacter::MorphToSlim(float DeltaSeconds)
-{
-	if (MorphTimer == 0.0f)
-	{
-		Immobilize();
-	}
-
-	MorphTimer += DeltaSeconds;
-
-	if (MorphTimer >= 1.0f)
-	{
-		ElephantState = UElephantState::Normal;
-		GetCharacterMovement()->GravityScale = 0.8f;
-		MorphTimer = 0.0f;
-		bPlayerTapped = false;
-		JumpHeight = JumpHeightSlim;
-	}
-}
+//void ASweetiephantsCharacter::MorphToSlim(float DeltaSeconds)
+//{
+//	if (MorphTimer == 0.0f)
+//	{
+//		Immobilize();
+//	}
+//
+//	MorphTimer += DeltaSeconds;
+//
+//	if (MorphTimer >= 1.0f)
+//	{
+//		ElephantState = UElephantState::Normal;
+//		GetCharacterMovement()->GravityScale = 0.8f;
+//		MorphTimer = 0.0f;
+//		bPlayerTapped = false;
+//		JumpHeight = JumpHeightSlim;
+//	}
+//}
 
 void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 {
@@ -280,12 +280,12 @@ void ASweetiephantsCharacter::ManageElephantSize()
 		ElephantWeight = UElephantWeight::Chubby;
 		ElephantState = UElephantState::Morphing;
 	}
-	else if (PercentHungryPoints <= 0.05f && ElephantWeight != UElephantWeight::Slim)
-	{
-		ElephantWeight = UElephantWeight::Slim;
-		ElephantState = UElephantState::Morphing;
-	}
-	else if ((PercentHungryPoints >= 0.5f && ElephantWeight == UElephantWeight::Slim) || (PercentHungryPoints <= 0.5f && ElephantWeight == UElephantWeight::Chubby))
+	//else if (PercentHungryPoints <= 0.05f && ElephantWeight != UElephantWeight::Slim)
+	//{
+	//	ElephantWeight = UElephantWeight::Slim;
+	//	ElephantState = UElephantState::Morphing;
+	//}
+	else if (PercentHungryPoints <= 0.5f && ElephantWeight == UElephantWeight::Chubby)
 	{
 		ElephantWeight = UElephantWeight::Fit;
 		ElephantState = UElephantState::Morphing;

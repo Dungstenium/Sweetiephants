@@ -11,8 +11,7 @@ UENUM()
 enum UElephantWeight
 {
 	Chubby,
-	Fit,
-	Slim
+	Fit
 };
 
 UENUM()
