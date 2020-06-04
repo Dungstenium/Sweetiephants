@@ -12,8 +12,10 @@ class SWEETIEPHANTS_API AEatableObjects : public AActor
 	GENERATED_BODY()
 
 
-	//UPROPERTY(EditAnywhere)
-	//	class UTextRenderComponent* ScorePointPopUp;
+		//UPROPERTY(EditAnywhere)
+		//	class UTextRenderComponent* ScorePointPopUp;
+
+	UFont* PopUpFont;
 
 protected:
 	virtual void BeginPlay() override;
