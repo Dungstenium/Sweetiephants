@@ -46,15 +46,15 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
-		ATextRenderActor* ScorePoints = GetWorld()->SpawnActor<ATextRenderActor>(
-			GetActorLocation() + FVector(0.0f, 0.0f, 50.0f),
-			GetActorRotation() + FRotator(0.0f, 90.0f, 0.0f));
+		//ATextRenderActor* ScorePoints = GetWorld()->SpawnActor<ATextRenderActor>(
+		//	GetActorLocation() + FVector(0.0f, 0.0f, 50.0f),
+		//	GetActorRotation() + FRotator(0.0f, 90.0f, 0.0f));
 
-		ScorePoints->GetTextRender()->SetText(TEXT("10"));
-		ScorePoints->GetTextRender()->SetRelativeScale3D(FVector(3.0f, 3.0f, 3.0f));
+		//ScorePoints->GetTextRender()->SetText(TEXT("10"));
+		//ScorePoints->GetTextRender()->SetRelativeScale3D(FVector(3.0f, 3.0f, 3.0f));
 
-		ScorePoints->GetTextRender()->SetFont(PopUpFont);
-		//ScorePoints->GetTextRender()->SetMaterial()
+		//ScorePoints->GetTextRender()->SetFont(PopUpFont);
+		////ScorePoints->GetTextRender()->SetMaterial()
 
 		SetActorLocation(FVector(GetActorLocation().X - EatenOffset, GetActorLocation().Y, GetActorLocation().Z));
 	}

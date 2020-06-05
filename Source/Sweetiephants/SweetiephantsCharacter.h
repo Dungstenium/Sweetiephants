@@ -89,10 +89,19 @@ protected:
 		class UPaperFlipbook* MorphingChubbyToFit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
-		class UPaperFlipbookComponent* PlayerVFX;
+		class UPaperFlipbookComponent* DeathVFX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
-		class UPaperFlipbook* DeathVFX;
+		class UPaperFlipbookComponent* LinesVFX;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+		class UPaperFlipbookComponent* ExclamationVFX;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+		class UPaperFlipbookComponent* CloudsVFX;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+		class UPaperFlipbookComponent* SweatVFX;
 
 	virtual void BeginPlay() override;
 
