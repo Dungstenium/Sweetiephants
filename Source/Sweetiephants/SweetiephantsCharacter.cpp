@@ -51,9 +51,25 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
 
-	DeathVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("VFX"));
+	DeathVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("DEATHVFX"));
 	DeathVFX->SetVisibility(false);
 	DeathVFX->SetupAttachment(RootComponent);
+
+	LinesVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("LINESVFX"));
+	LinesVFX->SetVisibility(false);
+	LinesVFX->SetupAttachment(RootComponent);
+
+	ExclamationVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("EXCLAMATIONVFX"));
+	ExclamationVFX->SetVisibility(false);
+	ExclamationVFX->SetupAttachment(RootComponent);
+
+	SweatVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("SWEATVFX"));
+	SweatVFX->SetVisibility(false);
+	SweatVFX->SetupAttachment(RootComponent);
+
+	CloudsVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("CLOUDVFX"));
+	CloudsVFX->SetVisibility(false);
+	CloudsVFX->SetupAttachment(RootComponent);
 
 	ElephantWeight = UElephantWeight::Fit;
 	ElephantState = UElephantState::Normal;
@@ -171,6 +187,18 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		if (bPlayerTapped)
 		{
 			Timer += DeltaSeconds;
+		}
+
+		if (bIsCloudActivated)
+		{
+			CloudVFXTimer += DeltaSeconds;
+		}
+
+		if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
+		{
+			CloudVFXTimer = 0;
+			CloudsVFX->SetVisibility(false);
+			bIsCloudActivated = false;
 		}
 	}
 	else if (ElephantState == UElephantState::Dead)
@@ -320,6 +348,12 @@ void ASweetiephantsCharacter::Fly()
 		}
 
 		bPlayerTapped = true;
+
+		//CloudsVFX->SetRelativeLocation(FVector((0.0f, 0.0f, -151.0f)));
+		CloudsVFX->SetVisibility(true);
+		CloudsVFX->PlayFromStart();
+		bIsCloudActivated = true;
+		CloudVFXTimer = 0.0f;
 	}
 }
 

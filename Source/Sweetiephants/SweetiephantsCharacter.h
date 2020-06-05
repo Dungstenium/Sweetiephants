@@ -48,13 +48,16 @@ class ASweetiephantsCharacter : public APaperCharacter
 	void MorphElephant(float DeltaSeconds);
 
 	void MorphToFat(float DeltaSeconds);
-	void MorphToSlim(float DeltaSeconds);
+	//void MorphToSlim(float DeltaSeconds);
 	void MorphToFit(float DeltaSeconds);
 
 	float Timer = 0.0f;
+	float CloudVFXTimer = 0.0f;
 	float AfterDeathTimer = 0.0f;
 	float MorphTimer = 0.0f;
 	float MorphingDuration = 1.0f;
+
+	bool bIsCloudActivated = false;
 
 	int32 Score = 0;
 
