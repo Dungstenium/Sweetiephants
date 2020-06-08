@@ -62,6 +62,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	bool bIsCloudActivated = false;
 	bool bLinesActivated = false;
+	bool bIsSweating = false;
+	bool bIsExclamating = false;
 
 	int32 Score = 0;
 

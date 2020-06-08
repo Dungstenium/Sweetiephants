@@ -186,14 +186,35 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 		ManageElephantSize();
 	
+		if (PercentHungryPoints <= 0.15f && !bIsExclamating)
+		{
+			ExclamationVFX->SetVisibility(true);
+			ExclamationVFX->PlayFromStart();
+			bIsExclamating = true;
+		}
+		else if (PercentHungryPoints > 0.20f)
+		{
+			bIsExclamating = false;
+		}
+
 		if (bPlayerTapped)
 		{
 			Timer += DeltaSeconds;
 		}
 
+		if (bIsExclamating)
+		{
+			ExclamationVFXTimer += DeltaSeconds;
+		}
+
 		if (bIsCloudActivated)
 		{
 			CloudVFXTimer += DeltaSeconds;
+		}
+
+		if (bIsSweating)
+		{
+			SweatVFXTimer += DeltaSeconds;
 		}
 
 		if (bLinesActivated)
@@ -206,6 +227,19 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			CloudVFXTimer = 0.0f;
 			CloudsVFX->SetVisibility(false);
 			bIsCloudActivated = false;
+		}
+
+		if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength())
+		{
+			ExclamationVFXTimer = 0.0f;
+			ExclamationVFX->SetVisibility(false);
+		}
+
+		if (SweatVFXTimer >= SweatVFX->GetFlipbookLength())
+		{
+			SweatVFXTimer = 0.0f;
+			SweatVFX->SetVisibility(false);
+			bIsSweating = false;
 		}
 
 		if (LinesVFXTimer >= LinesVFX->GetFlipbookLength())
@@ -371,12 +405,19 @@ void ASweetiephantsCharacter::Fly()
 			CloudsVFX->PlayFromStart();
 			bIsCloudActivated = true;
 			CloudVFXTimer = 0.0f;
-		}
 
-		LinesVFX->SetVisibility(true);
-		LinesVFX->PlayFromStart();
-		bLinesActivated = true;
-		LinesVFXTimer = 0.0f;
+			SweatVFX->SetVisibility(true);
+			SweatVFX->PlayFromStart();
+			bIsSweating = true;
+			SweatVFXTimer = 0.0f;
+		}
+		else if (ElephantWeight == UElephantWeight::Fit)
+		{
+			LinesVFX->SetVisibility(true);
+			LinesVFX->PlayFromStart();
+			bLinesActivated = true;
+			LinesVFXTimer = 0.0f;
+		}
 	}
 }
 
