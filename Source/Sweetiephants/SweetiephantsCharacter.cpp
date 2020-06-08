@@ -28,6 +28,7 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	// Set the size of our collision capsule.
 	GetCapsuleComponent()->SetCapsuleHalfHeight(96.0f);
 	GetCapsuleComponent()->SetCapsuleRadius(40.0f);
+	RootComponent = GetCapsuleComponent();
 
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 
@@ -51,13 +52,14 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
 
-	DeathVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("DEATHVFX"));
-	DeathVFX->SetVisibility(false);
-	DeathVFX->SetupAttachment(RootComponent);
 
 	LinesVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("LINESVFX"));
 	LinesVFX->SetVisibility(false);
 	LinesVFX->SetupAttachment(RootComponent);
+
+	DeathEffect = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("DeathVisualFX"));
+	DeathEffect->SetVisibility(false);
+	DeathEffect->SetupAttachment(RootComponent);
 
 	ExclamationVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("EXCLAMATIONVFX"));
 	ExclamationVFX->SetVisibility(false);
@@ -194,11 +196,23 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			CloudVFXTimer += DeltaSeconds;
 		}
 
+		if (bLinesActivated)
+		{
+			LinesVFXTimer += DeltaSeconds;
+		}
+
 		if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
 		{
-			CloudVFXTimer = 0;
+			CloudVFXTimer = 0.0f;
 			CloudsVFX->SetVisibility(false);
 			bIsCloudActivated = false;
+		}
+
+		if (LinesVFXTimer >= LinesVFX->GetFlipbookLength())
+		{
+			LinesVFXTimer = 0.0f;
+			LinesVFX->SetVisibility(false);
+			bLinesActivated = false;
 		}
 	}
 	else if (ElephantState == UElephantState::Dead)
@@ -213,11 +227,12 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 	{
 		Immobilize();
 		
-		DeathVFX->SetVisibility(true);
+		DeathEffect->SetVisibility(true);
+		DeathEffect->PlayFromStart();
 	}
-	else if(AfterDeathTimer >= DeathVFX->GetFlipbookLength() && DeathVFX->IsVisible())
+	else if(AfterDeathTimer >= DeathEffect->GetFlipbookLength() && DeathEffect->IsVisible())
 	{
-		DeathVFX->SetVisibility(false);
+		DeathEffect->SetVisibility(false);
 	}
 	else if (AfterDeathTimer >= 1 && GetCharacterMovement()->GravityScale != 1.0f)
 	{
@@ -350,10 +365,18 @@ void ASweetiephantsCharacter::Fly()
 		bPlayerTapped = true;
 
 		//CloudsVFX->SetRelativeLocation(FVector((0.0f, 0.0f, -151.0f)));
-		CloudsVFX->SetVisibility(true);
-		CloudsVFX->PlayFromStart();
-		bIsCloudActivated = true;
-		CloudVFXTimer = 0.0f;
+		if (ElephantWeight == UElephantWeight::Chubby)
+		{
+			CloudsVFX->SetVisibility(true);
+			CloudsVFX->PlayFromStart();
+			bIsCloudActivated = true;
+			CloudVFXTimer = 0.0f;
+		}
+
+		LinesVFX->SetVisibility(true);
+		LinesVFX->PlayFromStart();
+		bLinesActivated = true;
+		LinesVFXTimer = 0.0f;
 	}
 }
 

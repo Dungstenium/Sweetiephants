@@ -53,11 +53,15 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	float Timer = 0.0f;
 	float CloudVFXTimer = 0.0f;
+	float LinesVFXTimer = 0.0f;
+	float SweatVFXTimer = 0.0f;
+	float ExclamationVFXTimer = 0.0f;
 	float AfterDeathTimer = 0.0f;
 	float MorphTimer = 0.0f;
 	float MorphingDuration = 1.0f;
 
 	bool bIsCloudActivated = false;
+	bool bLinesActivated = false;
 
 	int32 Score = 0;
 
@@ -91,19 +95,19 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* MorphingChubbyToFit;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
-		class UPaperFlipbookComponent* DeathVFX;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UPaperFlipbookComponent* DeathEffect;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* LinesVFX;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* ExclamationVFX;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* CloudsVFX;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VFX)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* SweatVFX;
 
 	virtual void BeginPlay() override;
