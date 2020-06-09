@@ -19,7 +19,7 @@ enum UElephantState
 {
 	Morphing,
 	Normal,
-	Dead
+	Dead,
 };
 
 class UTextRenderComponent;
@@ -64,6 +64,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	bool bLinesActivated = false;
 	bool bIsSweating = false;
 	bool bIsExclamating = false;
+	bool bIsDeadByHunger = false;
 
 	int32 Score = 0;
 
@@ -96,6 +97,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* MorphingChubbyToFit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* MorphingToCraver;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* DeathEffect;

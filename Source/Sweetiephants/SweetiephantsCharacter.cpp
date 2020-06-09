@@ -127,7 +127,6 @@ void ASweetiephantsCharacter::UpdateAnimation()
 		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? ChubbyFlying : ChubbyIdle;
 	}
 
-
 	if (bPlayerTapped && Timer >= GetSprite()->GetFlipbookLength())
 	{
 		bPlayerTapped = false;
@@ -157,6 +156,11 @@ void ASweetiephantsCharacter::UpdateAnimation()
 		}
 	}
 
+	if (ElephantState == UElephantState::Dead && bIsDeadByHunger)
+	{
+		DesiredAnimation = MorphingToCraver;
+	}
+
 	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
 	{
 		GetSprite()->SetFlipbook(DesiredAnimation);
@@ -178,6 +182,12 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 			ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 			PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
+		
+			if (PercentHungryPoints <= 0.0f)
+			{
+				ElephantState = UElephantState::Dead;
+				bIsDeadByHunger = true;
+			}
 		}
 		else
 		{
@@ -261,17 +271,21 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 	{
 		Immobilize();
 		
-		DeathEffect->SetVisibility(true);
-		DeathEffect->PlayFromStart();
+		if (!bIsDeadByHunger)
+		{
+			DeathEffect->SetVisibility(true);
+			DeathEffect->PlayFromStart();
+		}
 	}
-	else if(AfterDeathTimer >= DeathEffect->GetFlipbookLength() && DeathEffect->IsVisible())
+	else if(AfterDeathTimer >= DeathEffect->GetFlipbookLength() && DeathEffect->IsVisible() && !bIsDeadByHunger)
 	{
 		DeathEffect->SetVisibility(false);
 	}
-	else if (AfterDeathTimer >= 1 && GetCharacterMovement()->GravityScale != 1.0f)
+	else if (AfterDeathTimer >= 1 && GetCharacterMovement()->GravityScale != 1.0f && !bIsDeadByHunger)
 	{
 		GetCharacterMovement()->GravityScale = 1.0f;
 	}
+
 
 	AfterDeathTimer += DeltaSeconds;
 }
