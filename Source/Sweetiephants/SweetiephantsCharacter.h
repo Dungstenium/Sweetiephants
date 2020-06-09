@@ -101,6 +101,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* MorphingToCraver;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* CraverForm;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* DeathEffect;
 
@@ -179,4 +182,8 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool bGameStarted{ false };
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bPlayerDeadDelayed = false;
+
 };

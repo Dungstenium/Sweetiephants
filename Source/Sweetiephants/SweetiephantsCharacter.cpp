@@ -159,6 +159,11 @@ void ASweetiephantsCharacter::UpdateAnimation()
 	if (ElephantState == UElephantState::Dead && bIsDeadByHunger)
 	{
 		DesiredAnimation = MorphingToCraver;
+
+		if (AfterDeathTimer >= MorphingToCraver->GetTotalDuration())
+		{
+			DesiredAnimation = CraverForm;
+		}
 	}
 
 	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
@@ -285,7 +290,10 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 	{
 		GetCharacterMovement()->GravityScale = 1.0f;
 	}
-
+	else if (AfterDeathTimer >= 2 && bIsDeadByHunger)
+	{
+		bPlayerDeadDelayed = true;
+	}
 
 	AfterDeathTimer += DeltaSeconds;
 }
