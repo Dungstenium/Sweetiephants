@@ -68,6 +68,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	int32 Score = 0;
 
+	FVector StartingPosition;
+
 	void Immobilize();
 
 	UElephantWeight ElephantWeight;
@@ -186,5 +188,8 @@ public:
 	bool bPlayerDeadDelayed = false;
 
 	UElephantState ElephantState;
+
+	UFUNCTION(BlueprintCallable)
+	void RestartGame();
 
 };

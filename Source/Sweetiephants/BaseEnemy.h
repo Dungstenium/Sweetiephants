@@ -12,6 +12,8 @@ class SWEETIEPHANTS_API ABaseEnemy : public AActor
 	GENERATED_BODY()
 	
 
+	FVector StartPosition;
+
 	UFUNCTION()
 		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 
@@ -19,7 +21,10 @@ public:
 	ABaseEnemy();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UBoxComponent* Trigger;
+	class UBoxComponent* Trigger;
+
+	UFUNCTION(BlueprintCallable)
+	void ResetPosition();
 
 protected:
 	virtual void BeginPlay() override;

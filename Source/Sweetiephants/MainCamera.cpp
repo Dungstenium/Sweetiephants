@@ -57,6 +57,16 @@ void AMainCamera::Tick(float DeltaSeconds)
 	}
 }
 
+void AMainCamera::Restart()
+{
+	ScaleX = 0.0f;
+	ScaleY = 0.0f;
+	bIsDeadDelayed = false;
+	bIsDead = false;
+	LastSpawnPosition = FVector(0.0f, 0.0f, 0.0f);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
+}
+
 void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 								AActor* OtherActor,
 								UPrimitiveComponent* OtherComp,

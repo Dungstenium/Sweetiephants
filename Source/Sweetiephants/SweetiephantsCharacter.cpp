@@ -107,6 +107,8 @@ void ASweetiephantsCharacter::BeginPlay()
 
 	PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
 
+	StartingPosition = GetActorLocation();
+
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 }
 
@@ -276,6 +278,11 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 	{
 		Immobilize();
 		
+		LinesVFX->SetVisibility(false);
+		ExclamationVFX->SetVisibility(false);
+		CloudsVFX->SetVisibility(false);
+		SweatVFX->SetVisibility(false);
+
 		if (!bIsDeadByHunger)
 		{
 			DeathEffect->SetVisibility(true);
@@ -420,7 +427,6 @@ void ASweetiephantsCharacter::Fly()
 
 		bPlayerTapped = true;
 
-		//CloudsVFX->SetRelativeLocation(FVector((0.0f, 0.0f, -151.0f)));
 		if (ElephantWeight == UElephantWeight::Chubby)
 		{
 			CloudsVFX->SetVisibility(true);
@@ -511,5 +517,40 @@ void ASweetiephantsCharacter::AddScore(int32 Value)
 int32 ASweetiephantsCharacter::GetScore()
 {
 	return Score;
+}
+
+void ASweetiephantsCharacter::RestartGame()
+{
+	GetCapsuleComponent()->SetWorldLocation(StartingPosition);
+
+	bPlayerDeadDelayed = false;
+	bGameStarted = true;
+	bPlayerTapped = false;
+	bShouldStartFlying = false;
+
+	Timer = 0.0f;
+	CloudVFXTimer = 0.0f;
+	LinesVFXTimer = 0.0f;
+	SweatVFXTimer = 0.0f;
+	ExclamationVFXTimer = 0.0f;
+	AfterDeathTimer = 0.0f;
+	MorphTimer = 0.0f;
+	Score = 0;
+
+	ActualHungryPoints = 60.0f;
+	PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
+
+	GetCharacterMovement()->GravityScale = 1.0f;
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+	JumpHeight = JumpHeightFit;
+
+	bIsCloudActivated = false;
+	bLinesActivated = false;
+	bIsSweating = false;
+	bIsExclamating = false;
+	bIsDeadByHunger = false;
+
+	ElephantState = UElephantState::Normal;
+	ElephantWeight = UElephantWeight::Fit;
 }
 

@@ -50,6 +50,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		float ScaleY{ 0.0f };
 
+	UFUNCTION(BlueprintCallable)
+		void Restart();
+
 protected:
 
 	UFUNCTION()

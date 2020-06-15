@@ -18,6 +18,8 @@ void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	StartPosition = GetActorLocation();
+
 	OnActorBeginOverlap.AddDynamic(this, &ABaseEnemy::OnOverlapBegin);
 }
 
@@ -28,6 +30,14 @@ void ABaseEnemy::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 		ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
 
 		Player->SetPlayerDied(true);
+	}
+}
+
+void ABaseEnemy::ResetPosition()
+{
+	if (Trigger)
+	{
+		Trigger->SetWorldLocation(StartPosition);
 	}
 }
 

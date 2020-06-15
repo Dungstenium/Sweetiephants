@@ -17,6 +17,8 @@ class SWEETIEPHANTS_API AEatableObjects : public AActor
 
 	UFont* PopUpFont;
 
+	FVector StartPosition;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -43,4 +45,7 @@ public:
 
 	UFUNCTION()
 		bool GetIsToxic() const;
+
+	UFUNCTION(BlueprintCallable)
+	void ResetPosition();
 };

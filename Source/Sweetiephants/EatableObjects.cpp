@@ -33,6 +33,7 @@ void AEatableObjects::BeginPlay()
 	
 	OnActorBeginOverlap.AddDynamic(this, &AEatableObjects::OnOverlapBegin);
 
+	StartPosition = GetActorLocation();
 
 	ShownSprite = Cast<UPaperSpriteComponent>(GetComponentByClass(UPaperSpriteComponent::StaticClass()));
 	
@@ -63,5 +64,13 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 bool AEatableObjects::GetIsToxic() const
 {
 	return bIsToxic;
+}
+
+void AEatableObjects::ResetPosition()
+{
+	if (Trigger)
+	{
+		Trigger->SetWorldLocation(StartPosition);
+	}
 }
 
