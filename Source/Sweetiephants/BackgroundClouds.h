@@ -15,6 +15,8 @@ public:
 	// Sets default values for this actor's properties
 	ABackgroundClouds();
 
+	FVector StartingPosition;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -37,4 +39,7 @@ public:
 	float GetMovingSpeed();
 
 	void SetMovingSpeed(float Value);
+
+	UFUNCTION(BlueprintCallable)
+	void Reset();
 };

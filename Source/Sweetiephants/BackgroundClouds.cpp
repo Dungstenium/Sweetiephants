@@ -18,6 +18,7 @@ void ABackgroundClouds::BeginPlay()
 	Super::BeginPlay();
 
 	ActorNewLocation = GetActorLocation();
+	StartingPosition = ActorNewLocation;
 
 	ShownSprite = Cast<UPaperSpriteComponent>(GetComponentByClass(UPaperSpriteComponent::StaticClass()));
 
@@ -45,5 +46,11 @@ float ABackgroundClouds::GetMovingSpeed()
 void ABackgroundClouds::SetMovingSpeed(float Value)
 {
 	MovingSpeed = Value;
+}
+
+void ABackgroundClouds::Reset()
+{
+
+	SetActorLocation(StartingPosition);
 }
 
