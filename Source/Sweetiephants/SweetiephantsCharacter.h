@@ -71,7 +71,6 @@ class ASweetiephantsCharacter : public APaperCharacter
 	void Immobilize();
 
 	UElephantWeight ElephantWeight;
-	UElephantState ElephantState;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
@@ -185,5 +184,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bPlayerDeadDelayed = false;
+
+	UElephantState ElephantState;
 
 };

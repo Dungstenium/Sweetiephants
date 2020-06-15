@@ -70,6 +70,7 @@ void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 		Player->GetCharacterMovement()->DisableMovement();
 
 		bIsDead = true;
+		Player->ElephantState = UElephantState::Dead;
 
 		GetWorldTimerManager().SetTimer(Timer, this, &AMainCamera::StopGameMovement, 1.2f, false);
 	}
