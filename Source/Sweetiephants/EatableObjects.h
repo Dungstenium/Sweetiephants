@@ -23,7 +23,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = Sprites)
-		class UPaperSprite* Sprite[3];
+		class UPaperSprite* Sprite[8];
+
+	int NumberOfSprites = 7;
 
 	UPROPERTY()
 		class UPaperSpriteComponent* ShownSprite;
@@ -48,4 +50,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ResetPosition();
+
+	void RenewSprite();
 };

@@ -39,7 +39,7 @@ void AEatableObjects::BeginPlay()
 	
 	if (ShownSprite)
 	{
-		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 2)]);
+		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, NumberOfSprites)]);
 	}
 }
 
@@ -71,6 +71,14 @@ void AEatableObjects::ResetPosition()
 	if (Trigger)
 	{
 		Trigger->SetWorldLocation(StartPosition);
+	}
+}
+
+void AEatableObjects::RenewSprite()
+{
+	if (ShownSprite)
+	{
+		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, NumberOfSprites)]);
 	}
 }
 

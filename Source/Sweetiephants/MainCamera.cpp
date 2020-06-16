@@ -106,6 +106,7 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 		if (Eatable)
 		{
 			SetNewEatableSpawn(SpawnDistanceMultiplier);
+			Eatable->RenewSprite();
 		}
 	}
 	else if (OtherActor->IsA<ABaseEnemy>())

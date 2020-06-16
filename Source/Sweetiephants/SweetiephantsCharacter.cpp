@@ -182,10 +182,45 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 	if (bShouldStartFlying && ElephantState != UElephantState::Dead)
 	{
+		if (GameSpeedTimer <= 75.0f)
+		{
+			GameSpeedTimer += DeltaSeconds;
+		}
 
 		if (ElephantState != UElephantState::Morphing)
 		{
-			AddMovementInput(FVector(0.5f, 0.0f, 0.0f));
+			if (GameSpeedTimer < 15.0f)
+			{
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+			}
+			else if(GameSpeedTimer >= 15.0f && GameSpeedTimer < 30.0f)
+			{
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 0.8f, DeltaSeconds, 0.2f);
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+			}
+			else if (GameSpeedTimer >= 30.0f && GameSpeedTimer < 45.0f)
+			{
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.1f, DeltaSeconds, 0.2f);
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+			}
+			else if (GameSpeedTimer >= 45.0f && GameSpeedTimer < 60.0f)
+			{
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.4f, DeltaSeconds, 0.2f);
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+			}
+			else if (GameSpeedTimer >= 60.0f && GameSpeedTimer < 75.0f)
+			{
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.7f, DeltaSeconds, 0.2f);
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+			}
+			else if (GameSpeedTimer >= 75.0f)
+			{
+				if (ActualSpeed <= 2.2f)
+				{
+					ActualSpeed = FMath::FInterpTo(ActualSpeed, 2.3f, DeltaSeconds, 0.5f);
+				}
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+			}
 
 			ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 			PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
@@ -535,7 +570,9 @@ void ASweetiephantsCharacter::RestartGame()
 	ExclamationVFXTimer = 0.0f;
 	AfterDeathTimer = 0.0f;
 	MorphTimer = 0.0f;
+	GameSpeedTimer = 0.0f,
 	Score = 0;
+	ActualSpeed = StartingSpeed;
 
 	ActualHungryPoints = 60.0f;
 	PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;

@@ -59,6 +59,9 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float AfterDeathTimer = 0.0f;
 	float MorphTimer = 0.0f;
 	float MorphingDuration = 1.0f;
+	float GameSpeedTimer = 0.0f;
+	float StartingSpeed = 0.5f;
+	float ActualSpeed = 0.5f;
 
 	bool bIsCloudActivated = false;
 	bool bLinesActivated = false;
