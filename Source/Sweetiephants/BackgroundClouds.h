@@ -21,20 +21,22 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	FVector ActorNewLocation;
-
-	UPROPERTY(EditAnywhere, Category = Atributes)
-		float MovingSpeed;
-
 	UPROPERTY(EditAnywhere, Category = Sprites)
 		class UPaperSprite* Sprite[6];
 
 	UPROPERTY()
 		class UPaperSpriteComponent* ShownSprite;
 
+	FVector ActorNewLocation;
+
+	UPROPERTY(EditAnywhere, Category = Atributes)
+		float MovingSpeed;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void SetNewSprite();
 
 	float GetMovingSpeed();
 

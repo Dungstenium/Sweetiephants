@@ -177,13 +177,15 @@ void AMainCamera::SetNewCloudSpawn()
 	SpawnPosition = FVector(
 		Cloud->GetActorLocation().X + CloudOffset,
 		Cloud->GetActorLocation().Y,
-		GetActorLocation().Z + FMath::RandRange(-300.0f, 500.0f));
+		GetActorLocation().Z + FMath::RandRange(-100.0f, 400.0f));
 
 	Cloud->SetActorLocation(SpawnPosition);
 
-	float RandVariable = FMath::RandRange(1.0f, 3.0f);
-	Cloud->SetMovingSpeed(RandVariable);
-	Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
+	Cloud->SetNewSprite();
+
+	//float RandVariable = FMath::RandRange(1.0f, 3.0f);
+	//Cloud->SetMovingSpeed(RandVariable);
+	//Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
 }
 
 void AMainCamera::StopGameMovement()

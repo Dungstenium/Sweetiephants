@@ -22,6 +22,11 @@ void ABackgroundClouds::BeginPlay()
 
 	ShownSprite = Cast<UPaperSpriteComponent>(GetComponentByClass(UPaperSpriteComponent::StaticClass()));
 
+	SetNewSprite();
+}
+
+void ABackgroundClouds::SetNewSprite()
+{
 	if (ShownSprite)
 	{
 		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 5)]);
