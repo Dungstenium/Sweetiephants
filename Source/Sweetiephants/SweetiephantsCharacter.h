@@ -123,6 +123,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* SweatVFX;
 
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class ABhubbyCloud* bhubby;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = true))
+	TSubclassOf<ABhubbyCloud> ChubbyCloud;
+
 	virtual void BeginPlay() override;
 
 	void UpdateAnimation();

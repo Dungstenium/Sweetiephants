@@ -1,17 +1,18 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "SweetiephantsCharacter.h"
-#include "PaperFlipbookComponent.h"
-#include "PaperFlipbook.h"
-#include "Components/TextRenderComponent.h"
+#include "BhubbyCloud.h"
+#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
-#include "GameFramework/SpringArmComponent.h"
+#include "Components/TextRenderComponent.h"
+#include "EatableObjects.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "MainCamera.h"
-#include "EatableObjects.h"
-#include "Camera/CameraComponent.h"
+#include "PaperFlipbook.h"
+#include "PaperFlipbookComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(SideScrollerCharacter, Log, All);
 
@@ -162,7 +163,7 @@ void ASweetiephantsCharacter::UpdateAnimation()
 	{
 		DesiredAnimation = MorphingToCraver;
 
-		if (AfterDeathTimer >= MorphingToCraver->GetTotalDuration())
+		if (MorphingToCraver->GetSpriteAtTime(AfterDeathTimer) == MorphingToCraver->GetSpriteAtFrame(MorphingToCraver->GetKeyFrameIndexAtTime(MorphingToCraver->GetTotalDuration())))
 		{
 			DesiredAnimation = CraverForm;
 		}
@@ -178,8 +179,6 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	
-	UpdateCharacter();
-
 	if (bShouldStartFlying && ElephantState != UElephantState::Dead)
 	{
 		if (GameSpeedTimer <= 75.0f)
@@ -259,10 +258,10 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			ExclamationVFXTimer += DeltaSeconds;
 		}
 
-		if (bIsCloudActivated)
-		{
-			CloudVFXTimer += DeltaSeconds;
-		}
+		//if (bIsCloudActivated)
+		//{
+		//	CloudVFXTimer += DeltaSeconds;
+		//}
 
 		if (bIsSweating)
 		{
@@ -274,12 +273,12 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			LinesVFXTimer += DeltaSeconds;
 		}
 
-		if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
-		{
-			CloudVFXTimer = 0.0f;
-			CloudsVFX->SetVisibility(false);
-			bIsCloudActivated = false;
-		}
+		//if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
+		//{
+		//	CloudVFXTimer = 0.0f;
+		//	CloudsVFX->SetVisibility(false);
+		//	bIsCloudActivated = false;
+		//}
 
 		if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength())
 		{
@@ -305,6 +304,8 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	{
 		Die(DeltaSeconds);
 	}
+
+	UpdateCharacter();
 }
 
 void ASweetiephantsCharacter::Die(float DeltaSeconds)
@@ -315,7 +316,7 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 		
 		LinesVFX->SetVisibility(false);
 		ExclamationVFX->SetVisibility(false);
-		CloudsVFX->SetVisibility(false);
+		//CloudsVFX->SetVisibility(false);
 		SweatVFX->SetVisibility(false);
 
 		if (!bIsDeadByHunger)
@@ -464,10 +465,11 @@ void ASweetiephantsCharacter::Fly()
 
 		if (ElephantWeight == UElephantWeight::Chubby)
 		{
-			CloudsVFX->SetVisibility(true);
-			CloudsVFX->PlayFromStart();
-			bIsCloudActivated = true;
-			CloudVFXTimer = 0.0f;
+			//CloudsVFX->SetVisibility(true);
+			GetWorld()->SpawnActor<ABhubbyCloud>(ChubbyCloud, CloudsVFX->GetComponentTransform());
+			//CloudsVFX->PlayFromStart();
+			//bIsCloudActivated = true;
+			//CloudVFXTimer = 0.0f;
 
 			SweatVFX->SetVisibility(true);
 			SweatVFX->PlayFromStart();
@@ -564,7 +566,7 @@ void ASweetiephantsCharacter::RestartGame()
 	bShouldStartFlying = false;
 
 	Timer = 0.0f;
-	CloudVFXTimer = 0.0f;
+	//CloudVFXTimer = 0.0f;
 	LinesVFXTimer = 0.0f;
 	SweatVFXTimer = 0.0f;
 	ExclamationVFXTimer = 0.0f;
