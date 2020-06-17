@@ -41,6 +41,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	void ManageVFX(float DeltaSeconds);
+
 	void Die(float DeltaSeconds);
 
 	void ManageElephantSize();
@@ -107,6 +109,18 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 		class UPaperFlipbook* CraverForm;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* ChubbyDying;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* FitDying;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* ChubbyDyingFinal;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+		class UPaperFlipbook* FitDyingFinal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* DeathEffect;

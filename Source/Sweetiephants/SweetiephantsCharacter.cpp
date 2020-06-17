@@ -53,7 +53,6 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
 
-
 	LinesVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("LINESVFX"));
 	LinesVFX->SetVisibility(false);
 	LinesVFX->SetupAttachment(RootComponent);
@@ -147,6 +146,8 @@ void ASweetiephantsCharacter::UpdateAnimation()
 		}
 	}
 
+#pragma region ManageMorphingAnimations
+
 	if (ElephantState == UElephantState::Morphing)
 	{
 		if (ElephantWeight == UElephantWeight::Fit)
@@ -158,6 +159,9 @@ void ASweetiephantsCharacter::UpdateAnimation()
 			DesiredAnimation = MorphingToChubby;
 		}
 	}
+#pragma endregion
+
+#pragma region ManageDeathAnimations
 
 	if (ElephantState == UElephantState::Dead && bIsDeadByHunger)
 	{
@@ -168,6 +172,29 @@ void ASweetiephantsCharacter::UpdateAnimation()
 			DesiredAnimation = CraverForm;
 		}
 	}
+	else if (ElephantState == UElephantState::Dead && ElephantWeight == UElephantWeight::Fit)
+	{
+		if (AfterDeathTimer <= FitDying->GetTotalDuration())
+		{
+			DesiredAnimation = FitDying;
+		}
+		else
+		{
+			DesiredAnimation = FitDyingFinal;
+		}
+	}
+	else if (ElephantState == UElephantState::Dead && ElephantWeight == UElephantWeight::Chubby)
+	{
+		if (AfterDeathTimer <= ChubbyDying->GetTotalDuration())
+		{
+			DesiredAnimation = ChubbyDying;
+		}
+		else
+		{
+			DesiredAnimation = ChubbyDyingFinal;
+		}
+	}
+#pragma endregion
 
 	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
 	{
@@ -237,75 +264,86 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 		ManageElephantSize();
 	
-		if (PercentHungryPoints <= 0.15f && !bIsExclamating)
-		{
-			ExclamationVFX->SetVisibility(true);
-			ExclamationVFX->PlayFromStart();
-			bIsExclamating = true;
-		}
-		else if (PercentHungryPoints > 0.20f)
-		{
-			bIsExclamating = false;
-		}
-
-		if (bPlayerTapped)
-		{
-			Timer += DeltaSeconds;
-		}
-
-		if (bIsExclamating)
-		{
-			ExclamationVFXTimer += DeltaSeconds;
-		}
-
-		//if (bIsCloudActivated)
-		//{
-		//	CloudVFXTimer += DeltaSeconds;
-		//}
-
-		if (bIsSweating)
-		{
-			SweatVFXTimer += DeltaSeconds;
-		}
-
-		if (bLinesActivated)
-		{
-			LinesVFXTimer += DeltaSeconds;
-		}
-
-		//if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
-		//{
-		//	CloudVFXTimer = 0.0f;
-		//	CloudsVFX->SetVisibility(false);
-		//	bIsCloudActivated = false;
-		//}
-
-		if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength())
-		{
-			ExclamationVFXTimer = 0.0f;
-			ExclamationVFX->SetVisibility(false);
-		}
-
-		if (SweatVFXTimer >= SweatVFX->GetFlipbookLength())
-		{
-			SweatVFXTimer = 0.0f;
-			SweatVFX->SetVisibility(false);
-			bIsSweating = false;
-		}
-
-		if (LinesVFXTimer >= LinesVFX->GetFlipbookLength())
-		{
-			LinesVFXTimer = 0.0f;
-			LinesVFX->SetVisibility(false);
-			bLinesActivated = false;
-		}
+		ManageVFX(DeltaSeconds);
 	}
 	else if (ElephantState == UElephantState::Dead)
 	{
 		Die(DeltaSeconds);
+
+		if (!bIsDeadByHunger && AfterDeathTimer <= 0.5f)
+		{
+			SetActorRelativeLocation(FVector(GetActorLocation().X - 200 * DeltaSeconds, 0,GetActorLocation().Z + 200 * DeltaSeconds));
+			GetSprite()->AddLocalRotation(FRotator(0.5f, 0.0f, 0.0f));
+		}
 	}
 
 	UpdateCharacter();
+}
+
+void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
+{
+	if (PercentHungryPoints <= 0.15f && !bIsExclamating)
+	{
+		ExclamationVFX->SetVisibility(true);
+		ExclamationVFX->PlayFromStart();
+		bIsExclamating = true;
+	}
+	else if (PercentHungryPoints > 0.20f)
+	{
+		bIsExclamating = false;
+	}
+
+	if (bPlayerTapped)
+	{
+		Timer += DeltaSeconds;
+	}
+
+	if (bIsExclamating)
+	{
+		ExclamationVFXTimer += DeltaSeconds;
+	}
+
+	//if (bIsCloudActivated)
+	//{
+	//	CloudVFXTimer += DeltaSeconds;
+	//}
+
+	if (bIsSweating)
+	{
+		SweatVFXTimer += DeltaSeconds;
+	}
+
+	if (bLinesActivated)
+	{
+		LinesVFXTimer += DeltaSeconds;
+	}
+
+	//if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
+	//{
+	//	CloudVFXTimer = 0.0f;
+	//	CloudsVFX->SetVisibility(false);
+	//	bIsCloudActivated = false;
+	//}
+
+	if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength())
+	{
+		ExclamationVFXTimer = 0.0f;
+		ExclamationVFX->SetVisibility(false);
+	}
+
+	if (SweatVFXTimer >= SweatVFX->GetFlipbookLength())
+	{
+		SweatVFXTimer = 0.0f;
+		SweatVFX->SetVisibility(false);
+		bIsSweating = false;
+	}
+
+	if (LinesVFXTimer >= LinesVFX->GetFlipbookLength())
+	{
+		LinesVFXTimer = 0.0f;
+		LinesVFX->SetVisibility(false);
+		bLinesActivated = false;
+	}
 }
 
 void ASweetiephantsCharacter::Die(float DeltaSeconds)
@@ -316,7 +354,6 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 		
 		LinesVFX->SetVisibility(false);
 		ExclamationVFX->SetVisibility(false);
-		//CloudsVFX->SetVisibility(false);
 		SweatVFX->SetVisibility(false);
 
 		if (!bIsDeadByHunger)
@@ -375,25 +412,6 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 		JumpHeight = JumpHeightFat;
 	}
 }
-
-//void ASweetiephantsCharacter::MorphToSlim(float DeltaSeconds)
-//{
-//	if (MorphTimer == 0.0f)
-//	{
-//		Immobilize();
-//	}
-//
-//	MorphTimer += DeltaSeconds;
-//
-//	if (MorphTimer >= 1.0f)
-//	{
-//		ElephantState = UElephantState::Normal;
-//		GetCharacterMovement()->GravityScale = 0.8f;
-//		MorphTimer = 0.0f;
-//		bPlayerTapped = false;
-//		JumpHeight = JumpHeightSlim;
-//	}
-//}
 
 void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 {
@@ -465,11 +483,7 @@ void ASweetiephantsCharacter::Fly()
 
 		if (ElephantWeight == UElephantWeight::Chubby)
 		{
-			//CloudsVFX->SetVisibility(true);
 			GetWorld()->SpawnActor<ABhubbyCloud>(ChubbyCloud, CloudsVFX->GetComponentTransform());
-			//CloudsVFX->PlayFromStart();
-			//bIsCloudActivated = true;
-			//CloudVFXTimer = 0.0f;
 
 			SweatVFX->SetVisibility(true);
 			SweatVFX->PlayFromStart();
@@ -575,6 +589,8 @@ void ASweetiephantsCharacter::RestartGame()
 	GameSpeedTimer = 0.0f,
 	Score = 0;
 	ActualSpeed = StartingSpeed;
+
+	GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 
 	ActualHungryPoints = 60.0f;
 	PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
