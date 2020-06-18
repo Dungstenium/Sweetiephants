@@ -51,8 +51,8 @@ void AMainCamera::Tick(float DeltaSeconds)
 	{
 		if (ScaleX <= 1.0f)
 		{
-			ScaleX = FMath::InterpEaseInOut(ScaleX, 0.85f, Alpha, Exponent);
-			ScaleY = FMath::InterpEaseInOut(ScaleY, 0.85f, Alpha, Exponent);
+			ScaleX = FMath::InterpEaseInOut(ScaleX, 1.0f, Alpha, Exponent);
+			ScaleY = FMath::InterpEaseInOut(ScaleY, 1.0f, Alpha, Exponent);
 		}
 	}
 }
