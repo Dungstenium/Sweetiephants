@@ -70,6 +70,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	bool bIsSweating = false;
 	bool bIsExclamating = false;
 	bool bIsDeadByHunger = false;
+	bool bSpawnedFlan = false;
 
 	int32 Score = 0;
 
@@ -78,6 +79,9 @@ class ASweetiephantsCharacter : public APaperCharacter
 	void Immobilize();
 
 	UElephantWeight ElephantWeight;
+
+	UPROPERTY(EditAnywhere)
+	class UArrowComponent* GuideArrow;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
@@ -202,6 +206,9 @@ public:
 	void AddScore(int32 Value);
 
 	UFUNCTION(BlueprintCallable)
+	void RestartGame();
+
+	UFUNCTION(BlueprintCallable)
 	int32 GetScore();
 	
 	UPROPERTY(BlueprintReadWrite)
@@ -210,9 +217,10 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bPlayerDeadDelayed = false;
 
+	class AFlanOnHead* Flanny;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AFlanOnHead> Flan;
+
 	UElephantState ElephantState;
-
-	UFUNCTION(BlueprintCallable)
-	void RestartGame();
-
 };

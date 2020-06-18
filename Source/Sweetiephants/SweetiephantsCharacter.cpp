@@ -3,10 +3,12 @@
 #include "SweetiephantsCharacter.h"
 #include "BhubbyCloud.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ArrowComponent.h" 
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "EatableObjects.h"
+#include "FlanOnHead.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -52,6 +54,9 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	// Enable replication on the Sprite component so animations show up when networked
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
+
+	GuideArrow = CreateDefaultSubobject<UArrowComponent>(TEXT("ArrowToGuide"));
+	GuideArrow->SetupAttachment(RootComponent);
 
 	LinesVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("LINESVFX"));
 	LinesVFX->SetVisibility(false);
@@ -269,6 +274,12 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	else if (ElephantState == UElephantState::Dead)
 	{
 		Die(DeltaSeconds);
+
+		if (!bIsDeadByHunger && AfterDeathTimer - 0.15f >= GetSprite()->GetFlipbook()->GetTotalDuration() && !bSpawnedFlan)
+		{
+			GetWorld()->SpawnActor<AFlanOnHead>(Flan, GuideArrow->GetComponentLocation(), GuideArrow->GetComponentRotation());
+			bSpawnedFlan = true;
+		}
 
 		if (!bIsDeadByHunger && AfterDeathTimer <= 0.5f)
 		{
@@ -578,6 +589,7 @@ void ASweetiephantsCharacter::RestartGame()
 	bGameStarted = true;
 	bPlayerTapped = false;
 	bShouldStartFlying = false;
+	bSpawnedFlan = false;
 
 	Timer = 0.0f;
 	//CloudVFXTimer = 0.0f;
