@@ -223,4 +223,6 @@ public:
 	TSubclassOf<AFlanOnHead> Flan;
 
 	UElephantState ElephantState;
+
+	bool bHitTheBottomCollider = false;
 };

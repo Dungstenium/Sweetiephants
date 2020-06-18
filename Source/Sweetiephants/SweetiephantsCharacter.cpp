@@ -286,6 +286,11 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			SetActorRelativeLocation(FVector(GetActorLocation().X - 200 * DeltaSeconds, 0,GetActorLocation().Z + 200 * DeltaSeconds));
 			GetSprite()->AddLocalRotation(FRotator(0.5f, 0.0f, 0.0f));
 		}
+		else if (!bIsDeadByHunger && AfterDeathTimer <= 1.9f && !bHitTheBottomCollider)
+		{
+			SetActorRelativeLocation(FVector(GetActorLocation().X - 200 * DeltaSeconds, 0, GetActorLocation().Z));
+			GetSprite()->AddLocalRotation(FRotator(0.5f, 0.0f, 0.0f));
+		}
 	}
 
 	UpdateCharacter();
@@ -590,9 +595,9 @@ void ASweetiephantsCharacter::RestartGame()
 	bPlayerTapped = false;
 	bShouldStartFlying = false;
 	bSpawnedFlan = false;
+	bHitTheBottomCollider = false;
 
 	Timer = 0.0f;
-	//CloudVFXTimer = 0.0f;
 	LinesVFXTimer = 0.0f;
 	SweatVFXTimer = 0.0f;
 	ExclamationVFXTimer = 0.0f;

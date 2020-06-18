@@ -29,7 +29,8 @@ void AFlanOnHead::Tick(float DeltaSeconds)
 
 	Timer += DeltaSeconds;
 
-	SetActorRelativeLocation(FVector(GetActorLocation().X - 150 * DeltaSeconds, 0, (GetActorLocation().Z + (20 - Timer * 559.8f) * DeltaSeconds)));
+	SetActorRelativeLocation(FVector(GetActorLocation().X - (250 - Timer * 70.0f) * DeltaSeconds, 0, (GetActorLocation().Z + (20 - Timer * 559.8f) * DeltaSeconds)));
+	LooseFlan->AddLocalRotation(FRotator(0.4f, 0.0f, 0.0f));
 }
 
 

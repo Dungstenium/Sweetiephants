@@ -81,6 +81,7 @@ void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 
 		bIsDead = true;
 		Player->ElephantState = UElephantState::Dead;
+		Player->bHitTheBottomCollider = true;
 
 		GetWorldTimerManager().SetTimer(Timer, this, &AMainCamera::StopGameMovement, 1.2f, false);
 	}
