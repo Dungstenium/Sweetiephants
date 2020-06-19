@@ -54,18 +54,15 @@ void AMainCamera::Tick(float DeltaSeconds)
 			ScaleX = FMath::InterpEaseInOut(ScaleX, 1.0f, Alpha, Exponent);
 			ScaleY = FMath::InterpEaseInOut(ScaleY, 1.0f, Alpha, Exponent);
 		}
+
+		if (!bSoundPlayed && GameOverSound)
+		{
+			UGameplayStatics::PlaySound2D(this, GameOverSound);
+			bSoundPlayed = true;
+		}
 	}
 }
 
-void AMainCamera::Restart()
-{
-	ScaleX = 0.0f;
-	ScaleY = 0.0f;
-	bIsDeadDelayed = false;
-	bIsDead = false;
-	LastSpawnPosition = FVector(0.0f, 0.0f, 0.0f);
-	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
-}
 
 void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 								AActor* OtherActor,
@@ -85,6 +82,16 @@ void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 
 		GetWorldTimerManager().SetTimer(Timer, this, &AMainCamera::StopGameMovement, 1.2f, false);
 	}
+}
+
+void AMainCamera::StopGameMovement()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+
+
+	bIsDeadDelayed = true;
+
+	GetWorldTimerManager().ClearTimer(Timer);
 }
 
 void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -189,12 +196,14 @@ void AMainCamera::SetNewCloudSpawn()
 	//Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
 }
 
-void AMainCamera::StopGameMovement()
+void AMainCamera::Restart()
 {
-	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
-
-
-	bIsDeadDelayed = true;
-
-	GetWorldTimerManager().ClearTimer(Timer);
+	ScaleX = 0.0f;
+	ScaleY = 0.0f;
+	bIsDeadDelayed = false;
+	bIsDead = false;
+	bSoundPlayed = false;
+	LastSpawnPosition = FVector(0.0f, 0.0f, 0.0f);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
 }
+

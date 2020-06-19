@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "MainCamera.h"
 #include "PaperFlipbook.h"
 #include "PaperFlipbookComponent.h"
@@ -405,6 +406,11 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	{
 		Immobilize();
 		GetCapsuleComponent()->SetCapsuleHalfHeight(84.0f);
+		
+		if (MorphToChubbySound)
+		{
+			UGameplayStatics::PlaySound2D(this, MorphToChubbySound);
+		}
 	}
 
 	MorphTimer += DeltaSeconds;
@@ -425,6 +431,11 @@ void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 	{
 		Immobilize();
 		GetCapsuleComponent()->SetCapsuleHalfHeight(73.0f);
+
+		if (MorphToFitSound)
+		{
+			UGameplayStatics::PlaySound2D(this, MorphToFitSound);
+		}
 	}
 
 	MorphTimer += DeltaSeconds;

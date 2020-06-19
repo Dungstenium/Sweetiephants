@@ -12,11 +12,6 @@ class SWEETIEPHANTS_API AEatableObjects : public AActor
 	GENERATED_BODY()
 
 
-		//UPROPERTY(EditAnywhere)
-		//	class UTextRenderComponent* ScorePointPopUp;
-
-	UFont* PopUpFont;
-
 	FVector StartPosition;
 
 protected:
@@ -28,16 +23,19 @@ protected:
 	int NumberOfSprites = 7;
 
 	UPROPERTY()
-		class UPaperSpriteComponent* ShownSprite;
+	class UPaperSpriteComponent* ShownSprite;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UBoxComponent* Trigger;
+	class UBoxComponent* Trigger;
+
+	UPROPERTY(EditAnywhere, Category = Sounds)
+	class USoundBase* EatenSound;
 
 	UPROPERTY(EditAnywhere)
-		bool bIsToxic{ false };
+	bool bIsToxic{ false };
 
 	UPROPERTY(EditAnywhere)
-		float EatenOffset{ 700.0f };
+	float EatenOffset{ 700.0f };
 
 public:	
 	AEatableObjects();

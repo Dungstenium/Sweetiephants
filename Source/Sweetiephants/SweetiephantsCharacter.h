@@ -141,7 +141,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UPaperFlipbookComponent* SweatVFX;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, Category = Sounds) 
+		class USoundBase* MorphToChubbySound;
+
+	UPROPERTY(EditAnywhere, Category = Sounds)
+		class USoundBase* MorphToFitSound;
+
 	class ABhubbyCloud* bhubby;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = true))

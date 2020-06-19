@@ -12,17 +12,14 @@ class SWEETIEPHANTS_API AFlanOnHead : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AFlanOnHead();
 
 	float Timer = 0.0f;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 
 	UPROPERTY(EditAnywhere)

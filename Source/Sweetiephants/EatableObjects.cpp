@@ -6,6 +6,7 @@
 #include "Components/TextRenderComponent.h" 
 #include "Engine/TextRenderActor.h" 
 #include "Engine/Font.h" 
+#include "Kismet/GameplayStatics.h"
 #include "PaperSpriteComponent.h"
 #include "UObject/ConstructorHelpers.h" 
 #include "SweetiephantsCharacter.h"
@@ -17,14 +18,6 @@ AEatableObjects::AEatableObjects()
 
 	Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	RootComponent = Trigger;
-
-	ConstructorHelpers::FObjectFinder<UFont> FontObj(TEXT("Font'/Game/2DSideScroller/Fonts/MenuFONT_Font_3.MenuFONT_Font_3'"));
-	if (FontObj.Succeeded())
-	{
-		PopUpFont = FontObj.Object;
-	}
-	//ScorePointPopUp = CreateDefaultSubobject<UTextRenderComponent>(TEXT("ScorePoints"));
-	//ScorePointPopUp->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 50.0f), FRotator(0.0f, 0.0f, 90.0f));
 }
 
 void AEatableObjects::BeginPlay()
@@ -47,17 +40,12 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
-		//ATextRenderActor* ScorePoints = GetWorld()->SpawnActor<ATextRenderActor>(
-		//	GetActorLocation() + FVector(0.0f, 0.0f, 50.0f),
-		//	GetActorRotation() + FRotator(0.0f, 90.0f, 0.0f));
-
-		//ScorePoints->GetTextRender()->SetText(TEXT("10"));
-		//ScorePoints->GetTextRender()->SetRelativeScale3D(FVector(3.0f, 3.0f, 3.0f));
-
-		//ScorePoints->GetTextRender()->SetFont(PopUpFont);
-		////ScorePoints->GetTextRender()->SetMaterial()
-
 		SetActorLocation(FVector(GetActorLocation().X - EatenOffset, GetActorLocation().Y, GetActorLocation().Z));
+
+		if (EatenSound)
+		{
+			UGameplayStatics::PlaySound2D(this, EatenSound);
+		}
 	}
 }
 

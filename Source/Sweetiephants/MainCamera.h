@@ -30,6 +30,9 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 
 	UPROPERTY()
 	APawn* Camera;
+
+	bool bSoundPlayed = false;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -70,6 +73,9 @@ protected:
 								int32 OtherBodyIndex,
 								bool bFromSweep, const
 								FHitResult& SweepResult);
+
+	UPROPERTY(EditAnywhere, Category = Sounds)
+	class USoundBase* GameOverSound;
 
 	void SetNewEnemySpawn(int32 Multiplier);
 

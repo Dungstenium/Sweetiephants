@@ -6,21 +6,19 @@
 #include "PaperFlipbookComponent.h"
 
 
-// Sets default values
 AFlanOnHead::AFlanOnHead()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	LooseFlan = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("TheFlan"));
 	RootComponent = LooseFlan;
 }
 
-// Called when the game starts or when spawned
 void AFlanOnHead::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetLifeSpan(5.0f);
 }
 
 void AFlanOnHead::Tick(float DeltaSeconds)
