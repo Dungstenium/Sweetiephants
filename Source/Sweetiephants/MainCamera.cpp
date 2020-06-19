@@ -127,7 +127,7 @@ void AMainCamera::SetNewEnemySpawn(int32 Multiplier)
 	EnemySpawnPosition = FVector(
 		Enemy->GetActorLocation().X + CloudOffset,
 		Enemy->GetActorLocation().Y,
-		GetActorLocation().Z + FMath::RandRange(-300.0f, 450.0f));
+		GetActorLocation().Z + FMath::RandRange(-300.0f, 350.0f));
 
 	if (FMath::Abs(EnemySpawnPosition.X - LastSpawnPosition.X) <= 300 || EnemySpawnPosition.X <= LastSpawnPosition.X)
 	{
@@ -152,7 +152,7 @@ void AMainCamera::SetNewEatableSpawn(int32 Multiplier)
 	EatableSpawnPosition = FVector(
 		Eatable->GetActorLocation().X + CloudOffset,
 		Eatable->GetActorLocation().Y,
-		GetActorLocation().Z + FMath::RandRange(-300.0f, 450.0f));
+		GetActorLocation().Z + FMath::RandRange(-300.0f, 350.0f));
 
 
 	if (FMath::Abs(EatableSpawnPosition.X - LastSpawnPosition.X) <= 300 || EatableSpawnPosition.X <= LastSpawnPosition.X)

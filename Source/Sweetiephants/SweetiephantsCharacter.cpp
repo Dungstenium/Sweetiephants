@@ -223,37 +223,42 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			if (GameSpeedTimer < 15.0f)
 			{
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 			}
 			else if(GameSpeedTimer >= 15.0f && GameSpeedTimer < 30.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 0.8f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 0.9f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 1.6f;
 			}
 			else if (GameSpeedTimer >= 30.0f && GameSpeedTimer < 45.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.1f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.3f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 2.2f;
 			}
 			else if (GameSpeedTimer >= 45.0f && GameSpeedTimer < 60.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.4f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.7f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 2.8f;
 			}
 			else if (GameSpeedTimer >= 60.0f && GameSpeedTimer < 75.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.7f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 2.1f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 3.4f;
 			}
 			else if (GameSpeedTimer >= 75.0f)
 			{
-				if (ActualSpeed <= 2.2f)
+				if (ActualSpeed <= 2.9f)
 				{
-					ActualSpeed = FMath::FInterpTo(ActualSpeed, 2.3f, DeltaSeconds, 0.5f);
+					ActualSpeed = FMath::FInterpTo(ActualSpeed, 3.0f, DeltaSeconds, 0.5f);
 				}
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 5.0f;
 			}
 
-			ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 			PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
 		
 			if (PercentHungryPoints <= 0.0f)
@@ -319,11 +324,6 @@ void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
 		ExclamationVFXTimer += DeltaSeconds;
 	}
 
-	//if (bIsCloudActivated)
-	//{
-	//	CloudVFXTimer += DeltaSeconds;
-	//}
-
 	if (bIsSweating)
 	{
 		SweatVFXTimer += DeltaSeconds;
@@ -333,13 +333,6 @@ void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
 	{
 		LinesVFXTimer += DeltaSeconds;
 	}
-
-	//if (CloudVFXTimer >= CloudsVFX->GetFlipbookLength())
-	//{
-	//	CloudVFXTimer = 0.0f;
-	//	CloudsVFX->SetVisibility(false);
-	//	bIsCloudActivated = false;
-	//}
 
 	if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength())
 	{
@@ -400,10 +393,6 @@ void ASweetiephantsCharacter::MorphElephant(float DeltaSeconds)
 	{
 		MorphToFat(DeltaSeconds);
 	}
-	//else if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Slim)
-	//{
-	//	MorphToSlim(DeltaSeconds);
-	//}
 	else if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Fit)
 	{
 		MorphToFit(DeltaSeconds);
@@ -415,6 +404,7 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	if (MorphTimer == 0.0f)
 	{
 		Immobilize();
+		GetCapsuleComponent()->SetCapsuleHalfHeight(84.0f);
 	}
 
 	MorphTimer += DeltaSeconds;
@@ -434,6 +424,7 @@ void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 	if (MorphTimer == 0.0f)
 	{
 		Immobilize();
+		GetCapsuleComponent()->SetCapsuleHalfHeight(73.0f);
 	}
 
 	MorphTimer += DeltaSeconds;
@@ -455,11 +446,6 @@ void ASweetiephantsCharacter::ManageElephantSize()
 		ElephantWeight = UElephantWeight::Chubby;
 		ElephantState = UElephantState::Morphing;
 	}
-	//else if (PercentHungryPoints <= 0.05f && ElephantWeight != UElephantWeight::Slim)
-	//{
-	//	ElephantWeight = UElephantWeight::Slim;
-	//	ElephantState = UElephantState::Morphing;
-	//}
 	else if (PercentHungryPoints <= 0.5f && ElephantWeight == UElephantWeight::Chubby)
 	{
 		ElephantWeight = UElephantWeight::Fit;
@@ -499,8 +485,6 @@ void ASweetiephantsCharacter::Fly()
 
 		if (ElephantWeight == UElephantWeight::Chubby)
 		{
-			GetWorld()->SpawnActor<ABhubbyCloud>(ChubbyCloud, CloudsVFX->GetComponentTransform());
-
 			SweatVFX->SetVisibility(true);
 			SweatVFX->PlayFromStart();
 			bIsSweating = true;
@@ -508,6 +492,8 @@ void ASweetiephantsCharacter::Fly()
 		}
 		else if (ElephantWeight == UElephantWeight::Fit)
 		{
+			GetWorld()->SpawnActor<ABhubbyCloud>(ChubbyCloud, CloudsVFX->GetComponentTransform());
+			
 			LinesVFX->SetVisibility(true);
 			LinesVFX->PlayFromStart();
 			bLinesActivated = true;
@@ -589,6 +575,7 @@ int32 ASweetiephantsCharacter::GetScore()
 void ASweetiephantsCharacter::RestartGame()
 {
 	GetCapsuleComponent()->SetWorldLocation(StartingPosition);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(73.0f);
 
 	bPlayerDeadDelayed = false;
 	bGameStarted = true;
@@ -606,6 +593,7 @@ void ASweetiephantsCharacter::RestartGame()
 	GameSpeedTimer = 0.0f,
 	Score = 0;
 	ActualSpeed = StartingSpeed;
+
 
 	GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 

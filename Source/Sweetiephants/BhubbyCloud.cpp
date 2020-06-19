@@ -10,6 +10,7 @@ ABhubbyCloud::ABhubbyCloud()
 	PrimaryActorTick.bCanEverTick = false;
 
 	ChubbyCloudVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("Cloud"));
+	RootComponent = ChubbyCloudVFX;
 }
 
 void ABhubbyCloud::BeginPlay()
