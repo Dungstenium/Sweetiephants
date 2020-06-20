@@ -55,7 +55,6 @@ void ABackgroundClouds::SetMovingSpeed(float Value)
 
 void ABackgroundClouds::Reset()
 {
-
 	SetActorLocation(StartingPosition);
 }
 
