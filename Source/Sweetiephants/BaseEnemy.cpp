@@ -3,6 +3,7 @@
 
 #include "BaseEnemy.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "SweetiephantsCharacter.h"
 
 
@@ -29,7 +30,12 @@ void ABaseEnemy::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 	{
 		ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
 
-		Player->SetPlayerDied(true);
+		if (Player)
+		{
+			Player->SetPlayerDied(true);
+		}
+
+		UGameplayStatics::PlaySound2D(this, PlayerCrashSound);
 	}
 }
 

@@ -85,67 +85,73 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
-		class UPaperFlipbook* FitFlying;
+	class UPaperFlipbook* FitFlying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* FitTap;
+	class UPaperFlipbook* FitTap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* FitIdle;
+	class UPaperFlipbook* FitIdle;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* ChubbyIdle;
+	class UPaperFlipbook* ChubbyIdle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* ChubbyFlying;
+	class UPaperFlipbook* ChubbyFlying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* ChubbyTap;
+	class UPaperFlipbook* ChubbyTap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* MorphingToChubby;
+	class UPaperFlipbook* MorphingToChubby;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* MorphingChubbyToFit;
+	class UPaperFlipbook* MorphingChubbyToFit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* MorphingToCraver;
+	class UPaperFlipbook* MorphingToCraver;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* CraverForm;
+	class UPaperFlipbook* CraverForm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* ChubbyDying;
+	class UPaperFlipbook* ChubbyDying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* FitDying;
+	class UPaperFlipbook* FitDying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* ChubbyDyingFinal;
+	class UPaperFlipbook* ChubbyDyingFinal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-		class UPaperFlipbook* FitDyingFinal;
+	class UPaperFlipbook* FitDyingFinal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UPaperFlipbookComponent* DeathEffect;
+	class UPaperFlipbookComponent* DeathEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UPaperFlipbookComponent* LinesVFX;
+	class UPaperFlipbookComponent* LinesVFX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UPaperFlipbookComponent* ExclamationVFX;
+	class UPaperFlipbookComponent* ExclamationVFX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UPaperFlipbookComponent* CloudsVFX;
+	class UPaperFlipbookComponent* CloudsVFX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UPaperFlipbookComponent* SweatVFX;
+	class UPaperFlipbookComponent* SweatVFX;
 
 	UPROPERTY(EditAnywhere, Category = Sounds) 
-		class USoundBase* MorphToChubbySound;
+	class USoundBase* MorphToChubbySound;
 
 	UPROPERTY(EditAnywhere, Category = Sounds)
-		class USoundBase* MorphToFitSound;
+	class USoundBase* MorphToFitSound;
+
+	UPROPERTY(EditAnywhere, Category = Sounds)
+	class USoundBase* TapFitSound;
+
+	UPROPERTY(EditAnywhere, Category = Sounds)
+	class USoundBase* TapChubbySound;
 
 	class ABhubbyCloud* bhubby;
 

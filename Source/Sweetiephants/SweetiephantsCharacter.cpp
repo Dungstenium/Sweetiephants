@@ -500,6 +500,8 @@ void ASweetiephantsCharacter::Fly()
 			SweatVFX->PlayFromStart();
 			bIsSweating = true;
 			SweatVFXTimer = 0.0f;
+			UGameplayStatics::PlaySound2D(this, TapChubbySound);
+
 		}
 		else if (ElephantWeight == UElephantWeight::Fit)
 		{
@@ -509,6 +511,8 @@ void ASweetiephantsCharacter::Fly()
 			LinesVFX->PlayFromStart();
 			bLinesActivated = true;
 			LinesVFXTimer = 0.0f;
+			UGameplayStatics::PlaySound2D(this, TapFitSound);
+
 		}
 	}
 }
