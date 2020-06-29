@@ -45,7 +45,7 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 		if (EatenSound)
 		{
 			float RandomPitch = FMath::RandRange(0.85f, 1.15f);
-			UGameplayStatics::PlaySound2D(this, EatenSound, 1.0f, RandomPitch);
+			UGameplayStatics::PlaySound2D(this, EatenSound, SoundVolume, RandomPitch);
 		}
 	}
 }
@@ -69,5 +69,15 @@ void AEatableObjects::RenewSprite()
 	{
 		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, NumberOfSprites)]);
 	}
+}
+
+void AEatableObjects::MuteSound()
+{
+	SoundVolume = 0.0f;
+}
+
+void AEatableObjects::UnmuteSound()
+{
+	SoundVolume = 1.0;
 }
 

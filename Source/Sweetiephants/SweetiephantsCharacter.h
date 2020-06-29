@@ -64,6 +64,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float GameSpeedTimer = 0.0f;
 	float StartingSpeed = 0.5f;
 	float ActualSpeed = 0.5f;
+	float SoundEffectsVolume = 1.0f;
+	float MusicVolume = 1.0f;
 
 	bool bIsCloudActivated = false;
 	bool bLinesActivated = false;
@@ -225,6 +227,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetScore();
 	
+	UFUNCTION(BlueprintCallable)
+	void MuteSoundEffects();
+
+	UFUNCTION(BlueprintCallable)
+	void UnmuteSoundEffects();
+
+	UFUNCTION(BlueprintCallable)
+	void MuteMusic();
+
+	UFUNCTION(BlueprintCallable)
+	void UnmuteMusic();
+
 	UPROPERTY(BlueprintReadWrite)
 	bool bGameStarted{ false };
 

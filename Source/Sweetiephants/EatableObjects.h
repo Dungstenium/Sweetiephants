@@ -14,6 +14,8 @@ class SWEETIEPHANTS_API AEatableObjects : public AActor
 
 	FVector StartPosition;
 
+	float SoundVolume = 1.0f;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -50,4 +52,10 @@ public:
 	void ResetPosition();
 
 	void RenewSprite();
+
+	UFUNCTION(BlueprintCallable)
+	void MuteSound();
+
+	UFUNCTION(BlueprintCallable)
+	void UnmuteSound();
 };
