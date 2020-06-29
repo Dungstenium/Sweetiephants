@@ -153,6 +153,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Sounds)
 	class USoundBase* TapChubbySound;
 
+	UPROPERTY(EditAnywhere, Category = Sounds)
+	class USoundBase* SweatSound;
+
 	class ABhubbyCloud* bhubby;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = true))

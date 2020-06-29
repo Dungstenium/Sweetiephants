@@ -501,7 +501,8 @@ void ASweetiephantsCharacter::Fly()
 			bIsSweating = true;
 			SweatVFXTimer = 0.0f;
 			UGameplayStatics::PlaySound2D(this, TapChubbySound);
-
+			float RandomPitch = FMath::RandRange(0.85f, 1.15f);
+			UGameplayStatics::PlaySound2D(this, SweatSound, 1.0f, RandomPitch, 1.0f);
 		}
 		else if (ElephantWeight == UElephantWeight::Fit)
 		{
@@ -511,8 +512,8 @@ void ASweetiephantsCharacter::Fly()
 			LinesVFX->PlayFromStart();
 			bLinesActivated = true;
 			LinesVFXTimer = 0.0f;
-			UGameplayStatics::PlaySound2D(this, TapFitSound);
-
+			float RandomPitch = FMath::RandRange(0.85f, 1.15f);
+			UGameplayStatics::PlaySound2D(this, TapFitSound, 1.0f, RandomPitch);
 		}
 	}
 }
