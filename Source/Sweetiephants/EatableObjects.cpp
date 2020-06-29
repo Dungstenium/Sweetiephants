@@ -44,7 +44,8 @@ void AEatableObjects::OnOverlapBegin(class AActor* OverlappedActor, class AActor
 
 		if (EatenSound)
 		{
-			UGameplayStatics::PlaySound2D(this, EatenSound);
+			float RandomPitch = FMath::RandRange(0.85f, 1.15f);
+			UGameplayStatics::PlaySound2D(this, EatenSound, 1.0f, RandomPitch);
 		}
 	}
 }

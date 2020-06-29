@@ -406,7 +406,8 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	{
 		Immobilize();
 		GetCapsuleComponent()->SetCapsuleHalfHeight(84.0f);
-		
+		GetCapsuleComponent()->SetCapsuleRadius(84.0f);
+	
 		if (MorphToChubbySound)
 		{
 			UGameplayStatics::PlaySound2D(this, MorphToChubbySound);
@@ -431,6 +432,7 @@ void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
 	{
 		Immobilize();
 		GetCapsuleComponent()->SetCapsuleHalfHeight(73.0f);
+		GetCapsuleComponent()->SetCapsuleRadius(73.0f);
 
 		if (MorphToFitSound)
 		{
@@ -500,7 +502,7 @@ void ASweetiephantsCharacter::Fly()
 			SweatVFX->PlayFromStart();
 			bIsSweating = true;
 			SweatVFXTimer = 0.0f;
-			UGameplayStatics::PlaySound2D(this, TapChubbySound);
+			//UGameplayStatics::PlaySound2D(this, TapChubbySound);
 			float RandomPitch = FMath::RandRange(0.85f, 1.15f);
 			UGameplayStatics::PlaySound2D(this, SweatSound, 1.0f, RandomPitch, 1.0f);
 		}
