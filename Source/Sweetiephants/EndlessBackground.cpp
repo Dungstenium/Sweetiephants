@@ -11,7 +11,6 @@
 // Sets default values
 AEndlessBackground::AEndlessBackground()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 
@@ -22,10 +21,8 @@ AEndlessBackground::AEndlessBackground()
 	RootComponent = Background;
 	Arrow->SetupAttachment(Background);
 
-	//NextBackground = CreateDefaultSubobject<AEndlessBackground>(TEXT("NextBackground"));
 }
 
-// Called when the game starts or when spawned
 void AEndlessBackground::BeginPlay()
 {
 	Super::BeginPlay();
@@ -39,10 +36,9 @@ void AEndlessBackground::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherAc
 	{
 		if (NextBackground != nullptr)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("zo"));
 			FActorSpawnParameters SpawnParams;
-			//AEndlessBackground* Next = 
-				GetWorld()->SpawnActor<AEndlessBackground>(NextBackground, GetTargetLocation() + Offset, Arrow->GetComponentRotation(), SpawnParams);
+
+			GetWorld()->SpawnActor<AEndlessBackground>(NextBackground, GetTargetLocation() + Offset, Arrow->GetComponentRotation(), SpawnParams);
 		}
 	}
 }
