@@ -489,7 +489,7 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void ASweetiephantsCharacter::Fly()
 {
-	if (ElephantState != UElephantState::Dead && bGameStarted && ElephantState == UElephantState::Normal)
+	if (ElephantState != UElephantState::Dead && bGameStarted && ElephantState == UElephantState::Normal && bGameStarted)
 	{
 		GetCharacterMovement()->Velocity.Z = JumpHeight;
 
