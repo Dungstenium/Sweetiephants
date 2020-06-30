@@ -57,7 +57,7 @@ void AMainCamera::Tick(float DeltaSeconds)
 
 		if (!bSoundPlayed && GameOverSound)
 		{
-			UGameplayStatics::PlaySound2D(this, GameOverSound);
+			UGameplayStatics::PlaySound2D(this, GameOverSound, Volume);
 			bSoundPlayed = true;
 		}
 	}
@@ -190,10 +190,6 @@ void AMainCamera::SetNewCloudSpawn()
 	Cloud->SetActorLocation(SpawnPosition);
 
 	Cloud->SetNewSprite();
-
-	//float RandVariable = FMath::RandRange(1.0f, 3.0f);
-	//Cloud->SetMovingSpeed(RandVariable);
-	//Cloud->SetActorScale3D(FVector(RandVariable / 3.0f, RandVariable / 3.0f, RandVariable / 3.0f));
 }
 
 void AMainCamera::Restart()
@@ -205,5 +201,15 @@ void AMainCamera::Restart()
 	bSoundPlayed = false;
 	LastSpawnPosition = FVector(0.0f, 0.0f, 0.0f);
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
+}
+
+void AMainCamera::MuteSound()
+{
+	Volume = 0.0f;
+}
+
+void AMainCamera::UnmuteSound()
+{
+	Volume = 1.0f;
 }
 

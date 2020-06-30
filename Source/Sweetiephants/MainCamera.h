@@ -21,6 +21,7 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 	AMainCamera();
 
 	float PlayerPositionX;
+	float Volume = 1.0f;
 
 	UPROPERTY(EditAnywhere)
 	FVector Offset;
@@ -36,25 +37,31 @@ class SWEETIEPHANTS_API AMainCamera : public ACameraActor
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UBoxComponent* LowerTriggerBox;
+	class UBoxComponent* LowerTriggerBox;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UBoxComponent* GeneratorTriggerBox;
+	class UBoxComponent* GeneratorTriggerBox;
 
 	UPROPERTY(BlueprintReadWrite)
-		bool bIsDead{ false };
+	bool bIsDead{ false };
 
 	UPROPERTY(BlueprintReadWrite)
-		bool bIsDeadDelayed{ false };
+	bool bIsDeadDelayed{ false };
 
 	UPROPERTY(BlueprintReadWrite)
-		float ScaleX{ 0.0f };
+	float ScaleX{ 0.0f };
 
 	UPROPERTY(BlueprintReadWrite)
-		float ScaleY{ 0.0f };
+	float ScaleY{ 0.0f };
 
 	UFUNCTION(BlueprintCallable)
-		void Restart();
+	void Restart();
+
+	UFUNCTION(BlueprintCallable)
+	void MuteSound();
+
+	UFUNCTION(BlueprintCallable)
+	void UnmuteSound();
 
 protected:
 
