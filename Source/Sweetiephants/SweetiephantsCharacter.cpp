@@ -610,6 +610,7 @@ void ASweetiephantsCharacter::RestartGame()
 	bShouldStartFlying = false;
 	bSpawnedFlan = false;
 	bHitTheBottomCollider = false;
+	bGameStarted = false;
 
 	Timer = 0.0f;
 	LinesVFXTimer = 0.0f;
