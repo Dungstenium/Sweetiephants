@@ -60,12 +60,15 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float ExclamationVFXTimer = 0.0f;
 	float AfterDeathTimer = 0.0f;
 	float MorphTimer = 0.0f;
+	float TutTimer = 0.0f;
 	float MorphingDuration = 1.0f;
 	float GameSpeedTimer = 0.0f;
 	float StartingSpeed = 0.5f;
 	float ActualSpeed = 0.5f;
 	float SoundEffectsVolume = 1.0f;
 	float MusicVolume = 1.0f;
+	float ScaleX = 0.21f;
+	float ScaleZ = 0.21f;
 
 	bool bIsCloudActivated = false;
 	bool bLinesActivated = false;
@@ -73,6 +76,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	bool bIsExclamating = false;
 	bool bIsDeadByHunger = false;
 	bool bSpawnedFlan = false;
+	bool bTutEnded = false;
 
 	int32 Score = 0;
 
@@ -142,6 +146,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UPaperFlipbookComponent* SweatVFX;
+
+	UPROPERTY(EditAnywhere)
+	class UPaperFlipbookComponent* TutorialArrow;
+	
+	UPROPERTY(EditAnywhere)
+	class UPaperFlipbookComponent* TutorialText;
 
 	UPROPERTY(EditAnywhere, Category = Sounds) 
 	class USoundBase* MorphToChubbySound;
