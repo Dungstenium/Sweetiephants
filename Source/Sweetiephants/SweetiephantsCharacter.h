@@ -53,16 +53,17 @@ class ASweetiephantsCharacter : public APaperCharacter
 	//void MorphToSlim(float DeltaSeconds);
 	void MorphToFit(float DeltaSeconds);
 
-	float Timer = 0.0f;
-	float CloudVFXTimer = 0.0f;
-	float LinesVFXTimer = 0.0f;
-	float SweatVFXTimer = 0.0f;
-	float ExclamationVFXTimer = 0.0f;
-	float AfterDeathTimer = 0.0f;
-	float MorphTimer = 0.0f;
-	float TutTimer = 0.0f;
+	float Timer{ 0.0f };
+	float CloudVFXTimer{ 0.0f };
+	float LinesVFXTimer{ 0.0f };
+	float SweatVFXTimer{ 0.0f };
+	float ExclamationVFXTimer{ 0.0f };
+	float AfterDeathTimer{ 0.0f };
+	float MorphTimer{ 0.0f };
+	float GameSpeedTimer{ 0.0f };
+	float TutTimer{ 0.0f };
+
 	float MorphingDuration = 1.0f;
-	float GameSpeedTimer = 0.0f;
 	float StartingSpeed = 0.5f;
 	float ActualSpeed = 0.5f;
 	float SoundEffectsVolume = 1.0f;
@@ -78,19 +79,19 @@ class ASweetiephantsCharacter : public APaperCharacter
 	bool bSpawnedFlan = false;
 	bool bTutEnded = false;
 
-	int32 Score = 0;
+	int32 Score{ 0 };
 
 	FVector StartingPosition;
-
-	void Immobilize();
 
 	UElephantWeight ElephantWeight;
 
 	UPROPERTY(EditAnywhere)
 	class UArrowComponent* GuideArrow;
 
+	void Immobilize();
+
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* FitFlying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
@@ -148,10 +149,7 @@ protected:
 	class UPaperFlipbookComponent* SweatVFX;
 
 	UPROPERTY(EditAnywhere)
-	class UPaperFlipbookComponent* TutorialArrow;
-	
-	UPROPERTY(EditAnywhere)
-	class UPaperFlipbookComponent* TutorialText;
+	class UPaperFlipbookComponent* TutorialImage;
 
 	UPROPERTY(EditAnywhere, Category = Sounds) 
 	class USoundBase* MorphToChubbySound;
@@ -189,9 +187,8 @@ protected:
 	
 	void Fly();
 
-	bool bShouldStartFlying = false;
-
-	bool bPlayerTapped = false;
+	bool bShouldStartFlying{ false };
+	bool bPlayerTapped{ false };
 
 	UPROPERTY(EditAnywhere)
 	float MaxHungryPoints{ 100 };
@@ -202,16 +199,16 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float PointsDepletionSpeed{ 2.0f };
 
-	UPROPERTY(EditAnywhere, Category = Jump)
+	UPROPERTY(EditAnywhere, Category = PlayerJump)
 	float JumpHeight{ 650.0f };
 
-	UPROPERTY(EditAnywhere, Category = Jump)
+	UPROPERTY(EditAnywhere, Category = PlayerJump)
 	float JumpHeightFit{ 650.0f };
 
-	UPROPERTY(EditAnywhere, Category = Jump)
+	UPROPERTY(EditAnywhere, Category = PlayerJump)
 	float JumpHeightFat{ 400.0f };	
 	
-	UPROPERTY(EditAnywhere, Category = Jump)
+	UPROPERTY(EditAnywhere, Category = PlayerJump)
 	float JumpHeightSlim{ 800.0f };
 
 	UPROPERTY(EditAnywhere)
@@ -220,8 +217,6 @@ protected:
 public:
 	ASweetiephantsCharacter();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float PercentHungryPoints{ 60.0f };
 
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
@@ -253,8 +248,10 @@ public:
 	bool bGameStarted{ false };
 
 	UPROPERTY(BlueprintReadWrite)
-	bool bPlayerDeadDelayed = false;
+	bool bPlayerDeadDelayed{ false };
 
+	bool bHitTheBottomCollider{ false };
+	
 	class AFlanOnHead* Flanny;
 
 	UPROPERTY(EditAnywhere)
@@ -262,5 +259,6 @@ public:
 
 	UElephantState ElephantState;
 
-	bool bHitTheBottomCollider = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float PercentHungryPoints{ 60.0f };
 };

@@ -22,7 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = Sprites)
-		class UPaperSprite* Sprite[6];
+		class UPaperSprite* Sprite[8];
 
 	UPROPERTY()
 		class UPaperSpriteComponent* ShownSprite;

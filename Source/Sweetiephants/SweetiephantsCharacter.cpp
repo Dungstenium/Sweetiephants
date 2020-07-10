@@ -16,6 +16,8 @@
 #include "MainCamera.h"
 #include "PaperFlipbook.h"
 #include "PaperFlipbookComponent.h"
+#include "TimerManager.h"
+
 
 DEFINE_LOG_CATEGORY_STATIC(SideScrollerCharacter, Log, All);
 
@@ -79,10 +81,8 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	CloudsVFX->SetVisibility(false);
 	CloudsVFX->SetupAttachment(RootComponent);
 
-	TutorialArrow = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("TutArrow"));
-	TutorialText = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("TutText"));
-	TutorialArrow->SetupAttachment(RootComponent);
-	TutorialText->SetupAttachment(RootComponent);
+	TutorialImage = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("TutArrow"));
+	TutorialImage->SetupAttachment(RootComponent);
 
 	ElephantWeight = UElephantWeight::Fit;
 	ElephantState = UElephantState::Normal;
@@ -120,8 +120,7 @@ void ASweetiephantsCharacter::BeginPlay()
 
 	StartingPosition = GetActorLocation();
 
-	TutorialArrow->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
-	TutorialText->SetRelativeLocation(FVector(0.0f, 0.0f, 250.0f));
+	TutorialImage->SetRelativeLocation(FVector(0.0f, 0.0f, 220.0f));
 
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 }
@@ -229,14 +228,12 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			ScaleX = FMath::FInterpTo(ScaleX, 0.0f, 7 * DeltaSeconds, 0.7f);
 			ScaleZ = FMath::FInterpTo(ScaleZ, 0.0f, 7 * DeltaSeconds, 0.7f);
 
-			TutorialArrow->SetWorldScale3D(FVector(ScaleX, 1.0, ScaleZ));
-			TutorialText->SetWorldScale3D(FVector(ScaleX, 1.0, ScaleZ));
+			TutorialImage->SetWorldScale3D(FVector(ScaleX, 1.0, ScaleZ));
 
 			if (TutTimer >= 0.7f)
 			{
 				bTutEnded = true;
-				TutorialArrow->SetVisibility(false);
-				TutorialText->SetVisibility(false);
+				TutorialImage->SetVisibility(false);
 			}
 		}
 
@@ -361,7 +358,7 @@ void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
 		LinesVFXTimer += DeltaSeconds;
 	}
 
-	if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength())
+	if (ExclamationVFXTimer >= 2 * ExclamationVFX->GetFlipbookLength() || !bIsExclamating)
 	{
 		ExclamationVFXTimer = 0.0f;
 		ExclamationVFX->SetVisibility(false);
