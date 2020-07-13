@@ -294,6 +294,9 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 			{
 				ElephantState = UElephantState::Dead;
 				bIsDeadByHunger = true;
+
+				float RandomPitch = FMath::RandRange(0.85f, 1.15f);
+				UGameplayStatics::PlaySound2D(this, DyingFromHungerSound, 1.3f, RandomPitch);
 			}
 		}
 		else
@@ -339,7 +342,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		GameMusic->Play(0.0f);
 		if (bIsFristMusicLoop)
 		{
-			GameMusic->FadeIn(2.0f, 0.7f);
+			GameMusic->FadeIn(2.0f, MusicVolume);
 			bIsFristMusicLoop = false;
 		}
 		
@@ -714,7 +717,7 @@ void ASweetiephantsCharacter::MuteMusic()
 
 void ASweetiephantsCharacter::UnmuteMusic()
 {
-	MusicVolume = 0.7f;
+	MusicVolume = 0.5f;
 	GameMusic->Play();
 }
 

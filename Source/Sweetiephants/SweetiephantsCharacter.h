@@ -67,7 +67,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float StartingSpeed = 0.5f;
 	float ActualSpeed = 0.5f;
 	float SoundEffectsVolume = 1.0f;
-	float MusicVolume = 0.7f;
+	float MusicVolume = 0.5f;
 	float ScaleX = 0.21f;
 	float ScaleZ = 0.21f;
 
@@ -169,6 +169,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects)
 	class USoundBase* SweatSound;
+
+	UPROPERTY(EditAnywhere, Category = SoundEffects)
+	class USoundBase* DyingFromHungerSound;
 
 	UPROPERTY(EditAnywhere, Category = Music)
 	class USoundBase* InGameMusic;
