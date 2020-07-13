@@ -29,7 +29,7 @@ void ABackgroundClouds::SetNewSprite()
 {
 	if (ShownSprite)
 	{
-		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 5)]);
+		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 7)]);
 	}
 }
 

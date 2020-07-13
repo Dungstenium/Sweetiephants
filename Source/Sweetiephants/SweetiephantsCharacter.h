@@ -67,7 +67,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float StartingSpeed = 0.5f;
 	float ActualSpeed = 0.5f;
 	float SoundEffectsVolume = 1.0f;
-	float MusicVolume = 1.0f;
+	float MusicVolume = 0.7f;
 	float ScaleX = 0.21f;
 	float ScaleZ = 0.21f;
 
@@ -84,11 +84,15 @@ class ASweetiephantsCharacter : public APaperCharacter
 	FVector StartingPosition;
 
 	UElephantWeight ElephantWeight;
+	
+	FTimerHandle MusicTimerHandle;
 
 	UPROPERTY(EditAnywhere)
 	class UArrowComponent* GuideArrow;
 
 	void Immobilize();
+
+	void PlayInGameMusic();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
@@ -151,20 +155,26 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class UPaperFlipbookComponent* TutorialImage;
 
-	UPROPERTY(EditAnywhere, Category = Sounds) 
+	UPROPERTY(EditAnywhere, Category = SoundEffects) 
 	class USoundBase* MorphToChubbySound;
 
-	UPROPERTY(EditAnywhere, Category = Sounds)
+	UPROPERTY(EditAnywhere, Category = SoundEffects)
 	class USoundBase* MorphToFitSound;
 
-	UPROPERTY(EditAnywhere, Category = Sounds)
+	UPROPERTY(EditAnywhere, Category = SoundEffects)
 	class USoundBase* TapFitSound;
 
-	UPROPERTY(EditAnywhere, Category = Sounds)
+	UPROPERTY(EditAnywhere, Category = SoundEffects)
 	class USoundBase* TapChubbySound;
 
-	UPROPERTY(EditAnywhere, Category = Sounds)
+	UPROPERTY(EditAnywhere, Category = SoundEffects)
 	class USoundBase* SweatSound;
+
+	UPROPERTY(EditAnywhere, Category = Music)
+	class USoundBase* InGameMusic;
+
+	UPROPERTY(EditAnywhere, Category = Music)
+	class USoundBase* MenuMusic;
 
 	class ABhubbyCloud* bhubby;
 
@@ -189,6 +199,7 @@ protected:
 
 	bool bShouldStartFlying{ false };
 	bool bPlayerTapped{ false };
+	bool bInGameMusicIsPlaying{ false };
 
 	UPROPERTY(EditAnywhere)
 	float MaxHungryPoints{ 100 };
@@ -217,7 +228,6 @@ protected:
 public:
 	ASweetiephantsCharacter();
 	
-
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 
@@ -243,6 +253,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UnmuteMusic();
+
+	UPROPERTY(BlueprintReadWrite)
+	UAudioComponent* GameMusicInGame;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bGameStarted{ false };

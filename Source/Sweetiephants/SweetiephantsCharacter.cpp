@@ -4,6 +4,7 @@
 #include "BhubbyCloud.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ArrowComponent.h" 
+#include "Components/AudioComponent.h" 
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/TextRenderComponent.h"
@@ -16,6 +17,7 @@
 #include "MainCamera.h"
 #include "PaperFlipbook.h"
 #include "PaperFlipbookComponent.h"
+#include "Sound/SoundBase.h" 
 #include "TimerManager.h"
 
 
@@ -323,6 +325,13 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	}
 
 	UpdateCharacter();
+
+	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying)
+	{
+		GameMusicInGame = UGameplayStatics::SpawnSound2D(this, InGameMusic, MusicVolume);
+		bInGameMusicIsPlaying = true;
+		GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ASweetiephantsCharacter::PlayInGameMusic, InGameMusic->GetDuration() - 0.09f, true);
+	}
 }
 
 void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
@@ -499,6 +508,11 @@ void ASweetiephantsCharacter::Immobilize()
 	GetCharacterMovement()->GravityScale = 0.0f;
 }
 
+void ASweetiephantsCharacter::PlayInGameMusic()
+{
+	bInGameMusicIsPlaying = false;
+}
+
 void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Note: the 'Jump' action and the 'MoveRight' axis are bound to actual keys/buttons/sticks in DefaultInput.ini (editable from Project Settings..Input)
@@ -512,7 +526,7 @@ void ASweetiephantsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void ASweetiephantsCharacter::Fly()
 {
-	if (ElephantState != UElephantState::Dead && bGameStarted && ElephantState == UElephantState::Normal && bGameStarted)
+	if (ElephantState != UElephantState::Dead && bGameStarted && ElephantState == UElephantState::Normal)
 	{
 		GetCharacterMovement()->Velocity.Z = JumpHeight;
 
@@ -529,8 +543,6 @@ void ASweetiephantsCharacter::Fly()
 			SweatVFX->PlayFromStart();
 			bIsSweating = true;
 			SweatVFXTimer = 0.0f;
-
-			//UGameplayStatics::PlaySound2D(this, TapChubbySound);
 
 			float RandomPitch = FMath::RandRange(0.85f, 1.15f);
 
@@ -678,10 +690,11 @@ void ASweetiephantsCharacter::UnmuteSoundEffects()
 void ASweetiephantsCharacter::MuteMusic()
 {
 	MusicVolume = 0.0f;
+	//GameMusicInGame->AdjustVolume(0.0f);
 }
 
 void ASweetiephantsCharacter::UnmuteMusic()
 {
-	MusicVolume = 1.0f;
+	MusicVolume = 0.7f;
 }
 
