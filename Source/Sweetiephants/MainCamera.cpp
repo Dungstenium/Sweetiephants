@@ -2,7 +2,8 @@
 
 
 #include "MainCamera.h"
-#include "Components/BoxComponent.h" 
+#include "Components/BoxComponent.h"
+#include "Components/AudioComponent.h" 
 #include "BackgroundClouds.h"
 #include "BaseEnemy.h"
 #include "EatableObjects.h"
@@ -75,6 +76,7 @@ void AMainCamera::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 	{
 		ASweetiephantsCharacter* Player = Cast<ASweetiephantsCharacter>(OtherActor);
 		Player->GetCharacterMovement()->DisableMovement();
+		Player->GameMusic->FadeOut(1.2f, 0.0f);
 
 		bIsDead = true;
 		Player->ElephantState = UElephantState::Dead;

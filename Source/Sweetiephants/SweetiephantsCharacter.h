@@ -255,7 +255,7 @@ public:
 	void UnmuteMusic();
 
 	UPROPERTY(BlueprintReadWrite)
-	UAudioComponent* GameMusicInGame;
+	UAudioComponent* GameMusic;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bGameStarted{ false };
@@ -264,7 +264,8 @@ public:
 	bool bPlayerDeadDelayed{ false };
 
 	bool bHitTheBottomCollider{ false };
-	
+	bool bIsFristMusicLoop{ true };
+
 	class AFlanOnHead* Flanny;
 
 	UPROPERTY(EditAnywhere)

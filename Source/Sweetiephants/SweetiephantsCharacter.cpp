@@ -125,6 +125,9 @@ void ASweetiephantsCharacter::BeginPlay()
 	TutorialImage->SetRelativeLocation(FVector(0.0f, 0.0f, 220.0f));
 
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
+
+	GameMusic = UGameplayStatics::SpawnSound2D(this, MenuMusic, MusicVolume);
+	GameMusic->bAutoDestroy = false;
 }
 
 void ASweetiephantsCharacter::UpdateAnimation()
@@ -326,9 +329,20 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 	UpdateCharacter();
 
-	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying)
+	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying && GameMusic)
 	{
-		GameMusicInGame = UGameplayStatics::SpawnSound2D(this, InGameMusic, MusicVolume);
+		if (GameMusic->Sound != InGameMusic)
+		{
+			GameMusic->SetSound(InGameMusic);
+		}
+
+		GameMusic->Play(0.0f);
+		if (bIsFristMusicLoop)
+		{
+			GameMusic->FadeIn(2.0f, 0.7f);
+			bIsFristMusicLoop = false;
+		}
+		
 		bInGameMusicIsPlaying = true;
 		GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ASweetiephantsCharacter::PlayInGameMusic, InGameMusic->GetDuration() - 0.09f, true);
 	}
@@ -639,6 +653,11 @@ void ASweetiephantsCharacter::RestartGame()
 	GetCapsuleComponent()->SetWorldLocation(StartingPosition);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(73.0f);
 
+	GetWorld()->GetTimerManager().ClearTimer(MusicTimerHandle);
+	GameMusic->SetSound(MenuMusic);
+	bInGameMusicIsPlaying = false;
+	bIsFristMusicLoop = true;
+
 	bPlayerDeadDelayed = false;
 	bGameStarted = true;
 	bPlayerTapped = false;
@@ -690,11 +709,12 @@ void ASweetiephantsCharacter::UnmuteSoundEffects()
 void ASweetiephantsCharacter::MuteMusic()
 {
 	MusicVolume = 0.0f;
-	//GameMusicInGame->AdjustVolume(0.0f);
+	GameMusic->Stop();
 }
 
 void ASweetiephantsCharacter::UnmuteMusic()
 {
 	MusicVolume = 0.7f;
+	GameMusic->Play();
 }
 
