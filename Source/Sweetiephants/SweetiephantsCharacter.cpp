@@ -126,8 +126,10 @@ void ASweetiephantsCharacter::BeginPlay()
 
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 
-	GameMusic = UGameplayStatics::SpawnSound2D(this, MenuMusic, MusicVolume);
+	GameMusic = UGameplayStatics::SpawnSound2D(this, MenuMusic, 1.0f);
 	GameMusic->bAutoDestroy = false;
+	GameMusic->SetVolumeMultiplier(.5f);
+
 }
 
 void ASweetiephantsCharacter::UpdateAnimation()
@@ -230,8 +232,8 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		{
 			TutTimer += DeltaSeconds;
 
-			ScaleX = FMath::FInterpTo(ScaleX, 0.0f, 7 * DeltaSeconds, 0.7f);
-			ScaleZ = FMath::FInterpTo(ScaleZ, 0.0f, 7 * DeltaSeconds, 0.7f);
+			ScaleX = FMath::FInterpTo(ScaleX, 0.0f, 5 * DeltaSeconds, 0.7f);
+			ScaleZ = FMath::FInterpTo(ScaleZ, 0.0f, 5 * DeltaSeconds, 0.7f);
 
 			TutorialImage->SetWorldScale3D(FVector(ScaleX, 1.0, ScaleZ));
 
@@ -249,45 +251,64 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 
 		if (ElephantState != UElephantState::Morphing)
 		{
-			if (GameSpeedTimer < 15.0f)
+			if (GameSpeedTimer < 10.0f)
 			{
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
 				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds;
 			}
-			else if(GameSpeedTimer >= 15.0f && GameSpeedTimer < 30.0f)
+			else if(GameSpeedTimer >= 10.0f && GameSpeedTimer < 30.0f)
 			{
 				ActualSpeed = FMath::FInterpTo(ActualSpeed, 0.9f, DeltaSeconds, 0.2f);
-				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
+				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f)); 
+
+				WalkSpeed = FMath::FInterpTo(WalkSpeed, 675.0f, DeltaSeconds, 0.4f);
+				GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
 				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 1.6f;
 			}
 			else if (GameSpeedTimer >= 30.0f && GameSpeedTimer < 45.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.3f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.5f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
-				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 2.2f;
+
+				WalkSpeed = FMath::FInterpTo(WalkSpeed, 730.0f, DeltaSeconds, 0.4f);
+				GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 2.4f;
 			}
 			else if (GameSpeedTimer >= 45.0f && GameSpeedTimer < 60.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 1.7f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 2.1f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
-				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 2.8f;
+
+				WalkSpeed = FMath::FInterpTo(WalkSpeed, 800.0f, DeltaSeconds, 0.4f);
+				GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 3.3f;
 			}
 			else if (GameSpeedTimer >= 60.0f && GameSpeedTimer < 75.0f)
 			{
-				ActualSpeed = FMath::FInterpTo(ActualSpeed, 2.1f, DeltaSeconds, 0.2f);
+				ActualSpeed = FMath::FInterpTo(ActualSpeed, 2.7f, DeltaSeconds, 0.2f);
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
-				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 3.4f;
+
+				WalkSpeed = FMath::FInterpTo(WalkSpeed, 890.0f, DeltaSeconds, 0.4f);
+				GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 4.3f;
 			}
 			else if (GameSpeedTimer >= 75.0f)
 			{
-				if (ActualSpeed <= 2.9f)
+				if (ActualSpeed <= 10.9f)
 				{
-					ActualSpeed = FMath::FInterpTo(ActualSpeed, 3.0f, DeltaSeconds, 0.5f);
+					ActualSpeed = FMath::FInterpTo(ActualSpeed, 11.0f, DeltaSeconds, 1.5f);
+
+					WalkSpeed = FMath::FInterpTo(WalkSpeed, 950.0f, DeltaSeconds, 0.4f);
+					GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 				}
+
 				AddMovementInput(FVector(ActualSpeed, 0.0f, 0.0f));
 				ActualHungryPoints -= PointsDepletionSpeed * DeltaSeconds * 5.0f;
 			}
-
 			PercentHungryPoints = FMath::FInterpTo(PercentHungryPoints, ActualHungryPoints / MaxHungryPoints, DeltaSeconds, 5);
 		
 			if (PercentHungryPoints <= 0.0f)
@@ -340,9 +361,10 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		}
 
 		GameMusic->Play(0.0f);
+
 		if (bIsFristMusicLoop)
 		{
-			GameMusic->FadeIn(2.0f, MusicVolume);
+			GameMusic->FadeIn(2.0f, 1.0f);
 			bIsFristMusicLoop = false;
 		}
 		
@@ -686,6 +708,7 @@ void ASweetiephantsCharacter::RestartGame()
 	PercentHungryPoints = ActualHungryPoints / MaxHungryPoints;
 
 	GetCharacterMovement()->GravityScale = 1.0f;
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed = 600.0f;
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
 	JumpHeight = JumpHeightFit;
 
@@ -717,7 +740,7 @@ void ASweetiephantsCharacter::MuteMusic()
 
 void ASweetiephantsCharacter::UnmuteMusic()
 {
-	MusicVolume = 0.5f;
+	MusicVolume = 1.0f;
 	GameMusic->Play();
 }
 

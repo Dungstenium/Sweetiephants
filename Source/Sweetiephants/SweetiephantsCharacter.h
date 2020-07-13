@@ -70,6 +70,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float MusicVolume = 0.5f;
 	float ScaleX = 0.21f;
 	float ScaleZ = 0.21f;
+	float WalkSpeed = 600.0f;
 
 	bool bIsCloudActivated = false;
 	bool bLinesActivated = false;
