@@ -41,6 +41,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	void LoopMusic(USoundBase* MusicToBePlayed);
+
 	void ManageVFX(float DeltaSeconds);
 
 	void Die(float DeltaSeconds);
@@ -79,6 +81,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	bool bIsDeadByHunger = false;
 	bool bSpawnedFlan = false;
 	bool bTutEnded = false;
+	bool bIsMusicMuted = false;
 
 	int32 Score{ 0 };
 
@@ -203,7 +206,6 @@ protected:
 
 	bool bShouldStartFlying{ false };
 	bool bPlayerTapped{ false };
-	bool bInGameMusicIsPlaying{ false };
 
 	UPROPERTY(EditAnywhere)
 	float MaxHungryPoints{ 100 };
@@ -269,6 +271,9 @@ public:
 
 	bool bHitTheBottomCollider{ false };
 	bool bIsFristMusicLoop{ true };
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bInGameMusicIsPlaying{ false };
 
 	class AFlanOnHead* Flanny;
 
