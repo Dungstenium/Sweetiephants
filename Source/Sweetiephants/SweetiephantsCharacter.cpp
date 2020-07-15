@@ -383,7 +383,7 @@ void ASweetiephantsCharacter::LoopMusic(USoundBase* MusicToBePlayed)
 	}
 
 	bInGameMusicIsPlaying = true;
-	GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ASweetiephantsCharacter::PlayInGameMusic, InGameMusic->GetDuration() - 0.09f, true);
+	GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ASweetiephantsCharacter::PlayInGameMusic, MusicToBePlayed->GetDuration() - 0.09f, true);
 
 }
 
