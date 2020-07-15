@@ -490,8 +490,8 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	if (MorphTimer == 0.0f)
 	{
 		Immobilize();
-		GetCapsuleComponent()->SetCapsuleHalfHeight(84.0f);
-		GetCapsuleComponent()->SetCapsuleRadius(84.0f);
+		GetCapsuleComponent()->SetCapsuleHalfHeight(89.0f);
+		GetCapsuleComponent()->SetCapsuleRadius(89.0f);
 	
 		if (MorphToChubbySound)
 		{

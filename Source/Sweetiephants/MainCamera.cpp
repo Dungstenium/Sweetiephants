@@ -92,6 +92,7 @@ void AMainCamera::StopGameMovement()
 
 
 	bIsDeadDelayed = true;
+	bIsOnDeathScreen = true;
 
 	GetWorldTimerManager().ClearTimer(Timer);
 }

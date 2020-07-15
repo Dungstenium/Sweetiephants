@@ -49,6 +49,9 @@ public:
 	bool bIsDeadDelayed{ false };
 
 	UPROPERTY(BlueprintReadWrite)
+	bool bIsOnDeathScreen{ false };
+
+	UPROPERTY(BlueprintReadWrite)
 	float ScaleX{ 0.0f };
 
 	UPROPERTY(BlueprintReadWrite)
