@@ -68,7 +68,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float MorphingDuration = 1.0f;
 	float StartingSpeed = 0.5f;
 	float ActualSpeed = 0.5f;
-	float SoundEffectsVolume = 1.0f;
+	float SoundEffectsVolume = 1.3f;
 	float MusicVolume = 0.5f;
 	float ScaleX = 0.21f;
 	float ScaleZ = 0.21f;

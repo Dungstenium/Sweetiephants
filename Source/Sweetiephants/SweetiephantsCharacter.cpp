@@ -317,7 +317,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 				bIsDeadByHunger = true;
 
 				float RandomPitch = FMath::RandRange(0.85f, 1.15f);
-				UGameplayStatics::PlaySound2D(this, DyingFromHungerSound, 1.3f, RandomPitch);
+				UGameplayStatics::PlaySound2D(this, DyingFromHungerSound, SoundEffectsVolume, RandomPitch);
 			}
 		}
 		else
@@ -743,7 +743,7 @@ void ASweetiephantsCharacter::MuteSoundEffects()
 
 void ASweetiephantsCharacter::UnmuteSoundEffects()
 {
-	SoundEffectsVolume = 1.0f;
+	SoundEffectsVolume = 1.3f;
 }
 
 void ASweetiephantsCharacter::MuteMusic()
