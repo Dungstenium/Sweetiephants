@@ -690,6 +690,7 @@ int32 ASweetiephantsCharacter::GetScore()
 void ASweetiephantsCharacter::RestartGame()
 {
 	GetCapsuleComponent()->SetWorldLocation(StartingPosition);
+	GetCapsuleComponent()->SetCapsuleRadius(73.0f);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(73.0f);
 
 	GetWorld()->GetTimerManager().ClearTimer(MusicTimerHandle);
