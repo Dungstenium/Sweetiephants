@@ -64,6 +64,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float MorphTimer{ 0.0f };
 	float GameSpeedTimer{ 0.0f };
 	float TutTimer{ 0.0f };
+	float ConfetiTimer{ 0.0f };
 
 	float MorphingDuration = 1.0f;
 	float StartingSpeed = 0.5f;
@@ -156,7 +157,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class UPaperFlipbookComponent* SweatVFX;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UPaperFlipbookComponent* ConfetiVFX;
 
 	UPROPERTY(EditAnywhere)

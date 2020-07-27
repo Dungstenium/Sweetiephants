@@ -86,6 +86,9 @@ ASweetiephantsCharacter::ASweetiephantsCharacter()
 	TutorialImage = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("TutArrow"));
 	TutorialImage->SetupAttachment(RootComponent);
 
+	ConfetiVFX = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("Confeti"));
+	ConfetiVFX->SetupAttachment(RootComponent);
+
 	ElephantWeight = UElephantWeight::Fit;
 	ElephantState = UElephantState::Normal;
 }
@@ -105,7 +108,7 @@ void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* Ot
 		else
 		{
 			ActualHungryPoints += PointsPerSweetie;
-			AddScore(10);
+			AddScore(2000);
 			bEateSweetie = true;
 
 		}
