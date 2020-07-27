@@ -22,7 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = Sprites)
-		class UPaperSprite* Sprite[8];
+		class UPaperSprite* CloudSprite[8];
 
 	UPROPERTY()
 		class UPaperSpriteComponent* ShownSprite;
@@ -40,7 +40,7 @@ public:
 
 	float GetMovingSpeed();
 
-	void SetMovingSpeed(float Value);
+	void SetMovingSpeed(const float& Value);
 
 	UFUNCTION(BlueprintCallable)
 	void Reset();

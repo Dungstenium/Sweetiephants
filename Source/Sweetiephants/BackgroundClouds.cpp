@@ -4,15 +4,11 @@
 #include "BackgroundClouds.h"
 #include "PaperSpriteComponent.h"
 
-// Sets default values
 ABackgroundClouds::ABackgroundClouds()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
-// Called when the game starts or when spawned
 void ABackgroundClouds::BeginPlay()
 {
 	Super::BeginPlay();
@@ -29,11 +25,10 @@ void ABackgroundClouds::SetNewSprite()
 {
 	if (ShownSprite)
 	{
-		ShownSprite->SetSprite(Sprite[FMath::RandRange(0, 7)]);
+		ShownSprite->SetSprite(CloudSprite[FMath::RandRange(0, 7)]);
 	}
 }
 
-// Called every frame
 void ABackgroundClouds::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -48,7 +43,7 @@ float ABackgroundClouds::GetMovingSpeed()
 	return MovingSpeed;
 }
 
-void ABackgroundClouds::SetMovingSpeed(float Value)
+void ABackgroundClouds::SetMovingSpeed(const float& Value)
 {
 	MovingSpeed = Value;
 }

@@ -43,17 +43,17 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	void LoopMusic(USoundBase* MusicToBePlayed);
 
-	void ManageVFX(float DeltaSeconds);
+	void ManageVFX(const float& DeltaSeconds);
 
-	void Die(float DeltaSeconds);
+	void Die(const float& DeltaSeconds);
 
 	void ManageElephantSize();
 
-	void MorphElephant(float DeltaSeconds);
+	void MorphElephant(const float& DeltaSeconds);
 
-	void MorphToFat(float DeltaSeconds);
+	void MorphToFat(const float& DeltaSeconds);
 	//void MorphToSlim(float DeltaSeconds);
-	void MorphToFit(float DeltaSeconds);
+	void MorphToFit(const float& DeltaSeconds);
 
 	float Timer{ 0.0f };
 	float CloudVFXTimer{ 0.0f };
@@ -150,11 +150,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UPaperFlipbookComponent* ExclamationVFX;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 	class UPaperFlipbookComponent* CloudsVFX;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 	class UPaperFlipbookComponent* SweatVFX;
+
+	UPROPERTY(EditAnywhere)
+	class UPaperFlipbookComponent* ConfetiVFX;
 
 	UPROPERTY(EditAnywhere)
 	class UPaperFlipbookComponent* TutorialImage;
@@ -192,7 +195,7 @@ protected:
 
 	void UpdateAnimation();
 
-	void MoveRight(float Value);
+	void MoveRight(const float Value);
 
 	void UpdateCharacter();
 
@@ -237,10 +240,10 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 
-	void SetPlayerDied(bool Value);
+	void SetPlayerDied(const bool& Value);
 	bool GetPlayerDied() const;
 
-	void AddScore(int32 Value);
+	void AddScore(const int32& Value);
 
 	UFUNCTION(BlueprintCallable)
 	void RestartGame();
@@ -268,6 +271,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bPlayerDeadDelayed{ false };
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bEateSweetie{ false };
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bEateToxic{ false };
 
 	bool bHitTheBottomCollider{ false };
 	bool bIsFristMusicLoop{ true };

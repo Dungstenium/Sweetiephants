@@ -20,9 +20,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere)
-		class UArrowComponent* Arrow;
-
-	UPROPERTY(EditAnywhere)
 		class UPaperSpriteComponent* Background;
 
 	UPROPERTY(EditAnywhere)

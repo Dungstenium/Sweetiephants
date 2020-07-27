@@ -87,9 +87,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Sounds)
 	class USoundBase* GameOverSound;
 
-	void SetNewEnemySpawn(int32 Multiplier);
+	void SetNewEnemySpawn(int32& Multiplier);
 
-	void SetNewEatableSpawn(int32 Multiplier);
+	void SetNewEatableSpawn(int32& Multiplier);
 
 	void SetNewCloudSpawn();
 

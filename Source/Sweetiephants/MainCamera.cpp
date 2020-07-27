@@ -8,8 +8,9 @@
 #include "BaseEnemy.h"
 #include "EatableObjects.h"
 #include "Engine/World.h" 
-#include "GameFramework/PlayerController.h" 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/HUD.h" 
+#include "GameFramework/PlayerController.h" 
 #include "Kismet/GameplayStatics.h"
 #include "SweetiephantsCharacter.h"
 #include "TimerManager.h"
@@ -90,7 +91,6 @@ void AMainCamera::StopGameMovement()
 {
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
 
-
 	bIsDeadDelayed = true;
 	bIsOnDeathScreen = true;
 
@@ -131,7 +131,7 @@ void AMainCamera::OnGeneratorOverlapBegin(UPrimitiveComponent* OverlappedCompone
 	}
 }
 
-void AMainCamera::SetNewEnemySpawn(int32 Multiplier)
+void AMainCamera::SetNewEnemySpawn(int32& Multiplier)
 {
 	FVector EnemySpawnPosition;
 	EnemySpawnPosition = FVector(
@@ -156,9 +156,9 @@ void AMainCamera::SetNewEnemySpawn(int32 Multiplier)
 	Enemy->SetActorLocation(EnemySpawnPosition);
 }
 
-void AMainCamera::SetNewEatableSpawn(int32 Multiplier)
+void AMainCamera::SetNewEatableSpawn(int32& Multiplier)
 {
-	FVector EatableSpawnPosition;
+	FVector EatableSpawnPosition; 
 	EatableSpawnPosition = FVector(
 		Eatable->GetActorLocation().X + CloudOffset,
 		Eatable->GetActorLocation().Y,

@@ -8,19 +8,12 @@
 #include "SweetiephantsCharacter.h"
 #include "Engine/World.h" 
 
-// Sets default values
 AEndlessBackground::AEndlessBackground()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-
-	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow Component"));
-
 	Background = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Background"));
-
 	RootComponent = Background;
-	Arrow->SetupAttachment(Background);
-
 }
 
 void AEndlessBackground::BeginPlay()
@@ -34,11 +27,11 @@ void AEndlessBackground::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherAc
 {
 	if (OtherActor->IsA<ASweetiephantsCharacter>())
 	{
-		if (NextBackground != nullptr)
+		if (NextBackground)
 		{
 			FActorSpawnParameters SpawnParams;
 
-			GetWorld()->SpawnActor<AEndlessBackground>(NextBackground, GetTargetLocation() + Offset, Arrow->GetComponentRotation(), SpawnParams);
+			GetWorld()->SpawnActor<AEndlessBackground>(NextBackground, GetTargetLocation() + Offset, Background->GetComponentRotation(), SpawnParams);
 		}
 	}
 }

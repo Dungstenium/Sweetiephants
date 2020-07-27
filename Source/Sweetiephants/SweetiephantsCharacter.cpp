@@ -100,11 +100,14 @@ void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* Ot
 		{
 			ActualHungryPoints -= PointsPerSweetie;
 			AddScore(-5);
+			bEateToxic = true;
 		}
 		else
 		{
 			ActualHungryPoints += PointsPerSweetie;
 			AddScore(10);
+			bEateSweetie = true;
+
 		}
 
 		ActualHungryPoints = FMath::Clamp(ActualHungryPoints, 0.0f, 100.0f);
@@ -130,96 +133,6 @@ void ASweetiephantsCharacter::BeginPlay()
 	GameMusic->FadeIn(1.5f, 1.0f, 0.0f);
 	GameMusic->bAutoDestroy = false;
 	GameMusic->SetVolumeMultiplier(.3f);
-}
-
-void ASweetiephantsCharacter::UpdateAnimation()
-{
-	const FVector PlayerVelocity = GetVelocity();
-	const float PlayerSpeedSqr = PlayerVelocity.SizeSquared();
-
-	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? FitFlying : FitIdle;
-
-	// Are we moving or standing still?
-	if (ElephantWeight == UElephantWeight::Fit && ElephantState == UElephantState::Normal)
-	{
-		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? FitFlying : FitIdle;
-	}
-	else if(ElephantWeight == UElephantWeight::Chubby && ElephantState == UElephantState::Normal)
-	{
-		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? ChubbyFlying : ChubbyIdle;
-	}
-
-	if (bPlayerTapped && Timer >= GetSprite()->GetFlipbookLength())
-	{
-		bPlayerTapped = false;
-		Timer = 0;
-	}
-	else if (bPlayerTapped)
-	{
-		if (ElephantWeight == UElephantWeight::Fit && ElephantState == UElephantState::Normal)
-		{
-			DesiredAnimation = FitTap;
-		}
-		else if(ElephantWeight == UElephantWeight::Chubby && ElephantState == UElephantState::Normal)
-		{
-			DesiredAnimation = ChubbyTap;
-		}
-	}
-
-#pragma region ManageMorphingAnimations
-
-	if (ElephantState == UElephantState::Morphing)
-	{
-		if (ElephantWeight == UElephantWeight::Fit)
-		{
-			DesiredAnimation = MorphingChubbyToFit;
-		}
-		else if (ElephantWeight == UElephantWeight::Chubby)
-		{
-			DesiredAnimation = MorphingToChubby;
-		}
-	}
-#pragma endregion
-
-#pragma region ManageDeathAnimations
-
-	if (ElephantState == UElephantState::Dead && bIsDeadByHunger)
-	{
-		DesiredAnimation = MorphingToCraver;
-
-		if (MorphingToCraver->GetSpriteAtTime(AfterDeathTimer) == MorphingToCraver->GetSpriteAtFrame(MorphingToCraver->GetKeyFrameIndexAtTime(MorphingToCraver->GetTotalDuration())))
-		{
-			DesiredAnimation = CraverForm;
-		}
-	}
-	else if (ElephantState == UElephantState::Dead && ElephantWeight == UElephantWeight::Fit)
-	{
-		if (AfterDeathTimer <= FitDying->GetTotalDuration())
-		{
-			DesiredAnimation = FitDying;
-		}
-		else
-		{
-			DesiredAnimation = FitDyingFinal;
-		}
-	}
-	else if (ElephantState == UElephantState::Dead && ElephantWeight == UElephantWeight::Chubby)
-	{
-		if (AfterDeathTimer <= ChubbyDying->GetTotalDuration())
-		{
-			DesiredAnimation = ChubbyDying;
-		}
-		else
-		{
-			DesiredAnimation = ChubbyDyingFinal;
-		}
-	}
-#pragma endregion
-
-	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
-	{
-		GetSprite()->SetFlipbook(DesiredAnimation);
-	}
 }
 
 void ASweetiephantsCharacter::Tick(float DeltaSeconds)
@@ -363,6 +276,96 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 	}
 }
 
+void ASweetiephantsCharacter::UpdateAnimation()
+{
+	const FVector PlayerVelocity = GetVelocity();
+	const float PlayerSpeedSqr = PlayerVelocity.SizeSquared();
+
+	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? FitFlying : FitIdle;
+
+	// Are we moving or standing still?
+	if (ElephantWeight == UElephantWeight::Fit && ElephantState == UElephantState::Normal)
+	{
+		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? FitFlying : FitIdle;
+	}
+	else if(ElephantWeight == UElephantWeight::Chubby && ElephantState == UElephantState::Normal)
+	{
+		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? ChubbyFlying : ChubbyIdle;
+	}
+
+	if (bPlayerTapped && Timer >= GetSprite()->GetFlipbookLength())
+	{
+		bPlayerTapped = false;
+		Timer = 0;
+	}
+	else if (bPlayerTapped)
+	{
+		if (ElephantWeight == UElephantWeight::Fit && ElephantState == UElephantState::Normal)
+		{
+			DesiredAnimation = FitTap;
+		}
+		else if(ElephantWeight == UElephantWeight::Chubby && ElephantState == UElephantState::Normal)
+		{
+			DesiredAnimation = ChubbyTap;
+		}
+	}
+
+#pragma region ManageMorphingAnimations
+
+	if (ElephantState == UElephantState::Morphing)
+	{
+		if (ElephantWeight == UElephantWeight::Fit)
+		{
+			DesiredAnimation = MorphingChubbyToFit;
+		}
+		else if (ElephantWeight == UElephantWeight::Chubby)
+		{
+			DesiredAnimation = MorphingToChubby;
+		}
+	}
+#pragma endregion
+
+#pragma region ManageDeathAnimations
+
+	if (ElephantState == UElephantState::Dead && bIsDeadByHunger)
+	{
+		DesiredAnimation = MorphingToCraver;
+
+		if (MorphingToCraver->GetSpriteAtTime(AfterDeathTimer) == MorphingToCraver->GetSpriteAtFrame(MorphingToCraver->GetKeyFrameIndexAtTime(MorphingToCraver->GetTotalDuration())))
+		{
+			DesiredAnimation = CraverForm;
+		}
+	}
+	else if (ElephantState == UElephantState::Dead && ElephantWeight == UElephantWeight::Fit)
+	{
+		if (AfterDeathTimer <= FitDying->GetTotalDuration())
+		{
+			DesiredAnimation = FitDying;
+		}
+		else
+		{
+			DesiredAnimation = FitDyingFinal;
+		}
+	}
+	else if (ElephantState == UElephantState::Dead && ElephantWeight == UElephantWeight::Chubby)
+	{
+		if (AfterDeathTimer <= ChubbyDying->GetTotalDuration())
+		{
+			DesiredAnimation = ChubbyDying;
+		}
+		else
+		{
+			DesiredAnimation = ChubbyDyingFinal;
+		}
+	}
+#pragma endregion
+
+	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
+	{
+		GetSprite()->SetFlipbook(DesiredAnimation);
+	}
+}
+
 void ASweetiephantsCharacter::LoopMusic(USoundBase* MusicToBePlayed)
 {
 	if (GameMusic->Sound != MusicToBePlayed)
@@ -387,7 +390,7 @@ void ASweetiephantsCharacter::LoopMusic(USoundBase* MusicToBePlayed)
 
 }
 
-void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
+void ASweetiephantsCharacter::ManageVFX(const float& DeltaSeconds)
 {
 	if (PercentHungryPoints <= 0.15f && !bIsExclamating)
 	{
@@ -441,7 +444,7 @@ void ASweetiephantsCharacter::ManageVFX(float DeltaSeconds)
 	}
 }
 
-void ASweetiephantsCharacter::Die(float DeltaSeconds)
+void ASweetiephantsCharacter::Die(const float& DeltaSeconds)
 {
 	if (AfterDeathTimer == 0.0f)
 	{
@@ -473,7 +476,7 @@ void ASweetiephantsCharacter::Die(float DeltaSeconds)
 	AfterDeathTimer += DeltaSeconds;
 }
 
-void ASweetiephantsCharacter::MorphElephant(float DeltaSeconds)
+void ASweetiephantsCharacter::MorphElephant(const float& DeltaSeconds)
 {
 	if (ElephantState == UElephantState::Morphing && ElephantWeight == UElephantWeight::Chubby)
 	{
@@ -485,7 +488,7 @@ void ASweetiephantsCharacter::MorphElephant(float DeltaSeconds)
 	}
 }
 
-void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
+void ASweetiephantsCharacter::MorphToFat(const float& DeltaSeconds)
 {
 	if (MorphTimer == 0.0f)
 	{
@@ -513,7 +516,7 @@ void ASweetiephantsCharacter::MorphToFat(float DeltaSeconds)
 	}
 }
 
-void ASweetiephantsCharacter::MorphToFit(float DeltaSeconds)
+void ASweetiephantsCharacter::MorphToFit(const float& DeltaSeconds)
 {
 	if (MorphTimer == 0.0f)
 	{
@@ -617,7 +620,7 @@ void ASweetiephantsCharacter::Fly()
 	}
 }
 
-void ASweetiephantsCharacter::MoveRight(float Value)
+void ASweetiephantsCharacter::MoveRight(const float Value)
 {
 	if (ElephantState != UElephantState::Dead)
 	{
@@ -657,7 +660,7 @@ void ASweetiephantsCharacter::UpdateCharacter()
 	}
 }
 
-void ASweetiephantsCharacter::SetPlayerDied(bool bIsDead)
+void ASweetiephantsCharacter::SetPlayerDied(const bool& bIsDead)
 {
 	if (bIsDead)
 	{
@@ -677,7 +680,7 @@ bool ASweetiephantsCharacter::GetPlayerDied() const
 	}
 }
 
-void ASweetiephantsCharacter::AddScore(int32 Value)
+void ASweetiephantsCharacter::AddScore(const int32& Value)
 {
 	Score += Value;
 }
