@@ -23,6 +23,12 @@ enum UElephantState
 };
 
 class UTextRenderComponent;
+class UPaperFlipbook;
+class UArrowComponent;
+class UPaperFlipbookComponent;
+class USoundBase;
+class ABhubbyCloud;
+class AFlanOnHead;
 
 /**
  * This class is the default character for Sweetiephants, and it is responsible for all
@@ -93,7 +99,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	FTimerHandle MusicTimerHandle;
 
 	UPROPERTY(EditAnywhere)
-	class UArrowComponent* GuideArrow;
+	UArrowComponent* GuideArrow;
 
 	void Immobilize();
 
@@ -101,93 +107,93 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* FitFlying;
+	UPaperFlipbook* FitFlying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* FitTap;
+	UPaperFlipbook* FitTap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* FitIdle;
+	UPaperFlipbook* FitIdle;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* ChubbyIdle;
+	UPaperFlipbook* ChubbyIdle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* ChubbyFlying;
+	UPaperFlipbook* ChubbyFlying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* ChubbyTap;
+	UPaperFlipbook* ChubbyTap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* MorphingToChubby;
+	UPaperFlipbook* MorphingToChubby;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* MorphingChubbyToFit;
+	UPaperFlipbook* MorphingChubbyToFit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* MorphingToCraver;
+	UPaperFlipbook* MorphingToCraver;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* CraverForm;
+	UPaperFlipbook* CraverForm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* ChubbyDying;
+	UPaperFlipbook* ChubbyDying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* FitDying;
+	UPaperFlipbook* FitDying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* ChubbyDyingFinal;
+	UPaperFlipbook* ChubbyDyingFinal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* FitDyingFinal;
+	UPaperFlipbook* FitDyingFinal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UPaperFlipbookComponent* DeathEffect;
+	UPaperFlipbookComponent* DeathEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UPaperFlipbookComponent* LinesVFX;
+	UPaperFlipbookComponent* LinesVFX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UPaperFlipbookComponent* ExclamationVFX;
+	UPaperFlipbookComponent* ExclamationVFX;
 
 	UPROPERTY(EditAnywhere)
-	class UPaperFlipbookComponent* CloudsVFX;
+	UPaperFlipbookComponent* CloudsVFX;
 
 	UPROPERTY(EditAnywhere)
-	class UPaperFlipbookComponent* SweatVFX;
+	UPaperFlipbookComponent* SweatVFX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UPaperFlipbookComponent* ConfetiVFX;
+	UPaperFlipbookComponent* ConfetiVFX;
 
 	UPROPERTY(EditAnywhere)
-	class UPaperFlipbookComponent* TutorialImage;
+	UPaperFlipbookComponent* TutorialImage;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects) 
-	class USoundBase* MorphToChubbySound;
+	USoundBase* MorphToChubbySound;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects)
-	class USoundBase* MorphToFitSound;
+	USoundBase* MorphToFitSound;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects)
-	class USoundBase* TapFitSound;
+	USoundBase* TapFitSound;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects)
-	class USoundBase* TapChubbySound;
+	USoundBase* TapChubbySound;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects)
-	class USoundBase* SweatSound;
+	USoundBase* SweatSound;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects)
-	class USoundBase* DyingFromHungerSound;
+	USoundBase* DyingFromHungerSound;
 
 	UPROPERTY(EditAnywhere, Category = Music)
-	class USoundBase* InGameMusic;
+	USoundBase* InGameMusic;
 
 	UPROPERTY(EditAnywhere, Category = Music)
-	class USoundBase* MenuMusic;
+	USoundBase* MenuMusic;
 
-	class ABhubbyCloud* bhubby;
+	ABhubbyCloud* bhubby;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = true))
 	TSubclassOf<ABhubbyCloud> ChubbyCloud;
@@ -285,7 +291,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bInGameMusicIsPlaying{ false };
 
-	class AFlanOnHead* Flanny;
+	AFlanOnHead* Flanny;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AFlanOnHead> Flan;

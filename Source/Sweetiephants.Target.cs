@@ -9,5 +9,13 @@ public class SweetiephantsTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		ExtraModuleNames.Add("Sweetiephants");
+	
+		if (Target.Platform == UnrealTargetPlatform.Android)
+		{
+			ExtraModuleNames.Add("OnlineSubsystemGooglePlay");
+			ExtraModuleNames.Add("OnlineSubsystem");
+			ExtraModuleNames.Add("AndroidAdvertising");
+		}
 	}
+
 }
