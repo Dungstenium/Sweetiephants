@@ -132,7 +132,7 @@ void ASweetiephantsCharacter::BeginPlay()
 
 	OnActorBeginOverlap.AddDynamic(this, &ASweetiephantsCharacter::OnOverlapBegin);
 
-	GameMusic = UGameplayStatics::SpawnSound2D(this, MenuMusic, 1.0f);
+	GameMusic = UGameplayStatics::SpawnSound2D(this, MenuMusic, 1.0f, 1.0f, 0.0f);
 	GameMusic->FadeIn(1.5f, 1.0f, 0.0f);
 	GameMusic->bAutoDestroy = false;
 	GameMusic->SetVolumeMultiplier(.3f);
@@ -376,6 +376,11 @@ void ASweetiephantsCharacter::HandleMusic()
 	{
 		LoopMusic(MenuMusic);
 	}
+
+	if (!GameMusic->IsPlaying())
+	{
+		bInGameMusicIsPlaying = false;
+	}
 }
 
 void ASweetiephantsCharacter::LoopMusic(USoundBase* MusicToBePlayed)
@@ -383,23 +388,17 @@ void ASweetiephantsCharacter::LoopMusic(USoundBase* MusicToBePlayed)
 	if (GameMusic->Sound != MusicToBePlayed)
 	{
 		GameMusic->SetSound(MusicToBePlayed);
-		GetWorld()->GetTimerManager().ClearTimer(MusicTimerHandle);
 	}
 
-	if (true)
-	{
-		GameMusic->Play(0.0f);
-	}
+	GameMusic->Play(0.0f);
 
 	if (bIsFristMusicLoop)
 	{
-		GameMusic->FadeIn(2.0f, MusicVolume);
+		GameMusic->FadeIn(2.0f, MusicVolume, 0.0f);
 		bIsFristMusicLoop = false;
 	}
 
 	bInGameMusicIsPlaying = true;
-	GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ASweetiephantsCharacter::PlayInGameMusic, MusicToBePlayed->GetDuration() - 0.09f, true);
-
 }
 
 void ASweetiephantsCharacter::ManageVFX(const float& DeltaSeconds)
