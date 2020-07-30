@@ -108,7 +108,7 @@ void ASweetiephantsCharacter::OnOverlapBegin(AActor* OverlappedActor, AActor* Ot
 		else
 		{
 			ActualHungryPoints += PointsPerSweetie;
-			AddScore(2000);
+			AddScore(10);
 			bEateSweetie = true;
 
 		}
@@ -267,16 +267,13 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		}
 	}
 
-	UpdateCharacter();
+	if (bGameStarted && TutorialColorOpacity < 1.0f)
+	{
+		TutorialImage->SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, TutorialColorOpacity += DeltaSeconds));
+	}
 
-	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying && GameMusic)
-	{
-		LoopMusic(InGameMusic);
-	}
-	else if (!bGameStarted && MenuMusic && GameMusic && !bInGameMusicIsPlaying)
-	{
-		LoopMusic(MenuMusic);
-	}
+	UpdateCharacter();
+	HandleMusic();
 }
 
 void ASweetiephantsCharacter::UpdateAnimation()
@@ -366,6 +363,18 @@ void ASweetiephantsCharacter::UpdateAnimation()
 	if( GetSprite()->GetFlipbook() != DesiredAnimation 	)
 	{
 		GetSprite()->SetFlipbook(DesiredAnimation);
+	}
+}
+
+void ASweetiephantsCharacter::HandleMusic()
+{
+	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying && GameMusic)
+	{
+		LoopMusic(InGameMusic);
+	}
+	else if (!bGameStarted && MenuMusic && GameMusic && !bInGameMusicIsPlaying)
+	{
+		LoopMusic(MenuMusic);
 	}
 }
 

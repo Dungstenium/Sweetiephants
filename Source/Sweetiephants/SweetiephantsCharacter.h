@@ -47,6 +47,8 @@ class ASweetiephantsCharacter : public APaperCharacter
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	void HandleMusic();
+
 	void LoopMusic(USoundBase* MusicToBePlayed);
 
 	void ManageVFX(const float& DeltaSeconds);
@@ -80,6 +82,7 @@ class ASweetiephantsCharacter : public APaperCharacter
 	float ScaleX = 0.21f;
 	float ScaleZ = 0.21f;
 	float WalkSpeed = 600.0f;
+	float TutorialColorOpacity{ 0 };
 
 	bool bIsCloudActivated = false;
 	bool bLinesActivated = false;
@@ -166,7 +169,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UPaperFlipbookComponent* ConfetiVFX;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UPaperFlipbookComponent* TutorialImage;
 
 	UPROPERTY(EditAnywhere, Category = SoundEffects) 
