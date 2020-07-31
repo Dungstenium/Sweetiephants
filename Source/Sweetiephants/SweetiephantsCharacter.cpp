@@ -267,7 +267,7 @@ void ASweetiephantsCharacter::Tick(float DeltaSeconds)
 		}
 	}
 
-	if (bGameStarted && TutorialColorOpacity < 1.0f)
+	if (bGameStarted && TutorialColorOpacity < 1.0f && !bTutEnded)
 	{
 		TutorialImage->SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, TutorialColorOpacity += DeltaSeconds));
 	}
