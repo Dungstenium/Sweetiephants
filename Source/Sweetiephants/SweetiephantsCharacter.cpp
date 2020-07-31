@@ -368,18 +368,24 @@ void ASweetiephantsCharacter::UpdateAnimation()
 
 void ASweetiephantsCharacter::HandleMusic()
 {
-	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying && GameMusic)
+	if (bGameStarted && InGameMusic && !bInGameMusicIsPlaying && GameMusic && ElephantState != UElephantState::Dead)
 	{
 		LoopMusic(InGameMusic);
 	}
-	else if (!bGameStarted && MenuMusic && GameMusic && !bInGameMusicIsPlaying)
+	else if (!bGameStarted && MenuMusic && GameMusic && !bInGameMusicIsPlaying && ElephantState != UElephantState::Dead)
 	{
 		LoopMusic(MenuMusic);
 	}
-
+	
 	if (!GameMusic->IsPlaying())
 	{
 		bInGameMusicIsPlaying = false;
+	}
+
+	if (ElephantState == UElephantState::Dead && bInGameMusicIsPlaying)
+	{
+		bInGameMusicIsPlaying = false;
+		GameMusic->FadeOut(1.2f, 0.0f);
 	}
 }
 
