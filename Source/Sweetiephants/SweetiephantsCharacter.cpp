@@ -753,6 +753,8 @@ void ASweetiephantsCharacter::RestartGame()
 	bIsExclamating = false;
 	bIsDeadByHunger = false;
 
+	TutorialImage->SetVisibility(false);
+
 	ElephantState = UElephantState::Normal;
 	ElephantWeight = UElephantWeight::Fit;
 }
